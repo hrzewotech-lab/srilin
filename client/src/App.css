@@ -5963,6 +5963,16 @@ body {
   padding: 0.6rem 0;
 }
 
+/* Full-bleed marquee — expands the inner slider to viewport width */
+.trusted-slider.full-bleed {
+  width: 100vw;
+  box-sizing: border-box;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .client-marquee {
   overflow: hidden;
   border-radius: 18px;

@@ -15,6 +15,7 @@ const teamRoutes = require("./routes/teamRoutes");
 const faqRoutes = require("./routes/faqRoutes");
 const certificateRoutes = require("./routes/certificateRoutes");
 const careerRoutes = require("./routes/careerRoutes");
+const clientRoutes = require("./routes/clientRoutes");
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.use("/api/team", teamRoutes);
 app.use("/api/faqs", faqRoutes);
 app.use("/api/certificates", certificateRoutes);
 app.use("/api/careers", careerRoutes);
+app.use("/api/clients", clientRoutes);
 
 // 404 + error handlers (must be last)
 app.use(notFound);

@@ -163,8 +163,13 @@ export default function HomePage() {
     ? clients
     : defaultClientNames.map((companyName) => ({ companyName, logo: null }));
 
-  const rowA = [...safeClients, ...safeClients];
-  const rowB = [...safeClients.slice().reverse(), ...safeClients.slice().reverse()];
+  // Build marquee client lists that only include entries with logos.
+  const logoClients = (clients.filter((c) => c.logo?.url).length
+    ? clients.filter((c) => c.logo?.url)
+    : defaultClientNames.map((companyName) => ({ companyName, logo: { url: '/image.png' } })));
+
+  const rowA = [...logoClients, ...logoClients];
+  const rowB = [...logoClients.slice().reverse(), ...logoClients.slice().reverse()];
 
   return (
     <div className="home-page modern-home bg-[radial-gradient(circle_at_top_left,_rgba(15,159,95,0.08),_transparent_32rem)]">
@@ -247,17 +252,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="trusted-section section-shell px-4 sm:px-6 lg:px-8">
+      <section className="trusted-section">
         <p className="section-kicker">Trusted by Leading Companies</p>
-        <div className="trusted-slider mt-6 overflow-hidden rounded-[22px] border border-slate-200/80 bg-white/80 shadow-[0_16px_40px_rgba(15,23,42,0.05)]">
+        <div className="trusted-slider full-bleed mt-6 overflow-hidden rounded-[22px] border border-slate-200/80 bg-white/80 shadow-[0_16px_40px_rgba(15,23,42,0.05)]">
           <div className="client-marquee client-marquee-left">
             <div className="marquee-track">
               {rowA.map((client, index) => (
                 <div key={`${client.companyName}-${index}`} className="client-logo-card">
-                  {client.logo?.url ? (
+                  {client.logo?.url && (
                     <img src={client.logo.url} alt={client.companyName} className="client-logo-image" />
-                  ) : (
-                    <span>{client.companyName}</span>
                   )}
                 </div>
               ))}
@@ -267,10 +270,8 @@ export default function HomePage() {
             <div className="marquee-track">
               {rowB.map((client, index) => (
                 <div key={`${client.companyName}-rev-${index}`} className="client-logo-card">
-                  {client.logo?.url ? (
+                  {client.logo?.url && (
                     <img src={client.logo.url} alt={client.companyName} className="client-logo-image" />
-                  ) : (
-                    <span>{client.companyName}</span>
                   )}
                 </div>
               ))}

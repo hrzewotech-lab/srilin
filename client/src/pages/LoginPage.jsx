@@ -80,7 +80,7 @@ export default function LoginPage() {
       <div className="login-brand-panel">
         <div className="login-brand-content">
           <Link className="login-logo" to="/" aria-label="Go to SriLin homepage">
-            <img src="/SrilinLogo_NSG.png" alt="SriLin" />
+            <img src="/srilin-white.png" alt="SriLin" />
           </Link>
 
           <p className="login-brand-kicker">SriLin Electronics Private Limited</p>

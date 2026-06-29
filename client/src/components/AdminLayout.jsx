@@ -79,7 +79,7 @@ export default function AdminLayout() {
       <aside className={`admin-sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="admin-sidebar-header">
           <div className="admin-brand">
-            <img src="/SrilinLogo_NSG.png" alt="Srilin" />
+            <img src="/srilin-white.png" alt="Srilin" />
             <div>
               <p className="admin-brand-eyebrow">CONTROL PANEL</p>
               <h3>Srilin Admin</h3>

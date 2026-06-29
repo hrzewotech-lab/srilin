@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import SEO from '../components/SEO';
+import RequireAdmin from '../components/RequireAdmin';
 import AdminLayout from '../components/AdminLayout';
 import HomePage from '../pages/HomePage';
 import AboutPage from '../pages/AboutPage';
@@ -19,6 +20,7 @@ import LoginPage from '../pages/LoginPage';
 import AdminHome from '../pages/AdminHome';
 import AdminUsers from '../pages/AdminUsers';
 import AdminHero from '../pages/AdminHero';
+import AdminClients from '../pages/AdminClients';
 import AdminBlog from '../pages/AdminBlog';
 import AdminProducts from '../pages/AdminProducts';
 import AdminServices from '../pages/AdminServices';
@@ -69,10 +71,11 @@ export default function AppRouter() {
           <Route path="/contact-us" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
 
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/admin" element={<RequireAdmin><AdminLayout /></RequireAdmin>}>
             <Route index element={<AdminHome />} />
             <Route path="users" element={<AdminUsers />} />
             <Route path="hero" element={<AdminHero />} />
+            <Route path="clients" element={<AdminClients />} />
             <Route path="certificates" element={<AdminCertificates />} />
             <Route path="blog" element={<AdminBlog />} />
             <Route path="products" element={<AdminProducts />} />

@@ -1,6 +1,6 @@
 import { ArrowRight, CheckCircle2, Cpu, Factory, Gauge, Layers, ScanLine, Wrench, Zap } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
+// --- DATA DEFINITIONS ---
 const capabilityStats = [
   { value: '1,95,500+', label: 'Combined pick and place CPH capacity' },
   { value: '01005', label: 'Fine pitch component support' },
@@ -23,154 +23,72 @@ const equipment = [
     eyebrow: 'Fuji GPX-CII',
     image: '/machinery-img1.png',
     icon: Layers,
-    summary:
-      'Automated solder paste and glue printing for repeatable SMT production with closed-loop process control.',
-    specs: ['48 x 48 mm to 610 x 610 mm panel size', '+/- 0.010 mm alignment accuracy, 6 sigma [CpK >= 2.0]', '6.0 second cycle time including loading, mark reading, alignment, and unloading'],
-    details: [
-      'Auto Paste Dispenser JAR type with solder roll diameter check function',
-      'Dry + wet + vacuum stencil cleaning',
-      'SPI closed-loop function',
-      'Local verifier with handy barcode scanner',
-      'Automatic width adjustment',
-    ],
+    summary: 'Automated solder paste and glue printing for repeatable SMT production.',
+    specs: ['48 x 48 mm to 610 x 610 mm', '+/- 0.010 mm accuracy', '6.0s cycle time'],
+    details: ['Auto Paste Dispenser', 'Dry + wet + vacuum stencil cleaning', 'SPI closed-loop'],
   },
   {
     title: '3D Solder Paste Inspection',
-    eyebrow: 'Koh Young KY8080-L inline 3D SPI',
+    eyebrow: 'Koh Young KY8080-L',
     image: '/machinery-img2.png',
     icon: ScanLine,
-    summary:
-      'Inline 3D SPI with printer closed-loop feedback, barcode reading, warp compensation, and statistical process control.',
-    specs: ['50 x 50 mm to 510 x 510 mm PCB size', '15 um X/Y resolution with 0.37 um Z resolution', '< 1% measurement accuracy on calibration target'],
-    details: [
-      'Detects insufficient paste, excessive paste, missing paste, bridging, shape deformity, displacement, volume, height, XY position, and area',
-      'Koh Young proprietary light projection unit for shadow-free inspection',
-      '4M B/W digital camera',
-      'SPC Plus software',
-      'No PCB color sensitivity',
-      'Supports minimum paste deposit up to 3.94 mils',
-      'KSMART LINK closed-loop feedback from AOI to SPI',
-    ],
+    summary: 'Inline 3D SPI with printer closed-loop feedback and SPC.',
+    specs: ['50 x 50 mm to 510 x 510 mm', '15 um X/Y resolution', '< 1% measurement accuracy'],
+    details: ['Shadow-free inspection', '4M B/W digital camera', 'KSMART LINK'],
   },
   {
     title: 'Pick and Place Machines',
     eyebrow: 'Fuji AIMEX IIIc',
     image: '/machinery-img3.png',
     icon: Cpu,
-    summary:
-      'Two-robot, two-module placement platform with high-speed output and broad component mounting capability.',
-    specs: ['1,03,000 CPH capacity', '48 x 48 mm to 508 x 400 mm PCB handling', '0.025 mm mounter accuracy, Cpk >= 1.00 (3 sigma)'],
-    details: [
-      'PBGA, FBGA, Micro-BGA, CSP, ultra-fine pitch QFP, and QFN mounting',
-      'Supports fine pitch components including 01005 and 0201',
-      'Intelligent smart feeders from 4 mm to 72 mm and 3 vibratory stick feeders',
-      'Tray unit for chip, IC, BGA, and other component mounting',
-      'Built-in auto calibration and hybrid calibration',
-      'CCD camera image processing',
-      'Variable-pitch Fuji intelligent feeders for paper and emboss parts',
-      'Three extra feeder carts for quick changeover',
-      'Board-level traceability and free feeder allocation',
-    ],
+    summary: 'Two-robot, two-module platform for high-speed output.',
+    specs: ['1,03,000 CPH', '48 x 48 mm to 508 x 400 mm', '0.025 mm accuracy'],
+    details: ['Supports 01005/0201', 'Intelligent smart feeders', 'Built-in auto calibration'],
   },
   {
     title: 'Pick and Place Machine',
     eyebrow: 'Panasonic NPM-D3A',
     image: '/machinery-img4.png',
     icon: Gauge,
-    summary:
-      'High-capacity Panasonic mounting system for fine pitch placement, smart feeding, and traceable production.',
-    specs: ['92,500 CPH capacity', '50 x 50 mm to 510 x 590 mm board handling', '0.025 mm mounter accuracy, Cpk >= 1.00 (3 sigma)'],
-    details: [
-      'Supports fine pitch components including 01005 and 0201',
-      'Intelligent smart feeders from 4 mm to 32 mm',
-      'Two extra feeder carts for quick changeover',
-      'Built-in auto calibration and hybrid calibration',
-      'CCD camera image processing',
-      'Board-level traceability and free feeder allocation',
-    ],
+    summary: 'High-capacity mounting system for fine pitch placement.',
+    specs: ['92,500 CPH', '50 x 50 mm to 510 x 590 mm', '0.025 mm accuracy'],
+    details: ['01005 support', 'Smart feeders', 'CCD camera image processing'],
   },
   {
     title: 'Reflow Oven',
-    eyebrow: 'JTR-1000N nitrogen-ready reflow oven',
+    eyebrow: 'JTR-1000N',
     image: '/machinery-img5.png',
     icon: Zap,
-    summary:
-      'Nitrogen-ready reflow capability with thermal profiling, dual conveyor support, and production monitoring.',
-    specs: ['10 top and bottom heating zones', '3 top and bottom cooling zones', 'KIC-X5 9-channel reflow profiler with carrier'],
-    details: [
-      'In-built thermal profiler',
-      'Both mesh and chain conveyors inbuilt',
-      'Automatic lubrication system including automatic chain oilers',
-      'Board drop and board count sensor with animation',
-      'Camera barcode reader',
-    ],
-  },
-  {
-    title: '3D Automated Optical Inspection',
-    eyebrow: 'Koh Young ZENITH ALPHA HS+ inline 3D AOI',
-    image: '/machinery-img6.png',
-    icon: CheckCircle2,
-    summary:
-      'Inline 3D AOI for component, solder joint, polarity, coplanarity, and optical character verification.',
-    specs: ['8M pixel 3D camera', 'Up to 490 x 510 mm board handling', '25 mm 3D height inspection capability'],
-    details: [
-      '3D inspection for missing, offset, billboarding, tombstone, coplanarity, solder joint defects, lifted leads, bridging, no-pops, and polarity',
-      '2D wrong-part inspection using OCV/R and polarity checks',
-      'Camera barcode reader',
-      'OCV and OCR capability',
-      '5-way 3D projector lighting system',
-      'Auto programming and offline programming software',
-      'KSMART LINK closed-loop feedback from AOI to SPI',
-    ],
-  },
-  {
-    title: 'Production Support Equipment',
-    eyebrow: 'Utility, test, cleaning, and marking systems',
-    image: '/machinery-img7.png',
-    icon: Wrench,
-    summary:
-      'Supporting machinery and instruments for paste preparation, cleaning, welding, measurement, marking, and power validation.',
-    specs: ['Solder paste mixer', 'Stencil cleaner', 'Laser marking and ultrasonic welding'],
-    details: [
-      '6 1/2 digit digital multimeter',
-      'Oscilloscope',
-      'Power supply',
-      'Stencil cleaner',
-      'Solder paste mixer',
-    ],
+    summary: 'Nitrogen-ready reflow with thermal profiling.',
+    specs: ['10 top/bottom heating zones', '3 cooling zones', 'KIC-X5 9-channel profiler'],
+    details: ['Automatic lubrication', 'Board count sensor', 'Camera barcode reader'],
   },
 ];
 
+// --- MAIN COMPONENT ---
 export default function InfrastructureMachineryPage() {
   return (
-    <section className="infrastructure-page">
-      <div className="infrastructure-hero">
-        <div className="infrastructure-hero-copy">
-          <p className="public-eyebrow">Infrastructure & Machinery</p>
-          <h1>PCB manufacturing facilities for electronics manufacturing services in Hyderabad, India.</h1>
-          <p>
-            SriLin's SMT infrastructure brings together automated printing, 3D solder paste inspection, high-speed pick and place, nitrogen-ready reflow, 3D AOI, and lab support for dependable printed circuit board manufacturing.
+    <section className="bg-slate-50 py-16 px-4 md:px-8 lg:px-16">
+      {/* Hero Section */}
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center mb-24">
+        <div className="space-y-6">
+          <span className="text-blue-600 font-semibold tracking-wider uppercase text-sm">Infrastructure & Machinery</span>
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
+            PCB manufacturing facilities in Hyderabad, India.
+          </h1>
+          <p className="text-lg text-slate-600">
+            SriLin's SMT infrastructure brings together automated printing, 3D inspection, and high-speed assembly.
           </p>
-          <div className="infrastructure-actions">
-            <Link className="public-cta" to="/contact-us">
-              Discuss a build
-              <ArrowRight size={18} />
-            </Link>
-            <a className="secondary-link" href="#machinery">
-              View machinery
-            </a>
-          </div>
         </div>
 
-        <div className="infrastructure-hero-panel" aria-label="PCB manufacturing process flow">
-          <div className="infrastructure-panel-header">
-            <Factory size={24} />
-            <span>SMT line flow</span>
-          </div>
-          <ol className="process-flow">
+        <div className="bg-white p-8 rounded-2xl shadow-xl border border-slate-100">
+          <h2 className="text-xl font-bold mb-6 flex items-center gap-2"><Factory className="text-blue-600" /> SMT line flow</h2>
+          <ol className="space-y-4">
             {processFlow.map((step, index) => (
-              <li key={step}>
-                <span>{String(index + 1).padStart(2, '0')}</span>
+              <li key={step} className="flex items-center gap-4 text-slate-700 font-medium">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-slate-500 text-sm font-bold">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
                 {step}
               </li>
             ))}
@@ -178,57 +96,56 @@ export default function InfrastructureMachineryPage() {
         </div>
       </div>
 
-      <div className="infrastructure-stats" id="capabilities">
+      {/* Capabilities Stats */}
+      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 mb-24">
         {capabilityStats.map((stat) => (
-          <article key={stat.label}>
-            <strong>{stat.value}</strong>
-            <span>{stat.label}</span>
-          </article>
+          <div key={stat.label} className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 text-center">
+            <div className="text-2xl font-bold text-blue-600 mb-1">{stat.value}</div>
+            <div className="text-xs text-slate-500 uppercase tracking-wide">{stat.label}</div>
+          </div>
         ))}
       </div>
 
-      <div className="machinery-intro" id="machinery">
-        <p className="public-eyebrow">PCB Assembly Services India</p>
-        <h2>Machine capability across the complete SMT production path.</h2>
-        <p>
-          Each production stage is supported by dedicated equipment for placement accuracy, inspection repeatability, traceability, and fast changeover.
-        </p>
-      </div>
-
-      <div className="machinery-stack">
+      {/* Alternating Machinery Stack */}
+      <div id="machinery" className="max-w-7xl mx-auto space-y-12">
         {equipment.map((item, index) => {
           const Icon = item.icon;
+          const isEven = index % 2 === 0;
 
           return (
-            <article className="machinery-card" key={item.title + item.eyebrow}>
-              <div className="machinery-media">
-                <img src={item.image} alt={`${item.title} - ${item.eyebrow}`} />
+            <div key={item.title} className="bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden grid lg:grid-cols-12">
+              {/* Image Container */}
+              <div className={`lg:col-span-4 h-64 lg:h-auto bg-slate-200 ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
+                <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
               </div>
-              <div className="machinery-copy">
-                <div className="machinery-card-topline">
-                  <span className="machinery-index">{String(index + 1).padStart(2, '0')}</span>
-                  <span className="machinery-icon"><Icon size={18} /></span>
-                </div>
-                <p className="machinery-eyebrow">{item.eyebrow}</p>
-                <h2>{item.title}</h2>
-                <p>{item.summary}</p>
 
-                <div className="machinery-specs">
+              {/* Content Container */}
+              <div className={`lg:col-span-8 p-8 md:p-12 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-blue-600 font-bold text-xs uppercase tracking-widest">{item.eyebrow}</span>
+                  <Icon size={20} className="text-slate-400" />
+                </div>
+                <h2 className="text-3xl font-bold text-slate-900 mb-4">{item.title}</h2>
+                <p className="text-slate-600 mb-8">{item.summary}</p>
+                
+                <div className="grid md:grid-cols-3 gap-4 mb-8">
                   {item.specs.map((spec) => (
-                    <span key={spec}>{spec}</span>
+                    <div key={spec} className="bg-slate-50 p-3 rounded-lg text-xs font-semibold text-slate-700">
+                      {spec}
+                    </div>
                   ))}
                 </div>
-
-                <ul className="machinery-detail-list">
+                
+                <ul className="grid md:grid-cols-2 gap-3">
                   {item.details.map((detail) => (
-                    <li key={detail}>
-                      <CheckCircle2 size={16} />
-                      <span>{detail}</span>
+                    <li key={detail} className="flex items-center gap-2 text-slate-600">
+                      <CheckCircle2 size={14} className="text-green-500" />
+                      <span className="text-sm">{detail}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-            </article>
+            </div>
           );
         })}
       </div>

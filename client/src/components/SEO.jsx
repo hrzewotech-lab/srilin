@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 const SITE_URL = 'https://www.srilinelectronics.com';
 const SITE_NAME = 'SriLin Electronics Private Limited';
-const DEFAULT_IMAGE = `${SITE_URL}/image.png`;
+const DEFAULT_IMAGE = `${SITE_URL}/SrilinLogo_NSG.png`;
 
 const defaultMeta = {
   title: 'SriLin Electronics | Electronics Manufacturing Services in Hyderabad, India',

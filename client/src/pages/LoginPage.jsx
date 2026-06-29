@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CheckCircle2, Eye, EyeOff, LockKeyhole } from 'lucide-react';
 import api from '../api/axios';
 
@@ -10,8 +10,18 @@ const accessHighlights = [
   'Publish updates with confidence',
 ];
 
+function getStoredUser() {
+  try {
+    return JSON.parse(localStorage.getItem('authUser') || 'null');
+  } catch {
+    return null;
+  }
+}
+
 export default function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/admin';
   const [form, setForm] = useState({
     email: localStorage.getItem('rememberedEmail') || '',
     password: '',
@@ -20,6 +30,17 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const storedUser = getStoredUser();
+
+  useEffect(() => {
+    if (!storedUser) return;
+
+    if (storedUser.role === 'admin' || storedUser.role === 'superadmin') {
+      navigate(from, { replace: true });
+    } else {
+      navigate('/', { replace: true });
+    }
+  }, [storedUser, from, navigate]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -43,9 +64,9 @@ export default function LoginPage() {
       }
 
       if (user?.role === 'admin' || user?.role === 'superadmin') {
-        navigate('/admin');
+        navigate(from, { replace: true });
       } else {
-        navigate('/');
+        navigate('/', { replace: true });
       }
     } catch (err) {
       setError(err?.response?.data?.message || 'Login failed');

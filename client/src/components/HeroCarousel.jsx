@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import api from '../api/axios';
 
 export default function HeroCarousel() {
@@ -34,6 +35,8 @@ export default function HeroCarousel() {
     return null;
   }
 
+  const activeSlide = slides[activeIndex] || slides[0];
+
   return (
     <section
       className="hero-carousel-section"
@@ -54,6 +57,35 @@ export default function HeroCarousel() {
               aria-hidden={index !== activeIndex}
             />
           ))}
+        </div>
+
+        <div className="hero-carousel-overlay" key={activeSlide?._id || activeIndex}>
+          <div className="hero-carousel-copy">
+            <span className="hero-pill">SriLin Electronics</span>
+            <h2>{activeSlide?.title || 'Precision Electronics Manufacturing'}</h2>
+            <p>{activeSlide?.description || 'Delivering dependable electronics manufacturing with clarity, consistency, and industrial discipline.'}</p>
+            <div className="hero-actions">
+              <Link className="hero-cta" to="/about-us/company">
+                Explore Solutions <ArrowRight size={18} />
+              </Link>
+              <Link className="hero-ghost" to="/contact-us">Contact Us</Link>
+            </div>
+          </div>
+
+          <div className="hero-carousel-metrics" aria-label="Company highlights">
+            <div>
+              <strong>03+</strong>
+              <span>Capability Areas</span>
+            </div>
+            <div>
+              <strong>QC</strong>
+              <span>Focused Workflow</span>
+            </div>
+            <div>
+              <strong>EMS</strong>
+              <span>Reliable Delivery</span>
+            </div>
+          </div>
         </div>
 
         {slides.length > 1 ? (

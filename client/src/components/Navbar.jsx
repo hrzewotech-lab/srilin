@@ -35,11 +35,7 @@ export default function Navbar() {
   return (
     <header className="site-header">
       <NavLink to="/" className="site-brand" onClick={() => setIsOpen(false)}>
-       
-            <img src="/SrilinLogo_NSG.png" alt="Srilin"  width="80" height="100"/>
-          
-      
-        
+        <img src="/SrilinLogo_NSG.png" alt="Srilin Electronics" width="112" height="64" />
       </NavLink>
 
       <button

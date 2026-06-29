@@ -19,18 +19,72 @@ const careerRoutes = require("./routes/careerRoutes");
 const app = express();
 
 // Connect to MongoDB
-connectDB();
+connectDB().catch((error) => {
+  console.error(`MongoDB connection error: ${error.message}`);
+});
+
+const parseAllowedOrigins = () => {
+  const configuredOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+  return new Set(configuredOrigins);
+};
+
+const allowedOrigins = parseAllowedOrigins();
+const isAllowedOrigin = (origin) => {
+  if (!origin) {
+    return true;
+  }
+
+  try {
+    const { hostname, protocol } = new URL(origin);
+    return (
+      allowedOrigins.has(origin) ||
+      hostname === "localhost" ||
+      hostname === "127.0.0.1" ||
+      (protocol === "https:" && hostname.endsWith(".netlify.app"))
+    );
+  } catch (error) {
+    return false;
+  }
+};
+
+const corsOptions = {
+  origin(origin, callback) {
+    if (isAllowedOrigin(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
+};
 
 // Core middleware
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
-    credentials: true, // allow cookies to be sent cross-origin
-  })
-);
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use((req, res, next) => {
+  const functionPrefix = "/.netlify/functions/api";
+
+  if (req.url === functionPrefix) {
+    req.url = "/";
+  } else if (req.url.startsWith(`${functionPrefix}/`)) {
+    req.url = req.url.slice(functionPrefix.length);
+
+    if (req.url !== "/" && !req.url.startsWith("/api/")) {
+      req.url = `/api${req.url}`;
+    }
+  }
+
+  next();
+});
 
 // Health check
 app.get("/api/health", (req, res) => {

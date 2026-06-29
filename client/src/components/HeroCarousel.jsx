@@ -29,6 +29,7 @@ const fallbackSlides = [
 export default function HeroCarousel() {
   const [slides, setSlides] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     const loadSlides = async () => {
@@ -46,14 +47,14 @@ export default function HeroCarousel() {
   }, []);
 
   useEffect(() => {
-    if (slides.length < 2) return undefined;
+    if (slides.length < 2 || isPaused) return undefined;
 
     const timer = window.setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % slides.length);
     }, 5000);
 
     return () => window.clearInterval(timer);
-  }, [slides.length]);
+  }, [slides.length, isPaused]);
 
   const activeSlide = slides[activeIndex] || slides[0];
   const slideLabel = `${String(activeIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;

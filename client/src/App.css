@@ -97,6 +97,12 @@
   backdrop-filter: blur(14px);
 }
 
+.site-header-spacer {
+  width: 100%;
+  height: clamp(72px, 8vw, 92px);
+  flex-shrink: 0;
+}
+
 .site-brand {
   display: grid;
   gap: 0.08rem;
@@ -2258,7 +2264,7 @@
 
 .hero-carousel-section {
   max-width: 1200px;
-  margin: 1.5rem auto 0;
+  margin: 0 auto;
   width: 100%;
 }
 

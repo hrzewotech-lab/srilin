@@ -33,10 +33,11 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="site-header">
-      <NavLink to="/" className="site-brand" onClick={() => setIsOpen(false)}>
-        <img src="/srilin-white.png" alt="Srilin Electronics" width="112" height="64" />
-      </NavLink>
+    <>
+      <header className="site-header">
+        <NavLink to="/" className="site-brand" onClick={() => setIsOpen(false)}>
+          <img src="/srilin-white.png" alt="Srilin Electronics" width="112" height="64" />
+        </NavLink>
 
       <button
         type="button"
@@ -76,6 +77,8 @@ export default function Navbar() {
           </div>
         ))}
       </nav>
-    </header>
+      </header>
+      <div className="site-header-spacer" aria-hidden="true" />
+    </>
   );
 }

@@ -182,7 +182,7 @@ export default function HomePage() {
   const rowB = [...logoClients.slice().reverse(), ...logoClients.slice().reverse()];
 
   return (
-    <div className="bg-[#f7f9fb] font-['Inter'] min-h-screen overflow-x-hidden pt-[96px]">
+    <div className="home-page bg-[#f7f9fb] font-['Inter'] min-h-screen overflow-x-hidden pb-16">
       <HeroCarousel />
 
       {/* ABOUT COMPANY */}

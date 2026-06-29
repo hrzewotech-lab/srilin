@@ -158,23 +158,30 @@ export default function AdminProducts() {
         {!pageLoading && !products.length ? <EmptyState title="No products yet" text="Create a product to show it in the website catalog." /> : null}
         {!pageLoading && products.length ? (
           <>
-            <div className="hero-grid admin-content-grid">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
               {visibleItems.map((product) => (
-                <div className="hero-card-item content-tile" key={product._id}>
-                  <img src={product.image?.url} alt={product.name} />
-                  <div className="hero-card-body">
-                    <div className="hero-card-top">
-                      <h3>{product.name}</h3>
+                <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow" key={product._id}>
+                  <img src={product.image?.url} alt={product.name} className="w-full h-40 sm:h-44 object-cover" />
+                  <div className="p-4 sm:p-5 flex flex-col gap-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="text-lg font-semibold text-slate-800 line-clamp-2">{product.name}</h3>
                       <span className={`status-pill ${product.isActive ? 'active' : 'inactive'}`}>
                         {product.isActive ? 'Active' : 'Hidden'}
                       </span>
                     </div>
-                    <p>{product.description}</p>
-                    <div className="spec-list">
-                      <strong>Specifications</strong>
-                      <ul>{product.specifications?.map((spec, index) => <li key={index}>{spec}</li>)}</ul>
+                    <p className="text-sm text-slate-600 line-clamp-3">{product.description}</p>
+                    <div className="rounded-lg bg-slate-50 p-3">
+                      <strong className="block text-xs uppercase tracking-wide text-slate-500 mb-2">Specifications</strong>
+                      <ul className="space-y-1.5 text-sm text-slate-600">
+                        {product.specifications?.slice(0, 3).map((spec, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-violet-500 shrink-0" />
+                            <span className="line-clamp-2">{spec}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <div className="action-group">
+                    <div className="flex flex-wrap gap-2 pt-1">
                       <button className="table-btn" onClick={() => startEdit(product)}>Edit</button>
                       <button className="table-btn" onClick={() => toggleActive(product)}>{product.isActive ? 'Hide' : 'Show'}</button>
                       <button className="table-btn danger" onClick={() => handleDelete(product._id)}>Delete</button>

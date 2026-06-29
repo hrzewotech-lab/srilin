@@ -7,7 +7,7 @@ import { paginateItems } from '../utils/adminPagination';
 
 export default function AdminBlog() {
   const [blogs, setBlogs] = useState([]);
-  const [form, setForm] = useState({ title: '', description: '', isActive: true, image: null });
+  const [form, setForm] = useState({ title: '', description: '', isActive: true, order: 0, image: null });
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
@@ -46,6 +46,7 @@ export default function AdminBlog() {
       payload.append('title', form.title);
       payload.append('description', form.description);
       payload.append('isActive', form.isActive);
+      payload.append('order', form.order);
       if (form.image) payload.append('image', form.image);
 
       if (editingId) {
@@ -54,7 +55,7 @@ export default function AdminBlog() {
         await api.post('/blog', payload, { headers: { 'Content-Type': 'multipart/form-data' } });
       }
 
-      setForm({ title: '', description: '', isActive: true, image: null });
+      setForm({ title: '', description: '', isActive: true, order: 0, image: null });
       setEditingId(null);
       setMessage(editingId ? 'Blog updated successfully' : 'Blog added successfully');
       await loadBlogs();
@@ -67,7 +68,7 @@ export default function AdminBlog() {
 
   const startEdit = (blog) => {
     setEditingId(blog._id);
-    setForm({ title: blog.title, description: blog.description, isActive: blog.isActive, image: null });
+    setForm({ title: blog.title, description: blog.description, isActive: blog.isActive, order: blog.order ?? 0, image: null });
   };
 
   const toggleActive = async (blog) => {
@@ -117,6 +118,13 @@ export default function AdminBlog() {
             <input type="file" accept="image/*" onChange={(e) => setForm({ ...form, image: e.target.files[0] })} />
           </label>
           <textarea placeholder="Description" rows="6" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} required />
+          <input
+            type="number"
+            min="0"
+            placeholder="Display order"
+            value={form.order}
+            onChange={(e) => setForm({ ...form, order: e.target.value === '' ? 0 : Number(e.target.value) })}
+          />
           <div className="status-toggle-row">
             <button
               type="button"
@@ -131,7 +139,7 @@ export default function AdminBlog() {
               {loading ? 'Saving...' : editingId ? 'Update Blog' : 'Add Blog'}
             </button>
             {editingId ? (
-              <button type="button" className="secondary-btn" onClick={() => { setEditingId(null); setForm({ title: '', description: '', isActive: true, image: null }); }}>
+              <button type="button" className="secondary-btn" onClick={() => { setEditingId(null); setForm({ title: '', description: '', isActive: true, order: 0, image: null }); }}>
                 Cancel
               </button>
             ) : null}
@@ -161,6 +169,7 @@ export default function AdminBlog() {
                         {blog.isActive ? 'Active' : 'Hidden'}
                       </span>
                     </div>
+                    <p className="blog-order">Order: {blog.order ?? 0}</p>
                     <pre className="blog-description">{blog.description}</pre>
                     <div className="action-group">
                       <button className="table-btn" onClick={() => startEdit(blog)}>Edit</button>

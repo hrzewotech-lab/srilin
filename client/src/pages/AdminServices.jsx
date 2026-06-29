@@ -158,21 +158,28 @@ export default function AdminServices() {
         {!pageLoading && !services.length ? <EmptyState title="No services yet" text="Create a service to show it on the website." /> : null}
         {!pageLoading && services.length ? (
           <>
-            <div className="hero-grid admin-content-grid">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
               {visibleItems.map((service) => (
-                <div className="hero-card-item content-tile" key={service._id}>
-                  <img src={service.image?.url} alt={service.title} />
-                  <div className="hero-card-body">
-                    <div className="hero-card-top">
-                      <h3>{service.title}</h3>
+                <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow" key={service._id}>
+                  <img src={service.image?.url} alt={service.title} className="w-full h-40 sm:h-44 object-cover" />
+                  <div className="p-4 sm:p-5 flex flex-col gap-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="text-lg font-semibold text-slate-800 line-clamp-2">{service.title}</h3>
                       <span className={`status-pill ${service.isActive ? 'active' : 'inactive'}`}>{service.isActive ? 'Active' : 'Hidden'}</span>
                     </div>
-                    <p>{service.description}</p>
-                    <div className="spec-list">
-                      <strong>Highlights</strong>
-                      <ul>{service.bullets?.map((bullet, index) => <li key={index}>{bullet}</li>)}</ul>
+                    <p className="text-sm text-slate-600 line-clamp-3">{service.description}</p>
+                    <div className="rounded-lg bg-slate-50 p-3">
+                      <strong className="block text-xs uppercase tracking-wide text-slate-500 mb-2">Highlights</strong>
+                      <ul className="space-y-1.5 text-sm text-slate-600">
+                        {service.bullets?.slice(0, 3).map((bullet, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-cyan-500 shrink-0" />
+                            <span className="line-clamp-2">{bullet}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <div className="action-group">
+                    <div className="flex flex-wrap gap-2 pt-1">
                       <button className="table-btn" onClick={() => startEdit(service)}>Edit</button>
                       <button className="table-btn" onClick={() => toggleActive(service)}>{service.isActive ? 'Hide' : 'Show'}</button>
                       <button className="table-btn danger" onClick={() => handleDelete(service._id)}>Delete</button>

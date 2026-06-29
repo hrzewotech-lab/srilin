@@ -1,7 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { CheckCircle2, Eye, EyeOff, LockKeyhole, ArrowLeft } from 'lucide-react';
+import {
+  CheckCircle2,
+  Eye,
+  EyeOff,
+  LockKeyhole,
+  ArrowLeft,
+  ShieldCheck,
+  Building2,
+  KeyRound,
+} from 'lucide-react';
 import api from '../api/axios';
+import Navbar from '../components/Navbar';
 
 const accessHighlights = [
   'Secure role-based access',
@@ -22,6 +32,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/admin';
+
   const [form, setForm] = useState({
     email: localStorage.getItem('rememberedEmail') || '',
     password: '',
@@ -57,6 +68,7 @@ export default function LoginPage() {
 
       localStorage.setItem('token', token);
       localStorage.setItem('authUser', JSON.stringify(user));
+
       if (rememberMe) {
         localStorage.setItem('rememberedEmail', form.email);
       } else {
@@ -76,103 +88,200 @@ export default function LoginPage() {
   };
 
   return (
-    <section className="login-screen">
-      <div className="login-brand-panel">
-        <div className="login-brand-content">
-          <Link className="login-logo" to="/" aria-label="Go to SriLin homepage">
-            <img src="/srilin-white.png" alt="SriLin" />
-          </Link>
-
-          <p className="login-brand-kicker">SriLin Electronics Private Limited</p>
-          <h1>Manage SriLin’s digital presence securely.</h1>
-          <p className="login-brand-copy">
-            Access the administration portal to keep company content, capabilities, and customer
-            resources accurate and up to date.
-          </p>
-
-          <ul className="login-highlights">
-            {accessHighlights.map((highlight) => (
-              <li key={highlight}>
-                <CheckCircle2 size={20} aria-hidden="true" />
-                {highlight}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      <div className="login-form-panel">
-        <div className="login-card">
-          <span className="login-card-icon"><LockKeyhole size={24} aria-hidden="true" /></span>
-          <div className="login-card-heading">
-            <h2>Welcome Back</h2>
-            <p>Sign in to continue to the admin portal</p>
+    <>
+      <Navbar />
+      <section className="min-h-screen bg-[#f7f9fb] text-[#191c1e]">
+        <div className="grid min-h-screen lg:grid-cols-2">
+        {/* Brand panel */}
+        <aside className="relative hidden lg:flex overflow-hidden bg-[#0F172A]">
+          <div className="absolute inset-0">
+            
+            <div className="absolute inset-0 bg-gradient-to-br from-[#0F172A]/95 via-[#0F172A]/90 to-[#0F172A]/70" />
           </div>
 
-          <form className="login-form" onSubmit={handleSubmit}>
-            <label htmlFor="login-email">Email address</label>
-            <input
-              id="login-email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              placeholder="name@company.com"
-              value={form.email}
-              onChange={handleChange}
-              required
-            />
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage:
+                'radial-gradient(circle, rgba(255,255,255,0.16) 1px, transparent 1px)',
+              backgroundSize: '24px 24px',
+            }}
+          />
 
-            <label htmlFor="login-password">Password</label>
-            <div className="login-password-field">
-              <input
-                id="login-password"
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                autoComplete="current-password"
-                placeholder="Enter your password"
-                value={form.password}
-                onChange={handleChange}
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((current) => !current)}
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
+          <div className="relative z-10 flex w-full flex-col justify-between p-12 xl:p-16">
+          
+            <div className="max-w-xl px-2 py-6">
+             
+              <h1 className="max-w-lg font-['JetBrains_Mono'] text-4xl font-bold leading-tight text-white xl:text-5xl">
+                Manage SriLin’s digital presence securely.
+              </h1>
+
+              <p className="mt-5 max-w-lg text-sm leading-7 text-white/70 xl:text-base">
+                Access the administration portal to keep company content, capabilities, and customer resources accurate and up to date.
+              </p>
+
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                {accessHighlights.map((highlight) => (
+                  <div
+                    key={highlight}
+                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/85 backdrop-blur-sm"
+                  >
+                    <CheckCircle2 size={18} className="shrink-0 text-[#00f1fe]" />
+                    <span>{highlight}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
+                <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-[#00f1fe]/10 text-[#00f1fe]">
+                  <KeyRound size={20} />
+                </div>
+                <p className="text-sm font-medium text-white">Role-based access</p>
+                <p className="mt-1 text-xs leading-5 text-white/60">
+                  Admin and superadmin workflows with controlled permissions.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
+                <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-[#00f1fe]/10 text-[#00f1fe]">
+                  <Building2 size={20} />
+                </div>
+                <p className="text-sm font-medium text-white">Company portal</p>
+                <p className="mt-1 text-xs leading-5 text-white/60">
+                  Keep products, services, and updates aligned with the brand.
+                </p>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        {/* Form panel */}
+        <main className="flex items-center justify-center px-4 py-10 sm:px-6 lg:px-10">
+          <div className="w-full max-w-md">
+            <div className="mb-6 flex items-center gap-3 lg:hidden">
+              <Link
+                to="/"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#E2E8F0] bg-white text-[#0F172A] shadow-sm"
+                aria-label="Back to home"
               >
-                {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
-              </button>
+                <ArrowLeft size={18} />
+              </Link>
+              <img src="/srilin-white.png" alt="SriLin" className="h-8 w-auto" />
             </div>
 
-            <div className="login-options">
-              <label className="remember-option">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(event) => setRememberMe(event.target.checked)}
-                />
-                <span>Remember me</span>
-              </label>
-              <Link to="/contact-us">Need help signing in?</Link>
+            <div className="overflow-hidden rounded-3xl border border-[#E2E8F0] bg-white shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+              <div className="border-b border-[#E2E8F0] bg-[#f8fafc] px-6 py-5 sm:px-8">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ecfeff] text-[#0F766E] shadow-sm">
+                  <LockKeyhole size={22} />
+                </div>
+                <div className="mt-4">
+                  <h2 className="font-['JetBrains_Mono'] text-2xl font-bold text-[#0F172A]">
+                    Welcome Back
+                  </h2>
+                  <p className="mt-1 text-sm text-[#64748b]">
+                    Sign in to continue to the admin portal
+                  </p>
+                </div>
+              </div>
+
+              <div className="px-6 py-6 sm:px-8">
+                <form className="space-y-5" onSubmit={handleSubmit}>
+                  <div>
+                    <label htmlFor="login-email" className="mb-2 block text-sm font-medium text-[#0F172A]">
+                      Email address
+                    </label>
+                    <input
+                      id="login-email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      placeholder="name@company.com"
+                      value={form.email}
+                      onChange={handleChange}
+                      required
+                      className="h-12 w-full rounded-xl border border-[#E2E8F0] bg-[#f8fafc] px-4 text-sm text-[#0F172A] outline-none transition focus:border-[#00f1fe] focus:bg-white focus:ring-4 focus:ring-[#00f1fe]/10"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="login-password" className="mb-2 block text-sm font-medium text-[#0F172A]">
+                      Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="login-password"
+                        name="password"
+                        type={showPassword ? 'text' : 'password'}
+                        autoComplete="current-password"
+                        placeholder="Enter your password"
+                        value={form.password}
+                        onChange={handleChange}
+                        required
+                        className="h-12 w-full rounded-xl border border-[#E2E8F0] bg-[#f8fafc] px-4 pr-12 text-sm text-[#0F172A] outline-none transition focus:border-[#00f1fe] focus:bg-white focus:ring-4 focus:ring-[#00f1fe]/10"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword((current) => !current)}
+                        aria-label={showPassword ? 'Hide password' : 'Show password'}
+                        aria-pressed={showPassword}
+                        className="absolute inset-y-0 right-0 flex items-center justify-center px-4 text-[#64748b] transition hover:text-[#0F172A]"
+                      >
+                        {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-4">
+                    <label className="inline-flex items-center gap-3 text-sm text-[#475569]">
+                      <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(event) => setRememberMe(event.target.checked)}
+                        className="h-4 w-4 rounded border-[#cbd5e1] text-[#00f1fe] focus:ring-[#00f1fe]"
+                      />
+                      <span>Remember me</span>
+                    </label>
+
+                    <Link to="/contact-us" className="text-sm font-medium text-[#00696f] hover:text-[#0F172A]">
+                      Need help signing in?
+                    </Link>
+                  </div>
+
+                  {error ? (
+                    <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+                      {error}
+                    </p>
+                  ) : null}
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-[#00f1fe] px-5 text-sm font-semibold text-[#0F172A] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {loading ? 'Signing in...' : 'Sign In'}
+                  </button>
+                </form>
+
+                <div className="mt-6 flex items-center justify-between border-t border-[#E2E8F0] pt-5">
+                  <p className="text-xs text-[#64748b]">
+                    Protected access for authorized SriLin team members only.
+                  </p>
+                  <Link
+                    to="/"
+                    className="inline-flex items-center gap-2 text-sm font-medium text-[#0F172A] hover:text-[#00696f]"
+                  >
+                    <ArrowLeft size={16} />
+                    Home
+                  </Link>
+                </div>
+              </div>
             </div>
-
-            {error ? <p className="login-error" role="alert">{error}</p> : null}
-
-            <button type="submit" className="login-submit" disabled={loading}>
-              {loading ? 'Signing in...' : 'Sign In'}
-            </button>
-          </form>
-
-          <p className="login-security-note">
-            Protected access for authorized SriLin team members only.
-          </p>
-
-          <div className="login-back-link login-back-link--card">
-            <Link to="/" className="inline-flex items-center gap-2 text-sm text-slate-700 hover:text-slate-900">
-              <ArrowLeft size={16} /> Back to home
-            </Link>
           </div>
-        </div>
+        </main>
       </div>
     </section>
+    </>
   );
 }

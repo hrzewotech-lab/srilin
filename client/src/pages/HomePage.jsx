@@ -8,7 +8,6 @@ import {
   Factory,
   Layers3,
   MapPin,
-  Play,
   Quote,
   ShieldCheck,
   Smile,
@@ -19,7 +18,6 @@ import {
 import CertificateCarousel from '../components/CertificateCarousel';
 import HeroCarousel from '../components/HeroCarousel';
 import api from '../api/axios';
-import factoryHero from '../assets/factory-hero.png';
 
 const whyChoose = [
   {
@@ -74,7 +72,22 @@ const aboutStats = [
 
 const certificationBadges = ['ISO9001:2015', 'AS9100D', 'ANSI ESD S20.20 2021', 'IEC 61340 5.1'];
 
-const defaultClientNames = ['Aerospace OEMs', 'Automation Teams', 'EV Suppliers', 'Industrial Brands', 'IoT Innovators'];
+const coreServices = [
+  'Embedded Design',
+  'SMT Mounting',
+  'Product Integration',
+  'Testing',
+  'Box Build',
+  'Supply Chain Management',
+];
+
+const defaultClientNames = [
+  'Aerospace OEMs',
+  'Automation Teams',
+  'EV Suppliers',
+  'Industrial Brands',
+  'IoT Innovators',
+];
 
 const premiumStats = [
   {
@@ -140,7 +153,8 @@ export default function HomePage() {
     const loadClients = async () => {
       try {
         const res = await api.get('/clients');
-        setClients((res.data.clients || []).filter((client) => client.isActive !== false));
+        const list = Array.isArray(res?.data?.clients) ? res.data.clients : [];
+        setClients(list.filter((client) => client && client.isActive !== false));
       } catch (error) {
         console.error('Failed to load clients', error);
       }
@@ -149,7 +163,8 @@ export default function HomePage() {
     const loadServices = async () => {
       try {
         const res = await api.get('/services');
-        setServices((res.data.services || []).filter((service) => service.isActive !== false).slice(0, 8));
+        const list = Array.isArray(res?.data?.services) ? res.data.services : [];
+        setServices(list.filter((service) => service && service.isActive !== false).slice(0, 8));
       } catch (error) {
         console.error('Failed to load services', error);
       }
@@ -159,183 +174,278 @@ export default function HomePage() {
     loadServices();
   }, []);
 
-  const safeClients = clients.length
-    ? clients
-    : defaultClientNames.map((companyName) => ({ companyName, logo: null }));
-
-  // Build marquee client lists that only include entries with logos.
-  const logoClients = (clients.filter((c) => c.logo?.url).length
-    ? clients.filter((c) => c.logo?.url)
-    : defaultClientNames.map((companyName) => ({ companyName, logo: { url: '/image.png' } })));
+  const logoClients = clients.filter((c) => c?.logo?.url).length
+    ? clients.filter((c) => c?.logo?.url)
+    : defaultClientNames.map((companyName) => ({ companyName, logo: { url: '/image.png' } }));
 
   const rowA = [...logoClients, ...logoClients];
   const rowB = [...logoClients.slice().reverse(), ...logoClients.slice().reverse()];
 
   return (
-    <div className="home-page modern-home bg-[radial-gradient(circle_at_top_left,_rgba(15,159,95,0.08),_transparent_32rem)]">
+    <div className="bg-[#f7f9fb] font-['Inter'] min-h-screen overflow-x-hidden pt-[96px]">
       <HeroCarousel />
 
-      <section className="home-about-company section-shell px-4 sm:px-6 lg:px-8">
-        <div className="about-company-shell reveal-up">
-          <div className="about-company-hero-grid grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
-            <div className="about-company-visual-card !rounded-none !border-0 !bg-transparent !shadow-none overflow-hidden">
-              <img src='/about-us2.png' alt="SriLin electronics manufacturing facility" className="h-full w-full object-cover" />
-              <div className="about-company-badge">
-                <Building2 size={18} /> E-City EMC, Hyderabad
-              </div>
-            </div>
-
-            <div className="about-company-copy flex flex-col gap-4">
-              <p className="section-kicker">About Company</p>
-              <h2 className="max-w-2xl text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl lg:text-[2.2rem]">
-                Srilin Electronics Private Limited
-              </h2>
-              <p className="max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
-                Srilin Electronics Pvt Ltd is an ISO9001:2015, AS9100D, ANSI ESD S20.20 2021 & IEC 61340 5.1 certified premier electronics system design and manufacturing services company located in E-City EMC, Hyderabad. Our one-stop electronics manufacturing services factory integrates quick prototyping, mid-range production, and high-volume manufacturing with disciplined execution.
-              </p>
-              <p className="max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
-                We provide embedded design, SMT mounting, product integration, testing, box build, and comprehensive supply chain support to help clients scale with confidence and production flexibility.
-              </p>
-              <div className="home-actions mt-6 flex flex-wrap gap-3">
-                <Link className="public-cta inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold" to="/about-company">
-                  Discover SriLin <ArrowRight size={18} />
-                </Link>
-                <Link className="secondary-link rounded-full px-5 py-3 text-sm font-semibold" to="/contact-us">Talk to our team</Link>
-              </div>
-              <div className="about-cert-list mt-6 flex flex-wrap gap-2" aria-label="Srilin certifications">
-                {certificationBadges.map((certification) => (
-                  <span key={certification} className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700">
-                    <ShieldCheck size={15} className="text-emerald-600" />
-                    {certification}
-                  </span>
-                ))}
-              </div>
+      {/* ABOUT COMPANY */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-16 md:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:items-center">
+          <div className="relative overflow-hidden border border-[#E2E8F0] bg-[#0F172A]">
+            <img
+              src="/about-us2.png"
+              alt="SriLin electronics manufacturing facility"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+              className="w-full h-64 sm:h-80 lg:h-full object-cover"
+            />
+            <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 bg-[#0F172A]/90 text-white text-xs sm:text-sm font-['JetBrains_Mono'] px-3 py-2 border border-white/10">
+              <Building2 size={16} className="text-[#00f1fe]" /> E-City EMC, Hyderabad
             </div>
           </div>
 
-          <div className="about-stat-grid mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {aboutStats.map((stat) => (
-              <article key={stat.label} className="rounded-[18px] border border-slate-200 bg-slate-50/80 p-4 shadow-sm">
-                <strong className="block text-2xl font-semibold text-slate-950">{stat.value}</strong>
-                <span className="mt-1 block text-sm text-slate-600">{stat.label}</span>
-              </article>
-            ))}
-          </div>
+          <div className="flex flex-col gap-4">
+            <p className="text-[#00696f] text-xs font-bold uppercase tracking-widest">About Company</p>
+            <h2 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl lg:text-4xl text-[#0F172A] leading-tight">
+              Srilin Electronics Private Limited
+            </h2>
+            <p className="text-[#334155] text-base sm:text-lg leading-relaxed">
+              Srilin Electronics Pvt Ltd is an ISO9001:2015, AS9100D, ANSI ESD S20.20 2021 & IEC 61340 5.1
+              certified premier electronics system design and manufacturing services company located in
+              E-City EMC, Hyderabad. Our one-stop electronics manufacturing services factory integrates
+              quick prototyping, mid-range production, and high-volume manufacturing with disciplined
+              execution.
+            </p>
+            <p className="text-[#334155] text-base sm:text-lg leading-relaxed">
+              We provide embedded design, SMT mounting, product integration, testing, box build, and
+              comprehensive supply chain support to help clients scale with confidence and production
+              flexibility.
+            </p>
 
-          <div className="about-service-panel mt-6 flex flex-col gap-4 rounded-[22px] border border-slate-200 bg-slate-50/80 p-5 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <p className="section-kicker">Core EMS Services</p>
-              <h3 className="mt-2 text-xl font-semibold text-slate-950">One-stop electronics manufacturing support from design to box build.</h3>
+            <div className="flex flex-wrap gap-3 mt-2">
+              <Link
+                to="/about-company"
+                className="inline-flex items-center gap-2 bg-[#0F172A] text-white px-5 sm:px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
+              >
+                Discover SriLin <ArrowRight size={18} />
+              </Link>
+              <Link
+                to="/contact-us"
+                className="inline-flex items-center gap-2 border border-[#75777e] text-[#0F172A] px-5 sm:px-6 py-3 text-sm font-semibold hover:bg-[#eceef0] transition-colors"
+              >
+                Talk to our team
+              </Link>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {['Embedded Design', 'SMT Mounting', 'Product Integration', 'Testing', 'Box Build', 'Supply Chain Management'].map((service) => (
-                <span key={service} className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700">
-                  {service === 'SMT Mounting' || service === 'Embedded Design' ? <Cpu size={15} className="text-emerald-600" /> : <Factory size={15} className="text-emerald-600" />}
-                  {service}
+
+            <div className="flex flex-wrap gap-2 mt-4" aria-label="Srilin certifications">
+              {certificationBadges.map((certification) => (
+                <span
+                  key={certification}
+                  className="inline-flex items-center gap-1.5 border border-[#E2E8F0] bg-white px-3 py-1.5 text-xs sm:text-sm font-medium text-[#334155]"
+                >
+                  <ShieldCheck size={14} className="text-[#00696f]" />
+                  {certification}
                 </span>
               ))}
             </div>
           </div>
+        </div>
 
-          <div className="about-highlight-grid mt-8 grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-            {aboutHighlights.map(({ icon: Icon, title, meta, text }) => (
-              <article key={title} className="rounded-[20px] border border-slate-200 bg-white p-5 shadow-sm">
-                <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-                  <Icon size={20} />
-                </span>
-                <h4 className="text-lg font-semibold text-slate-950">{title}</h4>
-                <p className="mt-1 text-sm font-medium text-emerald-600">{meta}</p>
-                <p className="mt-3 text-sm leading-7 text-slate-600">{text}</p>
-              </article>
+        {/* Stat grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-10 md:mt-14">
+          {aboutStats.map((stat) => (
+            <article key={stat.label} className="border border-[#E2E8F0] bg-white p-4 sm:p-5">
+              <strong className="block font-['JetBrains_Mono'] text-xl sm:text-2xl text-[#0F172A]">
+                {stat.value}
+              </strong>
+              <span className="mt-1 block text-xs sm:text-sm text-[#44474d]">{stat.label}</span>
+            </article>
+          ))}
+        </div>
+
+        {/* Core services panel */}
+        <div className="mt-6 flex flex-col gap-5 border border-[#E2E8F0] bg-white p-5 sm:p-6 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p className="text-[#00696f] text-xs font-bold uppercase tracking-widest">Core EMS Services</p>
+            <h3 className="mt-2 font-['JetBrains_Mono'] font-semibold text-lg sm:text-xl text-[#0F172A]">
+              One-stop electronics manufacturing support from design to box build.
+            </h3>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {coreServices.map((service) => (
+              <span
+                key={service}
+                className="inline-flex items-center gap-1.5 border border-[#E2E8F0] bg-[#f7f9fb] px-3 py-1.5 text-xs sm:text-sm font-medium text-[#334155]"
+              >
+                {service === 'SMT Mounting' || service === 'Embedded Design' ? (
+                  <Cpu size={14} className="text-[#00696f]" />
+                ) : (
+                  <Factory size={14} className="text-[#00696f]" />
+                )}
+                {service}
+              </span>
             ))}
           </div>
         </div>
-      </section>
 
-      <section className="trusted-section">
-        <p className="section-kicker">Trusted by Leading Companies</p>
-        <div className="trusted-slider full-bleed mt-6 overflow-hidden rounded-[22px] border border-slate-200/80 bg-white/80 shadow-[0_16px_40px_rgba(15,23,42,0.05)]">
-          <div className="client-marquee client-marquee-left">
-            <div className="marquee-track">
-              {rowA.map((client, index) => (
-                <div key={`${client.companyName}-${index}`} className="client-logo-card">
-                  {client.logo?.url && (
-                    <img src={client.logo.url} alt={client.companyName} className="client-logo-image" />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="client-marquee client-marquee-right">
-            <div className="marquee-track">
-              {rowB.map((client, index) => (
-                <div key={`${client.companyName}-rev-${index}`} className="client-logo-card">
-                  {client.logo?.url && (
-                    <img src={client.logo.url} alt={client.companyName} className="client-logo-image" />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="why-section section-shell px-4 sm:px-6 lg:px-8">
-        <div className="section-heading">
-          <p className="section-kicker">Why Choose SriLin</p>
-          <h2 className="text-slate-950">Built for electronics teams that need precision, speed, and accountability.</h2>
-        </div>
-        <div className="why-grid mt-8">
-          {whyChoose.map(({ icon: Icon, title, text }) => (
-            <article className="modern-card reveal-up rounded-[22px] border border-slate-200/90 bg-white/90 p-6 shadow-[0_16px_38px_rgba(15,23,42,0.05)]" key={title}>
-              <span className="card-icon"><Icon size={24} /></span>
-              <h3 className="mt-4 text-xl font-semibold text-slate-950">{title}</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">{text}</p>
+        {/* About highlights */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mt-6">
+          {aboutHighlights.map(({ icon: Icon, title, meta, text }) => (
+            <article key={title} className="border border-[#E2E8F0] bg-white p-5 sm:p-6">
+              <span className="inline-flex h-10 w-10 items-center justify-center bg-[#eceef0] text-[#00696f] mb-3">
+                <Icon size={20} />
+              </span>
+              <h4 className="font-['JetBrains_Mono'] font-semibold text-base sm:text-lg text-[#0F172A]">
+                {title}
+              </h4>
+              <p className="mt-1 text-xs sm:text-sm font-semibold text-[#00696f]">{meta}</p>
+              <p className="mt-3 text-sm leading-relaxed text-[#334155]">{text}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="services-preview-section section-shell px-4 sm:px-6 lg:px-8">
-        <div className="services-preview-header">
-          <div>
-            <p className="section-kicker">Featured Services</p>
-            <h2 className="text-slate-950">Explore our top service capabilities with fast access to the full services page.</h2>
+      {/* TRUSTED CLIENTS MARQUEE */}
+      <section className="bg-[#eceef0] py-12 md:py-16 border-y border-[#E2E8F0] overflow-hidden">
+        <p className="text-center text-[#00696f] text-xs font-bold uppercase tracking-widest mb-6 px-4">
+          Trusted by Leading Companies
+        </p>
+        <div className="space-y-4">
+          <div className="flex gap-6 sm:gap-10 animate-[marquee-left_30s_linear_infinite] w-max">
+            {rowA.map((client, index) => (
+              <div
+                key={`${client.companyName}-${index}`}
+                className="flex items-center justify-center h-14 sm:h-16 w-28 sm:w-36 bg-white border border-[#E2E8F0] shrink-0"
+              >
+                {client.logo?.url && (
+                  <img
+                    src={client.logo.url}
+                    alt={client.companyName}
+                    className="max-h-8 sm:max-h-10 max-w-[80%] object-contain"
+                  />
+                )}
+              </div>
+            ))}
           </div>
-          <Link className="public-cta" to="/services">
-            View all services
-          </Link>
+          <div className="flex gap-6 sm:gap-10 animate-[marquee-right_30s_linear_infinite] w-max">
+            {rowB.map((client, index) => (
+              <div
+                key={`${client.companyName}-rev-${index}`}
+                className="flex items-center justify-center h-14 sm:h-16 w-28 sm:w-36 bg-white border border-[#E2E8F0] shrink-0"
+              >
+                {client.logo?.url && (
+                  <img
+                    src={client.logo.url}
+                    alt={client.companyName}
+                    className="max-h-8 sm:max-h-10 max-w-[80%] object-contain"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
+        <style>{`
+          @keyframes marquee-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+          @keyframes marquee-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+        `}</style>
+      </section>
 
-        <div className="services-preview-grid">
-          {services.length ? services.map((service) => (
-            <article className="data-card service-preview-card" key={service._id}>
-              <div className="card-visual">
-                <img src={service.image?.url || '/image.png'} alt={service.title} />
-              </div>
-              <div className="data-card-body">
-                <h3>{service.title}</h3>
-              </div>
+      {/* WHY CHOOSE */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-16 md:py-24">
+        <div className="max-w-2xl">
+          <p className="text-[#00696f] text-xs font-bold uppercase tracking-widest">Why Choose SriLin</p>
+          <h2 className="mt-2 font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl text-[#0F172A] leading-tight">
+            Built for electronics teams that need precision, speed, and accountability.
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 mt-8 md:mt-10">
+          {whyChoose.map(({ icon: Icon, title, text }) => (
+            <article
+              key={title}
+              className="border border-[#E2E8F0] bg-white p-6 hover:border-[#00f1fe] transition-colors duration-300"
+            >
+              <span className="inline-flex h-11 w-11 items-center justify-center bg-[#eceef0] text-[#0F172A]">
+                <Icon size={22} />
+              </span>
+              <h3 className="mt-4 font-['JetBrains_Mono'] font-semibold text-lg sm:text-xl text-[#0F172A]">
+                {title}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-[#334155]">{text}</p>
             </article>
-          )) : (
-            <div className="data-state-card">No featured services available right now.</div>
-          )}
+          ))}
         </div>
       </section>
 
-      <section className="industries-section">
-        <div className="section-shell industries-layout px-4 sm:px-6 lg:px-8">
-          <div className="section-heading">
-            <p className="section-kicker">Industries Served</p>
-            <h2 className="text-white">Flexible electronics capability for modern industrial and product ecosystems.</h2>
+      {/* FEATURED SERVICES */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-16 md:py-24">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 md:mb-10">
+          <div>
+            <p className="text-[#00696f] text-xs font-bold uppercase tracking-widest">Featured Services</p>
+            <h2 className="mt-2 font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl text-[#0F172A] leading-tight max-w-2xl">
+              Explore our top service capabilities with fast access to the full services page.
+            </h2>
           </div>
-          <div className="industry-grid mt-6 sm:mt-0">
+          <Link
+            to="/services"
+            className="inline-flex items-center gap-2 text-[#00696f] font-['JetBrains_Mono'] font-semibold text-sm shrink-0 hover:gap-3 transition-all"
+          >
+            View all services <ArrowRight size={16} />
+          </Link>
+        </div>
+
+        {services.length ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {services.map((service) => {
+              if (!service) return null;
+              return (
+                <article
+                  key={service._id}
+                  className="group border border-[#E2E8F0] bg-white overflow-hidden hover:border-[#00f1fe] transition-colors duration-300"
+                >
+                  <div className="h-36 sm:h-40 overflow-hidden bg-[#eceef0]">
+                    <img
+                      src={service.image?.url || '/image.png'}
+                      alt={service.title || 'Service'}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = '/image.png';
+                      }}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-['JetBrains_Mono'] font-semibold text-sm sm:text-base text-[#0F172A] leading-snug">
+                      {service.title || 'Untitled service'}
+                    </h3>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="bg-white border border-[#E2E8F0] p-10 text-center text-[#44474d]">
+            No featured services available right now.
+          </div>
+        )}
+      </section>
+
+      {/* INDUSTRIES */}
+      <section className="bg-[#0F172A] py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
+          <div className="max-w-2xl">
+            <p className="text-[#00f1fe] text-xs font-bold uppercase tracking-widest">Industries Served</p>
+            <h2 className="mt-2 font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl text-white leading-tight">
+              Flexible electronics capability for modern industrial and product ecosystems.
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mt-8 md:mt-10">
             {industries.map(([industry, Icon]) => (
-              <article className="industry-card" key={industry}>
-                <div className="industry-card-icon">
-                  <Icon size={22} />
-                </div>
-                <span>{industry}</span>
+              <article
+                key={industry}
+                className="flex flex-col items-start gap-3 border border-white/10 bg-white/5 p-4 sm:p-5 hover:border-[#00f1fe]/50 transition-colors"
+              >
+                <span className="inline-flex h-9 w-9 items-center justify-center bg-white/10 text-[#00f1fe]">
+                  <Icon size={20} />
+                </span>
+                <span className="text-white text-sm font-medium leading-snug">{industry}</span>
               </article>
             ))}
           </div>
@@ -344,45 +454,67 @@ export default function HomePage() {
 
       <CertificateCarousel />
 
-      <section className="premium-stats-section section-shell px-4 sm:px-6 lg:px-8">
-        <div className="section-heading centered">
-          <p className="section-kicker">Performance metrics</p>
-          <h2 className="text-slate-950">Premium operational numbers that demonstrate reliability, speed, and quality.</h2>
+      {/* PREMIUM STATS */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-16 md:py-24">
+        <div className="max-w-2xl mx-auto text-center">
+          <p className="text-[#00696f] text-xs font-bold uppercase tracking-widest">Performance metrics</p>
+          <h2 className="mt-2 font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl text-[#0F172A] leading-tight">
+            Premium operational numbers that demonstrate reliability, speed, and quality.
+          </h2>
         </div>
-        <div className="premium-stat-grid">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mt-8 md:mt-10">
           {premiumStats.map((stat) => (
-            <article key={stat.label} className="premium-stat-card">
-              <span className="premium-stat-label">{stat.label}</span>
-              <strong>{stat.value}</strong>
-              <p>{stat.detail}</p>
+            <article key={stat.label} className="border border-[#E2E8F0] bg-white p-5 sm:p-6 text-center">
+              <span className="block text-xs font-semibold uppercase tracking-wider text-[#00696f]">
+                {stat.label}
+              </span>
+              <strong className="block font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl text-[#0F172A] mt-2">
+                {stat.value}
+              </strong>
+              <p className="mt-2 text-sm text-[#334155] leading-relaxed">{stat.detail}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="testimonials-section section-shell px-4 sm:px-6 lg:px-8">
-        <div className="section-heading centered">
-          <p className="section-kicker">Client Testimonials</p>
-          <h2 className="text-slate-950">Clear communication, dependable execution, and production-aware support.</h2>
-        </div>
-        <div className="testimonial-grid mt-8">
-          {testimonials.map((testimonial) => (
-            <article className="testimonial-card rounded-[22px] border border-slate-200/90 bg-white/90 p-6 shadow-[0_16px_38px_rgba(15,23,42,0.05)]" key={testimonial.name}>
-              <Quote size={28} />
-              <p className="mt-4 text-base leading-7 text-slate-600">{testimonial.quote}</p>
-              <div className="mt-5">
-                <strong className="block text-slate-950">{testimonial.name}</strong>
-                <span className="mt-1 block text-sm text-slate-500">{testimonial.company}</span>
-              </div>
-            </article>
-          ))}
+      {/* TESTIMONIALS */}
+      <section className="bg-[#eceef0] py-16 md:py-24 border-y border-[#E2E8F0]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="text-[#00696f] text-xs font-bold uppercase tracking-widest">Client Testimonials</p>
+            <h2 className="mt-2 font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl text-[#0F172A] leading-tight">
+              Clear communication, dependable execution, and production-aware support.
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 mt-8 md:mt-10">
+            {testimonials.map((testimonial) => (
+              <article key={testimonial.name} className="border border-[#E2E8F0] bg-white p-6 sm:p-8">
+                <Quote size={26} className="text-[#00696f]" />
+                <p className="mt-4 text-base leading-relaxed text-[#334155]">{testimonial.quote}</p>
+                <div className="mt-5">
+                  <strong className="block font-['JetBrains_Mono'] text-[#0F172A]">{testimonial.name}</strong>
+                  <span className="mt-1 block text-sm text-[#44474d]">{testimonial.company}</span>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="home-final-cta section-shell mx-auto rounded-[24px] border border-slate-200/80 bg-slate-950 px-4 py-8 shadow-[0_20px_45px_rgba(7,20,51,0.18)] sm:px-6 lg:px-8">
-        <Sparkles size={22} />
-        <h2>Ready to discuss your next electronics requirement?</h2>
-        <Link className="public-cta rounded-full px-5 py-3 text-sm font-semibold" to="/contact-us">Contact SriLin</Link>
+      {/* FINAL CTA */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-16 md:py-20">
+        <div className="bg-[#0F172A] border border-white/10 px-6 sm:px-10 py-10 sm:py-14 flex flex-col items-center text-center gap-5">
+          <Sparkles size={26} className="text-[#00f1fe]" />
+          <h2 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl text-white leading-tight max-w-2xl">
+            Ready to discuss your next electronics requirement?
+          </h2>
+          <Link
+            to="/contact-us"
+            className="inline-flex items-center gap-2 bg-[#00f1fe] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
+          >
+            Contact SriLin <ArrowRight size={18} />
+          </Link>
+        </div>
       </section>
     </div>
   );

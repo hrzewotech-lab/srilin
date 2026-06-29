@@ -6,7 +6,7 @@ const navItems = [
   { label: 'Home', path: '/' },
   {
     label: 'About Us',
-    path: '/about-us',
+    path: '/about-us/company',
     children: [
       { label: 'About Company', path: '/about-us/company' },
       { label: 'Our Team', path: '/about-us/team' },
@@ -15,12 +15,12 @@ const navItems = [
   },
   { label: 'Services', path: '/services' },
   { label: 'Design & Engineering', path: '/design-engineering' },
-
+  {label:'Industries', path:'/industries'},
   { label: 'Products', path: '/products' },
   { label: 'Infrastructure & Machinery', path: '/infrastructure-machinery' },
   {
     label: 'Resources',
-    path: '/resources',
+    path: '/resources/blog',
     children: [
       { label: 'Blog', path: '/resources/blog' },
       { label: 'FAQs', path: '/resources/faqs' },

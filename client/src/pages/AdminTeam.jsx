@@ -178,17 +178,20 @@ export default function AdminTeam() {
           <>
             <div className="hero-grid admin-content-grid">
               {visibleItems.map((member) => (
-                <div className="hero-card-item content-tile profile-tile" key={member._id}>
+                <div className="hero-card-item content-tile" key={member._id}>
                   <img src={member.image?.url} alt={member.name} />
                   <div className="hero-card-body">
                     <div className="hero-card-top">
                       <h3>{member.name}</h3>
-                      <span className={`status-pill ${member.isActive ? 'active' : 'inactive'}`}>{member.isActive ? 'Active' : 'Hidden'}</span>
+                      <span className={`status-pill ${member.isActive ? 'active' : 'inactive'}`}>
+                        {member.isActive ? 'Active' : 'Hidden'}
+                      </span>
                     </div>
+                    <p className="blog-order">Order: {member.order || 0}</p>
                     <p><strong>{member.designation}</strong></p>
-                    <p>{member.message}</p>
+                    <pre className="blog-description">{member.message}</pre>
                     <p className="hero-meta">Contact: {member.contact || '-'}</p>
-                    <p className="hero-meta">Order: {member.order || 0} · {member.isFeatured ? 'Featured leader' : 'Leadership grid'}</p>
+                    <p className="hero-meta">{member.isFeatured ? 'Featured leader' : 'Leadership grid'}</p>
                     <div className="spec-list">
                       <strong>Honors</strong>
                       <ul>{member.honors?.map((honor, index) => <li key={index}>{honor}</li>)}</ul>

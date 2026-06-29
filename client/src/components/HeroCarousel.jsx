@@ -1,20 +1,44 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import api from '../api/axios';
+
+const fallbackSlides = [
+  {
+    _id: 'fallback-hero-1',
+    title: 'Precision Electronics Manufacturing',
+    description:
+      'Certified electronics design and manufacturing support for prototype, SMT assembly, testing, and box build programs.',
+    image: { url: '/header1.webp' },
+  },
+  {
+    _id: 'fallback-hero-2',
+    title: 'High-Reliability EMS for Demanding Products',
+    description:
+      'Aerospace-aware quality systems, ESD controls, and disciplined inspection workflows from Hyderabad.',
+    image: { url: '/header2-2.webp' },
+  },
+  {
+    _id: 'fallback-hero-3',
+    title: 'From Embedded Design to Final Integration',
+    description:
+      'A practical one-stop manufacturing partner for teams scaling complex electronic products with confidence.',
+    image: { url: '/header3-2.webp' },
+  },
+];
 
 export default function HeroCarousel() {
   const [slides, setSlides] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     const loadSlides = async () => {
       try {
         const res = await api.get('/hero');
-        setSlides(res.data.slides || []);
+        const activeSlides = (res.data.slides || []).filter((slide) => slide.image?.url);
+        setSlides(activeSlides.length ? activeSlides : fallbackSlides);
       } catch (error) {
         console.error('Failed to load hero slides', error);
+        setSlides(fallbackSlides);
       }
     };
 
@@ -22,20 +46,17 @@ export default function HeroCarousel() {
   }, []);
 
   useEffect(() => {
-    if (slides.length < 2 || isPaused) return undefined;
+    if (slides.length < 2) return undefined;
 
     const timer = window.setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % slides.length);
     }, 5000);
 
     return () => window.clearInterval(timer);
-  }, [isPaused, slides.length]);
-
-  if (!slides.length) {
-    return null;
-  }
+  }, [slides.length]);
 
   const activeSlide = slides[activeIndex] || slides[0];
+  const slideLabel = `${String(activeIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
 
   return (
     <section
@@ -60,31 +81,10 @@ export default function HeroCarousel() {
         </div>
 
         <div className="hero-carousel-overlay" key={activeSlide?._id || activeIndex}>
-          <div className="hero-carousel-copy">
-            <span className="hero-pill">SriLin Electronics</span>
-            <h2>{activeSlide?.title || 'Precision Electronics Manufacturing'}</h2>
-            <p>{activeSlide?.description || 'Delivering dependable electronics manufacturing with clarity, consistency, and industrial discipline.'}</p>
-            <div className="hero-actions">
-              <Link className="hero-cta" to="/about-us/company">
-                Explore Solutions <ArrowRight size={18} />
-              </Link>
-              <Link className="hero-ghost" to="/contact-us">Contact Us</Link>
-            </div>
-          </div>
+          <div className=""></div>
 
-          <div className="hero-carousel-metrics" aria-label="Company highlights">
-            <div>
-              <strong>03+</strong>
-              <span>Capability Areas</span>
-            </div>
-            <div>
-              <strong>QC</strong>
-              <span>Focused Workflow</span>
-            </div>
-            <div>
-              <strong>EMS</strong>
-              <span>Reliable Delivery</span>
-            </div>
+          <div className="hero-carousel-copy">
+            <h2>{activeSlide?.title || 'Precision Electronics Manufacturing'}</h2>
           </div>
         </div>
 

@@ -3,7 +3,7 @@ const Blog = require("../models/Blog");
 const cloudinary = require("../config/cloudinary");
 
 const createBlog = asyncHandler(async (req, res) => {
-  const { title, description, isActive } = req.body;
+  const { title, description, isActive, order } = req.body;
 
   if (!title || !description) {
     res.status(400);
@@ -19,6 +19,7 @@ const createBlog = asyncHandler(async (req, res) => {
     title,
     description,
     isActive: isActive === undefined ? true : isActive === "true" || isActive === true,
+    order: Number(order) || 0,
     image: {
       url: req.file.path,
       public_id: req.file.filename,
@@ -31,7 +32,7 @@ const createBlog = asyncHandler(async (req, res) => {
 
 const getBlogs = asyncHandler(async (req, res) => {
   const filter = req.query.all === "true" ? {} : { isActive: true };
-  const blogs = await Blog.find(filter).sort({ createdAt: -1 });
+  const blogs = await Blog.find(filter).sort({ order: 1, createdAt: -1 });
   res.status(200).json({ success: true, count: blogs.length, blogs });
 });
 
@@ -51,11 +52,12 @@ const updateBlog = asyncHandler(async (req, res) => {
     throw new Error("Blog not found");
   }
 
-  const { title, description, isActive } = req.body;
+  const { title, description, isActive, order } = req.body;
 
   if (title) blog.title = title;
   if (description !== undefined) blog.description = description;
   if (isActive !== undefined) blog.isActive = isActive === "true" || isActive === true;
+  if (order !== undefined) blog.order = Number(order) || 0;
 
   if (req.file) {
     await cloudinary.uploader.destroy(blog.image.public_id);

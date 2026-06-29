@@ -32,6 +32,7 @@ import ServicesPage from '../pages/ServicesPage';
 import ServiceDetailPage from '../pages/ServiceDetailPage';
 import CareersPage from '../pages/CareersPage';
 import TeamPage from '../pages/TeamPage';
+import IndustriesPage from '../pages/IndustriesPage';
 
 export default function AppRouter() {
   const location = useLocation();
@@ -52,6 +53,7 @@ export default function AppRouter() {
           <Route path="/about-us/team" element={<TeamPage />} />
           <Route path="/about-us/career" element={<CareersPage />} />
           <Route path="/services" element={<ServicesPage />} />
+          <Route path="/industries" element={<IndustriesPage />} />
           <Route path="/services/pcba-capabilities" element={<SectionPage eyebrow="PCBA Capabilities" title="Reliable PCB assembly capability for prototype and production needs." description="SriLin supports electronic assembly with SMT-focused production workflows, inspection discipline, and scalable manufacturing coordination." points={['SMT assembly support', 'Prototype to volume production', 'Traceable production process']} />} />
           <Route path="/services/x-ray-inspection" element={<SectionPage eyebrow="X-Ray Inspection Services" title="Inspection support for high-reliability electronic assemblies." description="X-ray inspection helps identify hidden assembly defects and supports confident production for complex PCB and electronic systems." points={['Hidden joint inspection', 'Quality validation', 'Critical assembly review']} />} />
           <Route path="/services/box-build-integration" element={<SectionPage eyebrow="Box Build Integration" title="Complete product integration beyond board assembly." description="SriLin supports box build workflows including assembly coordination, product integration, and readiness checks for complete electronic systems." points={['Product integration', 'Assembly coordination', 'Final build support']} />} />

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { CheckCircle2, Eye, EyeOff, LockKeyhole } from 'lucide-react';
+import { CheckCircle2, Eye, EyeOff, LockKeyhole, ArrowLeft } from 'lucide-react';
 import api from '../api/axios';
 
 const accessHighlights = [
@@ -165,6 +165,12 @@ export default function LoginPage() {
           <p className="login-security-note">
             Protected access for authorized SriLin team members only.
           </p>
+
+          <div className="login-back-link login-back-link--card">
+            <Link to="/" className="inline-flex items-center gap-2 text-sm text-slate-700 hover:text-slate-900">
+              <ArrowLeft size={16} /> Back to home
+            </Link>
+          </div>
         </div>
       </div>
     </section>

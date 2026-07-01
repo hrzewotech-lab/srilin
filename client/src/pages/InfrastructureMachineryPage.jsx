@@ -128,8 +128,8 @@ export default function InfrastructureMachineryPage() {
         />
 
         <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 py-10 md:py-0">
-          <div className="max-w-2xl border-l-2 border-[#00f1fe] pl-5 md:pl-6">
-            <p className="text-[#00f1fe] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4">
+          <div className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6">
+            <p className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4">
               Infrastructure &amp; Machinery
             </p>
             <h1 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-3 md:mb-4">
@@ -142,20 +142,20 @@ export default function InfrastructureMachineryPage() {
               and high-speed assembly — engineered for Class 3 reliability from the ground up.
             </p>
             <div className="flex flex-wrap gap-2.5 sm:gap-3">
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#00f1fe]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <CheckCircle2 size={14} /> IPC-A-610 Class 3
               </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#00f1fe]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <CheckCircle2 size={14} /> ESD S20.20 Certified
               </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#00f1fe]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <CheckCircle2 size={14} /> ISO 13485:2016
               </span>
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#00f1fe]/60 via-[#00f1fe]/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#166b7f]/60 via-[#166b7f]/10 to-transparent" />
       </section>
 
       {/* ── SPEC STRIP ── */}
@@ -164,7 +164,7 @@ export default function InfrastructureMachineryPage() {
           <p className="text-white/50 text-[10px] sm:text-[11px] tracking-wide text-center sm:text-left">
             Fuji AIMEX IIIc &nbsp;•&nbsp; Panasonic NPM-D3A &nbsp;•&nbsp; Koh Young KY8080-L &nbsp;•&nbsp; JTR-1000N
           </p>
-          <p className="text-[#00f1fe] font-['JetBrains_Mono'] text-xs tracking-widest text-center sm:text-right">
+          <p className="text-[#166b7f] font-['JetBrains_Mono'] text-xs tracking-widest text-center sm:text-right">
             SRILIN_SMT_HYD_V2
           </p>
         </div>
@@ -177,7 +177,7 @@ export default function InfrastructureMachineryPage() {
           {/* Capability Stats */}
           <div>
             <div className="mb-8">
-              <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#00f1fe] pl-4">
+              <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#166b7f] pl-4">
                 Line Capabilities
               </h2>
               <p className="text-[#44474d] mt-3">
@@ -188,7 +188,7 @@ export default function InfrastructureMachineryPage() {
               {capabilityStats.map((stat) => (
                 <div
                   key={stat.label}
-                  className="bg-white border border-[#E2E8F0] p-5 hover:border-[#00f1fe] transition-colors duration-200"
+                  className="bg-white border border-[#E2E8F0] p-5 hover:border-[#166b7f] transition-colors duration-200"
                 >
                   <p className="font-['JetBrains_Mono'] font-bold text-xl text-[#00696f] mb-1">
                     {stat.value}
@@ -204,15 +204,15 @@ export default function InfrastructureMachineryPage() {
           {/* SMT Flow */}
           <div className="bg-[#0F172A] p-7 md:p-8">
             <div className="flex items-center gap-2 mb-6">
-              <Factory size={18} className="text-[#00f1fe]" strokeWidth={1.8} />
-              <p className="font-['JetBrains_Mono'] font-semibold text-sm text-[#00f1fe] uppercase tracking-widest">
+              <Factory size={18} className="text-[#166b7f]" strokeWidth={1.8} />
+              <p className="font-['JetBrains_Mono'] font-semibold text-sm text-[#166b7f] uppercase tracking-widest">
                 SMT Line Flow
               </p>
             </div>
             <ol className="space-y-3">
               {processFlow.map(({ step, label }, i) => (
                 <li key={step} className="flex items-center gap-4">
-                  <span className="font-['JetBrains_Mono'] text-[#00f1fe] text-xs font-semibold w-6 shrink-0">
+                  <span className="font-['JetBrains_Mono'] text-[#166b7f] text-xs font-semibold w-6 shrink-0">
                     {step}
                   </span>
                   <div className="flex-1 flex items-center gap-3">
@@ -244,7 +244,7 @@ export default function InfrastructureMachineryPage() {
             <p className="text-[#00696f] text-xs font-semibold uppercase tracking-widest mb-2">
               Equipment Overview
             </p>
-            <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#00f1fe] pl-4">
+            <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#166b7f] pl-4">
               Machinery on the Floor
             </h2>
             <p className="text-[#44474d] mt-3 max-w-2xl">
@@ -259,7 +259,7 @@ export default function InfrastructureMachineryPage() {
               return (
                 <div
                   key={title + eyebrow}
-                  className="group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#00f1fe] hover:shadow-lg transition-all duration-300 grid grid-cols-1 lg:grid-cols-12"
+                  className="group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#166b7f] hover:shadow-lg transition-all duration-300 grid grid-cols-1 lg:grid-cols-12"
                 >
                   {/* Image */}
                   <div
@@ -290,7 +290,7 @@ export default function InfrastructureMachineryPage() {
                           {title}
                         </h3>
                       </div>
-                      <div className="w-10 h-10 shrink-0 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#00f1fe]/10 group-hover:text-[#00696f] transition-colors">
+                      <div className="w-10 h-10 shrink-0 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#166b7f]/10 group-hover:text-[#00696f] transition-colors">
                         <Icon size={20} strokeWidth={1.8} />
                       </div>
                     </div>
@@ -321,7 +321,7 @@ export default function InfrastructureMachineryPage() {
                           </li>
                         ))}
                       </ul>
-                      <span className="inline-block bg-[#0F172A] text-[#00f1fe] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 shrink-0">
+                      <span className="inline-block bg-[#0F172A] text-[#166b7f] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 shrink-0">
                         {tag}
                       </span>
                     </div>
@@ -374,8 +374,8 @@ export default function InfrastructureMachineryPage() {
 
       {/* ── CTA ── */}
       <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
-        <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#00f1fe]/40 to-transparent hidden md:block" />
-        <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#00f1fe]/20 to-transparent hidden md:block" />
+        <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/40 to-transparent hidden md:block" />
+        <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/20 to-transparent hidden md:block" />
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
           <div className="max-w-lg">
@@ -390,7 +390,7 @@ export default function InfrastructureMachineryPage() {
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">
             <Link
               to="/contact-us"
-              className="inline-flex items-center justify-center gap-2 bg-[#00f1fe] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
+              className="inline-flex items-center justify-center gap-2 bg-[#166b7f] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
             >
               Schedule a Site Visit <ArrowRight size={16} />
             </Link>

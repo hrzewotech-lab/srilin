@@ -45,7 +45,7 @@ export default function ProductsPage() {
 
         <div className="relative max-w-7xl mx-auto px-6 md:px-12 w-full">
           <div className="max-w-2xl">
-            <span className="inline-block px-3 py-1 bg-[#00f1fe] text-[#0F172A] text-xs font-bold uppercase tracking-widest mb-3 md:mb-4">
+            <span className="inline-block px-3 py-1 bg-[#166b7f] text-[#0F172A] text-xs font-bold uppercase tracking-widest mb-3 md:mb-4">
               Products
             </span>
             <h1 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-5xl text-white leading-tight mb-3 md:mb-5">
@@ -141,7 +141,7 @@ export default function ProductsPage() {
                     <article
                       key={key}
                       id={`product-${product._id || index}`}
-                      className="group flex flex-col bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#00f1fe] transition-colors duration-300"
+                      className="group flex flex-col bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#166b7f] transition-colors duration-300"
                     >
                       <div className="h-36 sm:h-40 md:h-44 overflow-hidden relative bg-[#eceef0]">
                         <img

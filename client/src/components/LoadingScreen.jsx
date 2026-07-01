@@ -23,7 +23,7 @@ export default function LoadingScreen({ onComplete }) {
       {/* Tech grid overlay */}
       <div style={{
         position: 'absolute', inset: 0, pointerEvents: 'none',
-        backgroundImage: 'linear-gradient(rgba(0,241,254,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,241,254,0.04) 1px,transparent 1px)',
+        backgroundImage: 'linear-gradient(rgba(22,107,127,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(22,107,127,0.04) 1px,transparent 1px)',
         backgroundSize: '48px 48px',
       }} />
 
@@ -32,7 +32,7 @@ export default function LoadingScreen({ onComplete }) {
         position: 'absolute', top: '50%', left: '50%',
         transform: 'translate(-50%,-50%)',
         width: 400, height: 400,
-        background: 'radial-gradient(circle,rgba(0,241,254,0.08) 0%,transparent 70%)',
+        background: 'radial-gradient(circle,rgba(22,107,127,0.08) 0%,transparent 70%)',
         filter: 'blur(60px)',
         pointerEvents: 'none',
       }} />
@@ -62,7 +62,7 @@ export default function LoadingScreen({ onComplete }) {
             fontFamily: "'JetBrains Mono', monospace",
             fontWeight: 400,
             fontSize: 'clamp(0.65rem, 1.5vw, 0.8rem)',
-            color: '#00f1fe',
+            color: '#166b7f',
             letterSpacing: '0.35em',
             textTransform: 'uppercase',
             marginTop: 6,
@@ -76,12 +76,12 @@ export default function LoadingScreen({ onComplete }) {
           display: 'inline-flex', alignItems: 'center', gap: 8,
           fontSize: 11, fontFamily: "'JetBrains Mono', monospace",
           fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-          color: '#00f1fe', border: '1px solid rgba(0,241,254,0.3)',
-          background: 'rgba(0,241,254,0.06)',
+          color: '#166b7f', border: '1px solid rgba(22,107,127,0.3)',
+          background: 'rgba(22,107,127,0.06)',
           padding: '5px 12px',
         }}>
           <span style={{
-            width: 6, height: 6, borderRadius: '50%', background: '#00f1fe',
+            width: 6, height: 6, borderRadius: '50%', background: '#166b7f',
             animation: 'loaderPulse 1.2s ease infinite',
           }} />
           AS9100D Certified EMS
@@ -94,7 +94,7 @@ export default function LoadingScreen({ onComplete }) {
         height: 2, background: 'rgba(255,255,255,0.06)',
       }}>
         <div style={{
-          height: '100%', background: 'linear-gradient(90deg,#00696f,#00f1fe)',
+          height: '100%', background: 'linear-gradient(90deg,#00696f,#166b7f)',
           animation: 'loaderProgress 1.9s cubic-bezier(0.4,0,0.2,1) forwards',
         }} />
       </div>
@@ -102,7 +102,7 @@ export default function LoadingScreen({ onComplete }) {
       {/* Scanning line */}
       <div style={{
         position: 'absolute', left: 0, right: 0, height: 1,
-        background: 'linear-gradient(90deg,transparent,rgba(0,241,254,0.35),transparent)',
+        background: 'linear-gradient(90deg,transparent,rgba(22,107,127,0.35),transparent)',
         animation: 'loaderScan 1.8s ease-in-out infinite',
       }} />
 

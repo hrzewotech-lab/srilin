@@ -109,8 +109,8 @@ export default function DesignEngineeringPage() {
         />
 
         <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 py-10 md:py-0">
-          <div className="max-w-2xl border-l-2 border-[#00f1fe] pl-5 md:pl-6">
-            <p className="text-[#00f1fe] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4">
+          <div className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6">
+            <p className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4">
               Design &amp; Engineering
             </p>
             <h1 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-3 md:mb-4">
@@ -124,20 +124,20 @@ export default function DesignEngineeringPage() {
               full production validation.
             </p>
             <div className="flex flex-wrap gap-2.5 sm:gap-3">
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#00f1fe]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <CheckCircle2 size={14} /> Hardware Design
               </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#00f1fe]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <CheckCircle2 size={14} /> LabVIEW Certified
               </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#00f1fe]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <CheckCircle2 size={14} /> Functional Testing
               </span>
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#00f1fe]/60 via-[#00f1fe]/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#166b7f]/60 via-[#166b7f]/10 to-transparent" />
       </section>
 
       {/* ── SPEC STRIP ── */}
@@ -146,7 +146,7 @@ export default function DesignEngineeringPage() {
           <p className="text-white/50 text-[10px] sm:text-[11px] tracking-wide text-center sm:text-left">
             Schematic Design &nbsp;•&nbsp; ECAD Layout &nbsp;•&nbsp; LabVIEW Test &nbsp;•&nbsp; Firmware Development &nbsp;•&nbsp; System Validation
           </p>
-          <p className="text-[#00f1fe] font-['JetBrains_Mono'] text-xs tracking-widest text-center sm:text-right">
+          <p className="text-[#166b7f] font-['JetBrains_Mono'] text-xs tracking-widest text-center sm:text-right">
             SRILIN_ENG_DESIGN_V3
           </p>
         </div>
@@ -162,7 +162,7 @@ export default function DesignEngineeringPage() {
           return (
             <article
               key={title}
-              className={`group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#00f1fe] hover:shadow-lg transition-all duration-300 ${
+              className={`group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#166b7f] hover:shadow-lg transition-all duration-300 ${
                 hasImage ? 'grid grid-cols-1 lg:grid-cols-12' : 'grid grid-cols-1'
               }`}
             >
@@ -203,7 +203,7 @@ export default function DesignEngineeringPage() {
                     <span className="font-['JetBrains_Mono'] text-[#E2E8F0] text-2xl font-bold select-none hidden sm:block">
                       {String(index + 1).padStart(2, '0')}
                     </span>
-                    <div className="w-10 h-10 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#00f1fe]/10 group-hover:text-[#00696f] transition-colors">
+                    <div className="w-10 h-10 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#166b7f]/10 group-hover:text-[#00696f] transition-colors">
                       <Icon size={20} strokeWidth={1.8} />
                     </div>
                   </div>
@@ -230,7 +230,7 @@ export default function DesignEngineeringPage() {
 
                 {/* Tag */}
                 <div className="pt-2 border-t border-[#E2E8F0] mt-auto">
-                  <span className="inline-block bg-[#0F172A] text-[#00f1fe] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1">
+                  <span className="inline-block bg-[#0F172A] text-[#166b7f] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1">
                     {tag}
                   </span>
                 </div>
@@ -242,8 +242,8 @@ export default function DesignEngineeringPage() {
 
       {/* ── CTA ── */}
       <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
-        <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#00f1fe]/40 to-transparent hidden md:block" />
-        <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#00f1fe]/20 to-transparent hidden md:block" />
+        <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/40 to-transparent hidden md:block" />
+        <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/20 to-transparent hidden md:block" />
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
           <div className="max-w-lg">
@@ -258,7 +258,7 @@ export default function DesignEngineeringPage() {
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">
             <Link
               to="/contact-us"
-              className="inline-flex items-center justify-center gap-2 bg-[#00f1fe] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
+              className="inline-flex items-center justify-center gap-2 bg-[#166b7f] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
             >
               Start a Design Brief <ArrowRight size={16} />
             </Link>

@@ -45,8 +45,8 @@ export default function BlogsPage() {
         />
 
         <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 py-10 md:py-0">
-          <div className="max-w-2xl border-l-2 border-[#00f1fe] pl-5 md:pl-6">
-            <p className="text-[#00f1fe] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4">
+          <div className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6">
+            <p className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4">
               Engineering Journal
             </p>
             <h1 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-3 md:mb-4">
@@ -62,7 +62,7 @@ export default function BlogsPage() {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#00f1fe]/60 via-[#00f1fe]/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#166b7f]/60 via-[#166b7f]/10 to-transparent" />
       </section>
 
       {/* Content */}
@@ -84,7 +84,7 @@ export default function BlogsPage() {
             {blogs.map((blog) => (
               <article
                 key={blog._id}
-                className="group bg-white border border-[#E2E8F0] hover:border-[#00f1fe] transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1 hover:shadow-lg"
+                className="group bg-white border border-[#E2E8F0] hover:border-[#166b7f] transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="h-48 overflow-hidden bg-[#eceef0]">
                   <img

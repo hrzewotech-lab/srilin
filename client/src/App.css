@@ -5,6 +5,14 @@
   background: #f8fafc;
 }
 
+:root {
+  --brand: #166b7f;
+  --brand-soft: rgba(22, 107, 127, 0.08);
+  --brand-muted: rgba(22, 107, 127, 0.16);
+  --brand-border: rgba(22, 107, 127, 0.24);
+  --brand-ring: rgba(22, 107, 127, 0.3);
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -183,7 +191,7 @@
 
 .site-nav-link:hover,
 .site-nav-link.active {
-  color: #00f1fe;
+  color: #166b7f;
   transform: translateY(-1px);
 }
 
@@ -227,8 +235,8 @@
 
 .site-dropdown-link:hover,
 .site-dropdown-link.active {
-  background: #e9fff4;
-  color: #0f9f5f;
+  background: var(--brand-soft);
+  color: var(--brand);
 }
 
 .nav-toggle {
@@ -238,6 +246,28 @@
   height: 42px;
   border: 1px solid #dce4ee;
   border-radius: 8px;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.nav-toggle:hover {
+  border-color: var(--brand-border);
+  background: var(--brand-soft);
+  transform: translateY(-1px);
+}
+
+.nav-toggle:focus-visible,
+.site-nav-link:focus-visible,
+.site-dropdown-link:focus-visible,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+.hero-cta:focus-visible,
+.hero-ghost:focus-visible {
+  outline: 3px solid var(--brand-ring);
+  outline-offset: 3px;
+
   background: #ffffff;
   color: #071433;
   cursor: pointer;
@@ -1972,7 +2002,7 @@
 
 .footer-column a:hover,
 .footer-bottom a:hover {
-  color: #7dd3fc;
+  color: var(--brand);
 }
 
 .footer-contact {
@@ -2376,7 +2406,7 @@
   width: 0.35rem;
   height: 0.35rem;
   border-radius: 999px;
-  background: #00f1fe;
+  background: #166b7f;
 }
 
 .hero-carousel-copy {
@@ -2431,7 +2461,7 @@
 }
 
 .hero-cta {
-  background: linear-gradient(135deg, #00f1fe, #0f766e);
+  background: linear-gradient(135deg, #166b7f, #0f766e);
   color: #071433;
 }
 
@@ -2534,7 +2564,7 @@
 }
 
 .hero-dot.active {
-  background: #00f1fe;
+  background: #166b7f;
   transform: scale(1.2);
 }
 
@@ -3594,12 +3624,14 @@
 }
 
 .primary-btn:hover {
-  background: #1d4ed8;
+  background: var(--brand);
+  color: #ffffff;
 }
 
 .secondary-btn:hover,
 .table-btn:hover {
-  background: #dbe4ee;
+  background: var(--brand-soft);
+  color: var(--brand);
 }
 
 .admin-table {

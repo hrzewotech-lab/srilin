@@ -62,7 +62,7 @@ export default function BlogDetailPage() {
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <Link
             to="/resources/blog"
-            className="inline-flex items-center gap-2 text-white/80 hover:text-[#00f1fe] transition-colors text-sm font-semibold"
+            className="inline-flex items-center gap-2 text-white/80 hover:text-[#166b7f] transition-colors text-sm font-semibold"
           >
             <ArrowLeft size={16} /> Back to blog
           </Link>
@@ -127,7 +127,7 @@ export default function BlogDetailPage() {
             </p>
             <Link
               to="/contact-us"
-              className="block text-center bg-[#00f1fe] text-[#0F172A] py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity"
+              className="block text-center bg-[#166b7f] text-[#0F172A] py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity"
             >
               Discuss this topic
             </Link>

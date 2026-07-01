@@ -113,8 +113,8 @@ export default function CareersPage() {
         />
 
         <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 py-10 md:py-0">
-          <div className="max-w-2xl border-l-2 border-[#00f1fe] pl-5 md:pl-6">
-            <p className="text-[#00f1fe] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4">
+          <div className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6">
+            <p className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4">
               Join SriLin
             </p>
             <h1 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-3 md:mb-4">
@@ -127,17 +127,17 @@ export default function CareersPage() {
               production operations — with a team that values dependable, precise work.
             </p>
             <div className="flex flex-wrap gap-2.5 sm:gap-3">
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#00f1fe]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <CheckCircle2 size={13} /> IPC-Certified Environment
               </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#00f1fe]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <CheckCircle2 size={13} /> AS9100D & ISO 13485
               </span>
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#00f1fe]/60 via-[#00f1fe]/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#166b7f]/60 via-[#166b7f]/10 to-transparent" />
       </section>
 
       {/* ── SPEC STRIP ── */}
@@ -146,7 +146,7 @@ export default function CareersPage() {
           <p className="text-white/50 text-[10px] sm:text-[11px] tracking-wide text-center sm:text-left">
             EMS &nbsp;•&nbsp; ESDM &nbsp;•&nbsp; PCB ASSEMBLY &nbsp;•&nbsp; QUALITY ASSURANCE &nbsp;•&nbsp; PRODUCTION OPS
           </p>
-          <p className="text-[#00f1fe] font-['JetBrains_Mono'] text-xs tracking-widest text-center sm:text-right">
+          <p className="text-[#166b7f] font-['JetBrains_Mono'] text-xs tracking-widest text-center sm:text-right">
             SRILIN_CAREERS_OPEN
           </p>
         </div>
@@ -155,7 +155,7 @@ export default function CareersPage() {
       {/* ── WHY JOIN CARDS ── */}
       <section className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20">
         <div className="mb-10">
-          <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#00f1fe] pl-4">
+          <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#166b7f] pl-4">
             Why Work With Us
           </h2>
           <p className="text-[#44474d] mt-3 max-w-2xl">
@@ -168,9 +168,9 @@ export default function CareersPage() {
           {perks.map(({ icon: Icon, title, description, tag }) => (
             <div
               key={title}
-              className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#00f1fe] hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+              className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#166b7f] hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
             >
-              <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#00f1fe]/10 group-hover:text-[#00696f] transition-colors">
+              <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#166b7f]/10 group-hover:text-[#00696f] transition-colors">
                 <Icon size={22} strokeWidth={1.8} />
               </div>
               <div>
@@ -180,7 +180,7 @@ export default function CareersPage() {
                 <p className="text-sm text-[#44474d] leading-relaxed">{description}</p>
               </div>
               <div className="mt-auto pt-4 border-t border-[#E2E8F0]">
-                <span className="inline-block bg-[#0F172A] text-[#00f1fe] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1">
+                <span className="inline-block bg-[#0F172A] text-[#166b7f] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1">
                   {tag}
                 </span>
               </div>
@@ -195,7 +195,7 @@ export default function CareersPage() {
             <h3 className="font-['JetBrains_Mono'] font-bold text-white text-base sm:text-lg">
               Submit Your Application
             </h3>
-            <span className="text-[#00f1fe] font-['JetBrains_Mono'] text-xs tracking-widest hidden sm:block">
+            <span className="text-[#166b7f] font-['JetBrains_Mono'] text-xs tracking-widest hidden sm:block">
               HR REVIEW WITHIN 5 DAYS
             </span>
           </div>
@@ -221,7 +221,7 @@ export default function CareersPage() {
                       value={form[id]}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#00f1fe] focus:ring-1 focus:ring-[#00f1fe]/40 transition-colors bg-[#f7f9fb]"
+                      className="w-full px-4 py-3 border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#166b7f] focus:ring-1 focus:ring-[#166b7f]/40 transition-colors bg-[#f7f9fb]"
                     />
                   </div>
                 ))}
@@ -240,7 +240,7 @@ export default function CareersPage() {
                     value={form.address}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#00f1fe] focus:ring-1 focus:ring-[#00f1fe]/40 transition-colors bg-[#f7f9fb] resize-vertical"
+                    className="w-full px-4 py-3 border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#166b7f] focus:ring-1 focus:ring-[#166b7f]/40 transition-colors bg-[#f7f9fb] resize-vertical"
                   />
                 </div>
               </div>
@@ -252,9 +252,9 @@ export default function CareersPage() {
                 </label>
                 <label
                   htmlFor="career-resume"
-                  className="flex items-center gap-4 px-4 py-4 border border-dashed border-[#CBD5E1] bg-[#f7f9fb] cursor-pointer hover:border-[#00f1fe] hover:bg-[#00f1fe]/5 transition-colors group"
+                  className="flex items-center gap-4 px-4 py-4 border border-dashed border-[#CBD5E1] bg-[#f7f9fb] cursor-pointer hover:border-[#166b7f] hover:bg-[#166b7f]/5 transition-colors group"
                 >
-                  <div className="w-10 h-10 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#00f1fe]/10 group-hover:text-[#00696f] transition-colors shrink-0">
+                  <div className="w-10 h-10 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#166b7f]/10 group-hover:text-[#00696f] transition-colors shrink-0">
                     <Upload size={18} strokeWidth={1.8} />
                   </div>
                   <div>
@@ -325,8 +325,8 @@ export default function CareersPage() {
 
       {/* ── CTA ── */}
       <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
-        <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#00f1fe]/40 to-transparent hidden md:block" />
-        <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#00f1fe]/20 to-transparent hidden md:block" />
+        <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/40 to-transparent hidden md:block" />
+        <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/20 to-transparent hidden md:block" />
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
           <div className="max-w-lg">
@@ -341,7 +341,7 @@ export default function CareersPage() {
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">
             <a
               href="mailto:hr@srilinelectronics.com"
-              className="inline-flex items-center justify-center gap-2 bg-[#00f1fe] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
+              className="inline-flex items-center justify-center gap-2 bg-[#166b7f] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
             >
               <Mail size={15} /> Email HR Team
             </a>

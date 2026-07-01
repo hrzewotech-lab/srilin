@@ -77,18 +77,18 @@ export default function HeroCarousel() {
 
       <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 2, background: 'linear-gradient(112deg,rgba(15,23,42,0.97) 0%,rgba(15,23,42,0.65) 48%,rgba(15,23,42,0.15) 100%)' }} />
       <div className="absolute bottom-0 left-0 right-0 pointer-events-none" style={{ zIndex: 2, height: 260, background: 'linear-gradient(to top,rgba(15,23,42,0.95) 0%,rgba(15,23,42,0.5) 55%,transparent 100%)' }} />
-      <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 3, backgroundImage: 'linear-gradient(rgba(0,241,254,0.028) 1px,transparent 1px),linear-gradient(90deg,rgba(0,241,254,0.028) 1px,transparent 1px)', backgroundSize: '64px 64px' }} />
+      <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 3, backgroundImage: 'linear-gradient(rgba(22,107,127,0.028) 1px,transparent 1px),linear-gradient(90deg,rgba(22,107,127,0.028) 1px,transparent 1px)', backgroundSize: '64px 64px' }} />
 
-      <div className="absolute top-6 left-6 w-10 h-10 pointer-events-none" style={{ zIndex: 4, borderTop: '2px solid rgba(0,241,254,0.3)', borderLeft: '2px solid rgba(0,241,254,0.3)' }} />
-      <div className="absolute top-6 right-6 w-10 h-10 pointer-events-none" style={{ zIndex: 4, borderTop: '2px solid rgba(0,241,254,0.3)', borderRight: '2px solid rgba(0,241,254,0.3)' }} />
-      <div className="absolute bottom-14 left-6 w-10 h-10 pointer-events-none" style={{ zIndex: 4, borderBottom: '2px solid rgba(0,241,254,0.3)', borderLeft: '2px solid rgba(0,241,254,0.3)' }} />
+      <div className="absolute top-6 left-6 w-10 h-10 pointer-events-none" style={{ zIndex: 4, borderTop: '2px solid rgba(22,107,127,0.3)', borderLeft: '2px solid rgba(22,107,127,0.3)' }} />
+      <div className="absolute top-6 right-6 w-10 h-10 pointer-events-none" style={{ zIndex: 4, borderTop: '2px solid rgba(22,107,127,0.3)', borderRight: '2px solid rgba(22,107,127,0.3)' }} />
+      <div className="absolute bottom-14 left-6 w-10 h-10 pointer-events-none" style={{ zIndex: 4, borderBottom: '2px solid rgba(22,107,127,0.3)', borderLeft: '2px solid rgba(22,107,127,0.3)' }} />
 
       <div className="relative flex flex-col justify-end h-full max-w-7xl mx-auto px-4 sm:px-8 md:px-12 pb-20 sm:pb-28" style={{ zIndex: 10 }}>
         <div style={{ animation: 'heroSlideUp 0.75s cubic-bezier(0.16,1,0.3,1) both', maxWidth: 680 }}>
           <div style={{ animation: 'heroSlideUp 0.6s 0.1s ease both' }}>
             <span className="inline-flex items-center gap-2 mb-5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest"
-              style={{ color: '#00f1fe', border: '1px solid rgba(0,241,254,0.35)', background: 'rgba(0,241,254,0.08)' }}>
-              <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: '#00f1fe', animation: 'hPulse 1.6s ease infinite' }} />
+              style={{ color: '#166b7f', border: '1px solid rgba(22,107,127,0.35)', background: 'rgba(22,107,127,0.08)' }}>
+              <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: '#166b7f', animation: 'hPulse 1.6s ease infinite' }} />
               <ShieldCheck size={11} />
               {activeSlide?.tag || 'AS9100D Certified EMS'}
             </span>
@@ -98,7 +98,7 @@ export default function HeroCarousel() {
             style={{ fontSize: 'clamp(1.9rem,5.5vw,3.8rem)', textShadow: '0 2px 48px rgba(0,0,0,0.5)', minHeight: '1.08em' }}>
             {typedTitle}
             {!typeDone && (
-              <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#00f1fe', marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 0.75s step-end infinite' }} />
+              <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#166b7f', marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 0.75s step-end infinite' }} />
             )}
           </h1>
 
@@ -108,7 +108,7 @@ export default function HeroCarousel() {
           </p>
 
           <div className="flex flex-wrap gap-3" style={{ opacity: typeDone ? 1 : 0, transform: typeDone ? 'none' : 'translateY(10px)', transition: 'opacity 0.6s 0.15s ease, transform 0.6s 0.15s ease' }}>
-            <a href="/contact-us" className="inline-flex items-center gap-2 text-sm font-bold px-7 py-3.5 transition-all duration-200 hover:opacity-90 hover:gap-3" style={{ background: '#00f1fe', color: '#0F172A' }}>
+            <a href="/contact-us" className="inline-flex items-center gap-2 text-sm font-bold px-7 py-3.5 transition-all duration-200 hover:opacity-90 hover:gap-3" style={{ background: '#166b7f', color: '#0F172A' }}>
               Start a Project
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
@@ -130,7 +130,7 @@ export default function HeroCarousel() {
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 h-0.5" style={{ zIndex: 10, background: 'rgba(255,255,255,0.07)' }}>
-        <div key={`p-${activeIndex}`} className="h-full" style={{ background: 'linear-gradient(90deg,#00696f,#00f1fe)', animation: isPaused ? 'none' : 'progressFill 5.5s linear forwards' }} />
+        <div key={`p-${activeIndex}`} className="h-full" style={{ background: 'linear-gradient(90deg,#00696f,#166b7f)', animation: isPaused ? 'none' : 'progressFill 5.5s linear forwards' }} />
       </div>
 
       {slides.length > 0 && (
@@ -140,11 +140,11 @@ export default function HeroCarousel() {
       {slides.length > 1 && (
         <>
           <button type="button" onClick={() => setActiveIndex((p) => (p - 1 + slides.length) % slides.length)} aria-label="Previous slide"
-            className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 border border-white/20 text-white hover:border-[#00f1fe] hover:text-[#00f1fe] transition-all duration-200" style={{ zIndex: 10 }}>
+            className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 border border-white/20 text-white hover:border-[#166b7f] hover:text-[#166b7f] transition-all duration-200" style={{ zIndex: 10 }}>
             <ChevronLeft size={20} />
           </button>
           <button type="button" onClick={() => setActiveIndex((p) => (p + 1) % slides.length)} aria-label="Next slide"
-            className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 border border-white/20 text-white hover:border-[#00f1fe] hover:text-[#00f1fe] transition-all duration-200" style={{ zIndex: 10 }}>
+            className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 border border-white/20 text-white hover:border-[#166b7f] hover:text-[#166b7f] transition-all duration-200" style={{ zIndex: 10 }}>
             <ChevronRight size={20} />
           </button>
         </>
@@ -155,7 +155,7 @@ export default function HeroCarousel() {
           {slides.map((slide, index) => (
             <button key={slide._id || index} type="button" onClick={() => setActiveIndex(index)}
               aria-label={`Show slide ${index + 1}`} aria-current={index === activeIndex ? 'true' : undefined}
-              style={{ width: index === activeIndex ? 32 : 8, height: 4, background: index === activeIndex ? '#00f1fe' : 'rgba(255,255,255,0.25)', borderRadius: 2, border: 'none', padding: 0, cursor: 'pointer', transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)' }} />
+              style={{ width: index === activeIndex ? 32 : 8, height: 4, background: index === activeIndex ? '#166b7f' : 'rgba(255,255,255,0.25)', borderRadius: 2, border: 'none', padding: 0, cursor: 'pointer', transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)' }} />
           ))}
         </div>
       )}

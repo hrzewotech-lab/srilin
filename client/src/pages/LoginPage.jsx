@@ -126,7 +126,7 @@ export default function LoginPage() {
                     key={highlight}
                     className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/85 backdrop-blur-sm"
                   >
-                    <CheckCircle2 size={18} className="shrink-0 text-[#00f1fe]" />
+                    <CheckCircle2 size={18} className="shrink-0 text-[#166b7f]" />
                     <span>{highlight}</span>
                   </div>
                 ))}
@@ -135,7 +135,7 @@ export default function LoginPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
-                <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-[#00f1fe]/10 text-[#00f1fe]">
+                <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-[#166b7f]/10 text-[#166b7f]">
                   <KeyRound size={20} />
                 </div>
                 <p className="text-sm font-medium text-white">Role-based access</p>
@@ -145,7 +145,7 @@ export default function LoginPage() {
               </div>
 
               <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
-                <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-[#00f1fe]/10 text-[#00f1fe]">
+                <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-[#166b7f]/10 text-[#166b7f]">
                   <Building2 size={20} />
                 </div>
                 <p className="text-sm font-medium text-white">Company portal</p>
@@ -201,7 +201,7 @@ export default function LoginPage() {
                       value={form.email}
                       onChange={handleChange}
                       required
-                      className="h-12 w-full rounded-xl border border-[#E2E8F0] bg-[#f8fafc] px-4 text-sm text-[#0F172A] outline-none transition focus:border-[#00f1fe] focus:bg-white focus:ring-4 focus:ring-[#00f1fe]/10"
+                      className="h-12 w-full rounded-xl border border-[#E2E8F0] bg-[#f8fafc] px-4 text-sm text-[#0F172A] outline-none transition focus:border-[#166b7f] focus:bg-white focus:ring-4 focus:ring-[#166b7f]/10"
                     />
                   </div>
 
@@ -219,7 +219,7 @@ export default function LoginPage() {
                         value={form.password}
                         onChange={handleChange}
                         required
-                        className="h-12 w-full rounded-xl border border-[#E2E8F0] bg-[#f8fafc] px-4 pr-12 text-sm text-[#0F172A] outline-none transition focus:border-[#00f1fe] focus:bg-white focus:ring-4 focus:ring-[#00f1fe]/10"
+                        className="h-12 w-full rounded-xl border border-[#E2E8F0] bg-[#f8fafc] px-4 pr-12 text-sm text-[#0F172A] outline-none transition focus:border-[#166b7f] focus:bg-white focus:ring-4 focus:ring-[#166b7f]/10"
                       />
                       <button
                         type="button"
@@ -239,7 +239,7 @@ export default function LoginPage() {
                         type="checkbox"
                         checked={rememberMe}
                         onChange={(event) => setRememberMe(event.target.checked)}
-                        className="h-4 w-4 rounded border-[#cbd5e1] text-[#00f1fe] focus:ring-[#00f1fe]"
+                        className="h-4 w-4 rounded border-[#cbd5e1] text-[#166b7f] focus:ring-[#166b7f]"
                       />
                       <span>Remember me</span>
                     </label>
@@ -258,7 +258,7 @@ export default function LoginPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-[#00f1fe] px-5 text-sm font-semibold text-[#0F172A] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-[#166b7f] px-5 text-sm font-semibold text-[#0F172A] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {loading ? 'Signing in...' : 'Sign In'}
                   </button>

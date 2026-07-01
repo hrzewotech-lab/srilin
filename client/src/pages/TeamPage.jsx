@@ -99,8 +99,8 @@ export default function TeamPage() {
         />
 
         <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 py-10 md:py-0">
-          <div className="max-w-2xl border-l-2 border-[#00f1fe] pl-5 md:pl-6">
-            <p className="text-[#00f1fe] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4">
+          <div className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6">
+            <p className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4">
               Our People
             </p>
             <h1 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-3 md:mb-4">
@@ -111,11 +111,11 @@ export default function TeamPage() {
               disciplined quality workflows, and customer-focused delivery.
             </p>
             <div className="flex flex-wrap gap-2.5 sm:gap-3">
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#00f1fe]/30 text-[#94f2ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#94f2ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <Users size={13} />
                 {stats.total} team profiles
               </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#00f1fe]/30 text-[#94f2ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#94f2ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <ShieldCheck size={13} />
                 {stats.featured} featured leaders
               </span>
@@ -123,13 +123,13 @@ export default function TeamPage() {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#00f1fe]/60 via-[#00f1fe]/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#166b7f]/60 via-[#166b7f]/10 to-transparent" />
       </section>
 
       <section className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-[1.7fr_1fr] gap-8 items-start mb-12">
           <div>
-            <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#00f1fe] pl-4">
+            <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#166b7f] pl-4">
               About our leadership
             </h2>
             <p className="text-[#44474d] mt-4 leading-relaxed">

@@ -67,7 +67,7 @@ export default function ServiceDetailPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
           <Link
             to="/services"
-            className="inline-flex items-center gap-2 text-white/80 hover:text-[#00f1fe] transition-colors text-sm font-semibold"
+            className="inline-flex items-center gap-2 text-white/80 hover:text-[#166b7f] transition-colors text-sm font-semibold"
           >
             <ArrowLeft size={16} /> Back to services
           </Link>
@@ -95,7 +95,7 @@ export default function ServiceDetailPage() {
             {service.title}
           </h1>
           <div className="flex flex-wrap gap-2">
-            <span className="px-3 py-1 bg-[#00f1fe]/20 text-[#00dbe7] text-xs font-['JetBrains_Mono'] font-bold uppercase tracking-widest border border-[#00dbe7]/30">
+            <span className="px-3 py-1 bg-[#166b7f]/20 text-[#00dbe7] text-xs font-['JetBrains_Mono'] font-bold uppercase tracking-widest border border-[#00dbe7]/30">
               Srilin Service
             </span>
             <span className="px-3 py-1 bg-white/10 text-white/70 text-xs font-['JetBrains_Mono'] font-bold uppercase tracking-widest border border-white/20">
@@ -156,7 +156,7 @@ export default function ServiceDetailPage() {
               <div className="flex flex-wrap gap-3 pt-1">
                 <Link
                   to="/contact-us"
-                  className="inline-block bg-[#00f1fe] text-[#0F172A] px-6 py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity"
+                  className="inline-block bg-[#166b7f] text-[#0F172A] px-6 py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity"
                 >
                   Discuss your requirement
                 </Link>
@@ -205,7 +205,7 @@ export default function ServiceDetailPage() {
                       key={bullet}
                       className="flex items-start gap-3 p-3 border border-[#E2E8F0] hover:border-[#00696f] hover:bg-[#f7f9fb] transition-colors"
                     >
-                      <span className="mt-0.5 w-5 h-5 rounded-full bg-[#00f1fe]/20 flex items-center justify-center shrink-0">
+                      <span className="mt-0.5 w-5 h-5 rounded-full bg-[#166b7f]/20 flex items-center justify-center shrink-0">
                         <Sparkles size={11} className="text-[#00696f]" />
                       </span>
                       <span className="text-[#334155] text-sm leading-relaxed">{bullet}</span>

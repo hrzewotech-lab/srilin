@@ -86,7 +86,7 @@ export default function FaqsPage() {
 
         <div className="relative max-w-7xl mx-auto px-6 md:px-12 w-full">
           <div className="max-w-2xl">
-            <span className="inline-block px-3 py-1 bg-[#00f1fe] text-[#0F172A] text-xs font-bold uppercase tracking-widest mb-3 md:mb-4">
+            <span className="inline-block px-3 py-1 bg-[#166b7f] text-[#0F172A] text-xs font-bold uppercase tracking-widest mb-3 md:mb-4">
               Support Center
             </span>
             <h1 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-5xl text-white leading-tight mb-3 md:mb-5">
@@ -132,7 +132,7 @@ export default function FaqsPage() {
                     <article
                       key={key}
                       id={`faq-${faq._id || index}`}
-                      className="group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#00f1fe] transition-colors duration-300"
+                      className="group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#166b7f] transition-colors duration-300"
                     >
                       <button
                         type="button"
@@ -170,7 +170,7 @@ export default function FaqsPage() {
                         }`}
                       >
                         <div className="px-4 md:px-5 pb-4 md:pb-5 pl-16 md:pl-[4.75rem]">
-                          <p className="text-sm md:text-base text-[#44474d] leading-relaxed border-l-2 border-[#00f1fe] pl-4">
+                          <p className="text-sm md:text-base text-[#44474d] leading-relaxed border-l-2 border-[#166b7f] pl-4">
                             {faq.answer || 'No answer provided.'}
                           </p>
                         </div>
@@ -193,7 +193,7 @@ export default function FaqsPage() {
                       type="button"
                       onClick={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
-                      className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-[#E2E8F0] bg-[#f7f9fb] text-[#0F172A] disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#00f1fe] transition-colors"
+                      className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-[#E2E8F0] bg-[#f7f9fb] text-[#0F172A] disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#166b7f] transition-colors"
                     >
                       <ChevronLeft size={16} />
                       Prev
@@ -208,7 +208,7 @@ export default function FaqsPage() {
                           className={`min-w-10 h-10 px-3 text-sm border transition-colors ${
                             currentPage === page
                               ? 'bg-[#0F172A] text-white border-[#0F172A]'
-                              : 'bg-white text-[#0F172A] border-[#E2E8F0] hover:border-[#00f1fe]'
+                              : 'bg-white text-[#0F172A] border-[#E2E8F0] hover:border-[#166b7f]'
                           }`}
                         >
                           {page}
@@ -220,7 +220,7 @@ export default function FaqsPage() {
                       type="button"
                       onClick={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-[#E2E8F0] bg-[#f7f9fb] text-[#0F172A] disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#00f1fe] transition-colors"
+                      className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-[#E2E8F0] bg-[#f7f9fb] text-[#0F172A] disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#166b7f] transition-colors"
                     >
                       Next
                       <ChevronRight size={16} />

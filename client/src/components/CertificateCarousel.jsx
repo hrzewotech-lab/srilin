@@ -34,11 +34,11 @@ export default function CertificateCarousel() {
 
   useEffect(() => {
     if (certificates.length < 2 || isPaused) return undefined;
-    const timer = window.setTimeout(() => {
+    const timer = window.setInterval(() => {
       setActiveIndex((current) => (current + 1) % certificates.length);
     }, 4500);
-    return () => window.clearTimeout(timer);
-  }, [activeIndex, certificates.length, isPaused]);
+    return () => window.clearInterval(timer);
+  }, [certificates.length, isPaused]);
 
   if (!certificates.length) return null;
 
@@ -64,7 +64,7 @@ export default function CertificateCarousel() {
         style={{ background: 'radial-gradient(ellipse,rgba(0,241,254,0.06) 0%,transparent 70%)', filter: 'blur(40px)' }} />
       {/* Ghost section label */}
       <span className="absolute -top-4 right-0 select-none pointer-events-none font-['JetBrains_Mono'] font-bold text-white opacity-[0.025]"
-        style={{ fontSize: 'clamp(6rem, 18vw, 14rem)', lineHeight: 1 }}>08</span>
+        style={{ fontSize: 'clamp(6rem, 18vw, 14rem)', lineHeight: 1 }}>07</span>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
 

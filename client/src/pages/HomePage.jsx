@@ -443,9 +443,11 @@ export default function HomePage() {
                         <div className="absolute top-3 left-3 z-10 font-['JetBrains_Mono'] text-[10px] font-bold text-white/60">
                           {String(idx + 1).padStart(2, '0')}
                         </div>
-                        <img src={service.image?.url || '/image.png'} alt={service.title || 'Service'}
-                          onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/image.png'; }}
-                          className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105" />
+                        <div className="flex h-full w-full items-center justify-center p-4 sm:p-5">
+                          <img src={service.image?.url || '/image.png'} alt={service.title || 'Service'}
+                            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/image.png'; }}
+                            className="w-full h-full object-contain object-center transition-transform duration-500 group-hover:scale-105" />
+                        </div>
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
                           style={{ background: 'linear-gradient(to top,rgba(22,107,127,0.08),transparent)' }} />
                       </div>

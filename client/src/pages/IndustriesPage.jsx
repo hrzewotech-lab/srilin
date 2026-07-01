@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Factory,
@@ -90,7 +91,68 @@ const benchmarkRows = [
   },
 ];
 
+function useTypewriter(text, speed = 40) {
+  const [typed, setTyped] = useState('');
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    setTyped('');
+    setDone(false);
+    if (!text) return;
+    let i = 0;
+    const id = setInterval(() => {
+      i += 1;
+      setTyped(text.slice(0, i));
+      if (i >= text.length) {
+        setDone(true);
+        clearInterval(id);
+      }
+    }, speed);
+    return () => clearInterval(id);
+  }, [text, speed]);
+
+  return [typed, done];
+}
+
+function Reveal({ children, delay = 0, y = 24, className = '', style = {} }) {
+  const ref = useRef(null);
+  const [vis, setVis] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVis(true);
+          obs.unobserve(el);
+        }
+      },
+      { threshold: 0.08 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: vis ? 1 : 0,
+        transform: vis ? 'none' : `translateY(${y}px)`,
+        transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
 export default function IndustriesPage() {
+  const heroText = 'Global Precision. Industry Standards.';
+  const [typedHero, heroDone] = useTypewriter(heroText, 45);
   return (
     <div className="bg-[#f7f9fb] font-['Inter'] min-h-screen">
       {/* HERO */}
@@ -120,20 +182,60 @@ export default function IndustriesPage() {
         />
 
         <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 py-10 md:py-0">
-          <div className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6">
+          <Reveal delay={80} className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6">
             <p className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4">
               Market Verticals
             </p>
             <h1 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-3 md:mb-4">
-              Global Precision.
-              <br />
-              Industry Standards.
+              {(() => {
+                const firstLine = 'Global Precision.';
+                const secondLine = 'Industry Standards.';
+                const hasSecond = typedHero.length > firstLine.length;
+                return (
+                  <>
+                    <span>{typedHero.slice(0, firstLine.length)}</span>
+                    {hasSecond && (
+                      <>
+                        <br />
+                        <span className="text-[#00dbe7]">{typedHero.slice(firstLine.length)}</span>
+                      </>
+                    )}
+                    {!heroDone && (
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          width: 3,
+                          height: '0.85em',
+                          background: '#00dbe7',
+                          marginLeft: 4,
+                          verticalAlign: 'middle',
+                          animation: 'cursorBlink 0.75s step-end infinite',
+                        }}
+                      />
+                    )}
+                  </>
+                );
+              })()}
             </h1>
-            <p className="text-white/75 text-sm sm:text-base leading-relaxed mb-5 md:mb-6 max-w-lg">
+            <p
+              className="text-white/75 text-sm sm:text-base leading-relaxed mb-5 md:mb-6 max-w-lg"
+              style={{
+                opacity: heroDone ? 1 : 0,
+                transform: heroDone ? 'none' : 'translateY(8px)',
+                transition: 'opacity 0.6s ease, transform 0.6s ease',
+              }}
+            >
               Providing mission-critical EMS and ESDM services across sectors where
               reliability isn't just an option — it's the foundation of every circuit.
             </p>
-            <div className="flex flex-wrap gap-2.5 sm:gap-3">
+            <div
+              className="flex flex-wrap gap-2.5 sm:gap-3"
+              style={{
+                opacity: heroDone ? 1 : 0,
+                transform: heroDone ? 'none' : 'translateY(8px)',
+                transition: 'opacity 0.5s 0.2s ease, transform 0.5s 0.2s ease',
+              }}
+            >
               <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <CheckCircle2 size={14} /> AS9100D Certified
               </span>
@@ -141,7 +243,7 @@ export default function IndustriesPage() {
                 <CheckCircle2 size={14} /> IATF 16949
               </span>
             </div>
-          </div>
+          </Reveal>
         </div>
 
         {/* Bottom edge accent line */}
@@ -162,7 +264,7 @@ export default function IndustriesPage() {
 
       {/* INDUSTRY CARDS */}
       <section className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20">
-        <div className="mb-10">
+        <Reveal delay={80} className="mb-10">
           <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#166b7f] pl-4">
             Specialized EMS Solutions
           </h2>
@@ -170,29 +272,28 @@ export default function IndustriesPage() {
             Our technical clean-room environments are optimized for the specific
             regulatory and performance demands of eight core global industries.
           </p>
-        </div>
+        </Reveal>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {industries.map(({ name, icon: Icon, description, tag }) => (
-            <div
-              key={name}
-              className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#166b7f] hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
-            >
-              <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#166b7f]/10 group-hover:text-[#00696f] transition-colors">
-                <Icon size={22} strokeWidth={1.8} />
+          {industries.map(({ name, icon: Icon, description, tag }, index) => (
+            <Reveal key={name} delay={index * 70}>
+              <div className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#166b7f] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full">
+                <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#166b7f]/10 group-hover:text-[#00696f] transition-colors">
+                  <Icon size={22} strokeWidth={1.8} />
+                </div>
+                <div>
+                  <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] mb-2 leading-snug">
+                    {name}
+                  </h3>
+                  <p className="text-sm text-[#44474d] leading-relaxed">{description}</p>
+                </div>
+                <div className="mt-auto pt-4 border-t border-[#E2E8F0]">
+                  <span className="inline-block bg-[#0F172A] text-[#166b7f] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1">
+                    {tag}
+                  </span>
+                </div>
               </div>
-              <div>
-                <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] mb-2 leading-snug">
-                  {name}
-                </h3>
-                <p className="text-sm text-[#44474d] leading-relaxed">{description}</p>
-              </div>
-              <div className="mt-auto pt-4 border-t border-[#E2E8F0]">
-                <span className="inline-block bg-[#0F172A] text-[#166b7f] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1">
-                  {tag}
-                </span>
-              </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -200,16 +301,16 @@ export default function IndustriesPage() {
       {/* BENCHMARK TABLE */}
       <section className="bg-[#eceef0] py-16 md:py-20">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
-          <div className="text-center mb-10">
+          <Reveal delay={80} className="text-center mb-10">
             <p className="text-[#00696f] text-xs font-semibold uppercase tracking-widest mb-2">
               The Manufacturing Edge
             </p>
             <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A]">
               Clinical Standards Benchmarks
             </h2>
-          </div>
+          </Reveal>
 
-          <div className="overflow-x-auto bg-white border border-[#E2E8F0]">
+          <Reveal delay={120} className="overflow-x-auto bg-white border border-[#E2E8F0]">
             <table className="w-full text-left text-sm min-w-[640px]">
               <thead>
                 <tr className="bg-[#0F172A] text-white uppercase text-xs">
@@ -234,7 +335,7 @@ export default function IndustriesPage() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -243,7 +344,7 @@ export default function IndustriesPage() {
         <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/40 to-transparent hidden md:block" />
         <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/20 to-transparent hidden md:block" />
 
-        <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+        <Reveal delay={100} className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
           <div className="max-w-lg">
             <h3 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-white mb-3">
               Ready for a technical deep-dive?
@@ -267,7 +368,7 @@ export default function IndustriesPage() {
               Download Capability Matrix
             </Link>
           </div>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

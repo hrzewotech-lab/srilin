@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
@@ -10,6 +11,89 @@ import {
   Pencil,
   Zap,
 } from 'lucide-react';
+
+/* ════════════════════════════════════════════════════════════════
+   ANIMATION UTILITIES  (same system as HomePage / ServicesPage / ProductsPage / ContactPage / InfrastructureMachineryPage)
+   ════════════════════════════════════════════════════════════════ */
+
+function useTypewriter(text, speed = 40) {
+  const [typed, setTyped] = useState('');
+  const [done, setDone]   = useState(false);
+  useEffect(() => {
+    setTyped(''); setDone(false);
+    if (!text) return;
+    let i = 0;
+    const id = setInterval(() => {
+      i++; setTyped(text.slice(0, i));
+      if (i >= text.length) { setDone(true); clearInterval(id); }
+    }, speed);
+    return () => clearInterval(id);
+  }, [text, speed]);
+  return [typed, done];
+}
+
+function Reveal({ children, delay = 0, y = 26, className = '', style = {} }) {
+  const ref = useRef(null);
+  const [vis, setVis] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVis(true); obs.unobserve(el); } },
+      { threshold: 0.08 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div ref={ref} className={className} style={{
+      opacity: vis ? 1 : 0,
+      transform: vis ? 'none' : `translateY(${y}px)`,
+      transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
+      ...style,
+    }}>
+      {children}
+    </div>
+  );
+}
+
+function AnimatedNumber({ value, className = '', style = {} }) {
+  const ref     = useRef(null);
+  const started = useRef(false);
+  const [display, setDisplay] = useState(value);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (!/^\d/.test(String(value))) { setDisplay(value); return; }
+    const raw      = String(value).replace(/[^0-9.]/g, '');
+    const num      = parseFloat(raw);
+    if (isNaN(num)) { setDisplay(value); return; }
+    const suffix     = String(value).replace(/^[\d,. ]+/, '');
+    const hasComma   = String(value).includes(',');
+    const hasDecimal = String(value).replace(suffix, '').includes('.');
+    const decimals   = hasDecimal ? (String(value).replace(suffix,'').split('.')[1]?.length ?? 1) : 0;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !started.current) {
+        started.current = true; obs.unobserve(el);
+        let t0 = null;
+        const dur = 1800;
+        const tick = (ts) => {
+          if (!t0) t0 = ts;
+          const p = Math.min((ts - t0) / dur, 1);
+          const eased = 1 - (1 - p) ** 3;
+          const cur = eased * num;
+          const fmt = hasDecimal ? cur.toFixed(decimals) : hasComma ? Math.floor(cur).toLocaleString() : Math.floor(cur).toString();
+          setDisplay(fmt + suffix);
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+    }, { threshold: 0.5 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [value]);
+  return <span ref={ref} className={className} style={style}>{display}</span>;
+}
 
 // --- DATA ---
 const sections = [
@@ -82,6 +166,9 @@ const sections = [
 ];
 
 export default function DesignEngineeringPage() {
+  const heroText              = 'Embedded Systems. Built to Last.';
+  const [typedHero, heroDone] = useTypewriter(heroText, 40);
+
   return (
     <div className="bg-[#f7f9fb] font-['Inter'] min-h-screen">
 
@@ -109,21 +196,55 @@ export default function DesignEngineeringPage() {
         />
 
         <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 py-10 md:py-0">
-          <div className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6">
-            <p className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4">
+          <div
+            className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6"
+            style={{ animation: 'deHeroIn 0.8s cubic-bezier(0.16,1,0.3,1) both' }}
+          >
+            <p
+              className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4"
+              style={{ animation: 'deHeroIn 0.6s 0.05s ease both' }}
+            >
               Design &amp; Engineering
             </p>
-            <h1 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-3 md:mb-4">
-              Embedded Systems.
-              <br />
-              Built to Last.
+
+            {/* Typewriter heading — "Embedded Systems." plain, "Built to Last." cyan */}
+            <h1
+              className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-3 md:mb-4"
+              style={{ minHeight: '2.4em' }}
+            >
+              {(() => {
+                const plain = 'Embedded Systems. ';
+                if (typedHero.length <= plain.length) {
+                  return (
+                    <>
+                      {typedHero}
+                      {!heroDone && <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#00dbe7', marginLeft: 4, verticalAlign: 'middle', animation: 'deCursorBlink 0.75s step-end infinite' }} />}
+                    </>
+                  );
+                }
+                return (
+                  <>
+                    {plain.trim()}
+                    <br />
+                    <span className="text-[#00dbe7]">{typedHero.slice(plain.length)}</span>
+                    {!heroDone && <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#00dbe7', marginLeft: 4, verticalAlign: 'middle', animation: 'deCursorBlink 0.75s step-end infinite' }} />}
+                  </>
+                );
+              })()}
             </h1>
-            <p className="text-white/75 text-sm sm:text-base leading-relaxed mb-5 md:mb-6 max-w-lg">
+
+            <p
+              className="text-white/75 text-sm sm:text-base leading-relaxed mb-5 md:mb-6 max-w-lg"
+              style={{ opacity: heroDone ? 1 : 0, transform: heroDone ? 'none' : 'translateY(8px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
+            >
               Srilin combines engineering depth, test discipline, and manufacturing awareness
               to help product teams build dependable embedded systems — from concept through
               full production validation.
             </p>
-            <div className="flex flex-wrap gap-2.5 sm:gap-3">
+            <div
+              className="flex flex-wrap gap-2.5 sm:gap-3"
+              style={{ opacity: heroDone ? 1 : 0, transition: 'opacity 0.5s 0.15s ease' }}
+            >
               <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <CheckCircle2 size={14} /> Hardware Design
               </span>
@@ -160,82 +281,85 @@ export default function DesignEngineeringPage() {
           const hasImage = !!image;
 
           return (
-            <article
-              key={title}
-              className={`group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#166b7f] hover:shadow-lg transition-all duration-300 ${
-                hasImage ? 'grid grid-cols-1 lg:grid-cols-12' : 'grid grid-cols-1'
-              }`}
-            >
-              {/* Image panel (only for sections with images) */}
-              {hasImage && (
-                <div
-                  className={`lg:col-span-4 h-56 lg:h-auto bg-[#0F172A] overflow-hidden ${
-                    isEven ? 'lg:order-1' : 'lg:order-2'
-                  }`}
-                >
-                  <img
-                    src={image}
-                    alt={alt || title}
-                    className="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity duration-300"
-                  />
-                </div>
-              )}
-
-              {/* Content panel */}
-              <div
-                className={`flex flex-col gap-5 p-7 md:p-10 ${
-                  hasImage
-                    ? `lg:col-span-8 ${isEven ? 'lg:order-2' : 'lg:order-1'}`
-                    : ''
+            <Reveal key={title} delay={index * 80}>
+              <article
+                className={`group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#166b7f] hover:shadow-lg transition-all duration-300 ${
+                  hasImage ? 'grid grid-cols-1 lg:grid-cols-12' : 'grid grid-cols-1'
                 }`}
               >
-                {/* Header row */}
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-[#00696f] text-[10px] font-semibold uppercase tracking-widest mb-1">
-                      {eyebrow}
-                    </p>
-                    <h2 className="font-['JetBrains_Mono'] font-bold text-xl md:text-2xl text-[#0F172A] leading-snug">
-                      {title}
-                    </h2>
+                {/* Image panel (only for sections with images) */}
+                {hasImage && (
+                  <div
+                    className={`lg:col-span-4 h-56 lg:h-auto bg-[#0F172A] overflow-hidden ${
+                      isEven ? 'lg:order-1' : 'lg:order-2'
+                    }`}
+                  >
+                    <img
+                      src={image}
+                      alt={alt || title}
+                      className="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                    />
                   </div>
-                  <div className="flex items-center gap-3 shrink-0">
-                    <span className="font-['JetBrains_Mono'] text-[#E2E8F0] text-2xl font-bold select-none hidden sm:block">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <div className="w-10 h-10 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#166b7f]/10 group-hover:text-[#00696f] transition-colors">
-                      <Icon size={20} strokeWidth={1.8} />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Body */}
-                <p className="text-sm text-[#44474d] leading-relaxed">{body}</p>
-
-                {/* Bullets */}
-                {bullets && (
-                  <ul className={`grid gap-2.5 ${hasImage ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'}`}>
-                    {bullets.map((bullet) => (
-                      <li key={bullet} className="flex items-start gap-2.5 text-sm text-[#44474d]">
-                        <ArrowRight
-                          size={14}
-                          className="text-[#00696f] shrink-0 mt-0.5"
-                          strokeWidth={2}
-                        />
-                        {bullet}
-                      </li>
-                    ))}
-                  </ul>
                 )}
 
-                {/* Tag */}
-                <div className="pt-2 border-t border-[#E2E8F0] mt-auto">
-                  <span className="inline-block bg-[#0F172A] text-[#166b7f] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1">
-                    {tag}
-                  </span>
+                {/* Content panel */}
+                <div
+                  className={`flex flex-col gap-5 p-7 md:p-10 ${
+                    hasImage
+                      ? `lg:col-span-8 ${isEven ? 'lg:order-2' : 'lg:order-1'}`
+                      : ''
+                  }`}
+                >
+                  {/* Header row */}
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-[#00696f] text-[10px] font-semibold uppercase tracking-widest mb-1">
+                        {eyebrow}
+                      </p>
+                      <h2 className="font-['JetBrains_Mono'] font-bold text-xl md:text-2xl text-[#0F172A] leading-snug">
+                        {title}
+                      </h2>
+                    </div>
+                    <div className="flex items-center gap-3 shrink-0">
+                      <span className="font-['JetBrains_Mono'] text-[#E2E8F0] text-2xl font-bold select-none hidden sm:block">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <div className="w-10 h-10 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#166b7f]/10 group-hover:text-[#00696f] transition-colors">
+                        <Icon size={20} strokeWidth={1.8} />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Body */}
+                  <p className="text-sm text-[#44474d] leading-relaxed">{body}</p>
+
+                  {/* Bullets */}
+                  {bullets && (
+                    <ul className={`grid gap-2.5 ${hasImage ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'}`}>
+                      {bullets.map((bullet, bi) => (
+                        <Reveal key={bullet} delay={bi * 60} y={10}>
+                          <li className="flex items-start gap-2.5 text-sm text-[#44474d]">
+                            <ArrowRight
+                              size={14}
+                              className="text-[#00696f] shrink-0 mt-0.5"
+                              strokeWidth={2}
+                            />
+                            {bullet}
+                          </li>
+                        </Reveal>
+                      ))}
+                    </ul>
+                  )}
+
+                  {/* Tag */}
+                  <div className="pt-2 border-t border-[#E2E8F0] mt-auto">
+                    <span className="inline-block bg-[#0F172A] text-[#166b7f] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1">
+                      {tag}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </article>
+              </article>
+            </Reveal>
           );
         })}
       </div>
@@ -246,7 +370,7 @@ export default function DesignEngineeringPage() {
         <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/20 to-transparent hidden md:block" />
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-          <div className="max-w-lg">
+          <Reveal className="max-w-lg">
             <h3 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-white mb-3">
               Have a design challenge?
             </h3>
@@ -254,8 +378,8 @@ export default function DesignEngineeringPage() {
               Talk to our embedded engineering team about your schematic, layout, firmware,
               or test requirements — we'll map out a validation plan from day one.
             </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+          </Reveal>
+          <Reveal delay={120} className="flex flex-col sm:flex-row gap-3 shrink-0">
             <Link
               to="/contact-us"
               className="inline-flex items-center justify-center gap-2 bg-[#166b7f] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
@@ -268,10 +392,14 @@ export default function DesignEngineeringPage() {
             >
               View Engineering Capabilities
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
+      <style>{`
+        @keyframes deHeroIn     { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes deCursorBlink{ 0%,100%{opacity:1} 50%{opacity:0} }
+      `}</style>
     </div>
   );
 }

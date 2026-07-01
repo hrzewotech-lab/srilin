@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import {
   BadgeCheck,
   Building2,
@@ -10,11 +11,14 @@ import {
   TrendingUp,
 } from 'lucide-react';
 
+/* ════════════════════════════════════════════════════════════════
+   STATIC DATA — all original arrays unchanged
+   ════════════════════════════════════════════════════════════════ */
 const aboutStats = [
-  { value: '2017', label: 'Established', icon: BadgeCheck },
-  { value: '25,000', label: 'Sqft current facility', icon: Building2 },
-  { value: '214,000', label: 'Sqft expansion space', icon: TrendingUp },
-  { value: '18+', label: 'Years in EMS', icon: ShieldCheck },
+  { value: '2017',    label: 'Established',          icon: BadgeCheck  },
+  { value: '25,000',  label: 'Sqft current facility', icon: Building2   },
+  { value: '214,000', label: 'Sqft expansion space',  icon: TrendingUp  },
+  { value: '18+',     label: 'Years in EMS',          icon: ShieldCheck },
 ];
 
 const featuredStat = {
@@ -74,10 +78,122 @@ const aboutHighlights = [
   },
 ];
 
+/* ════════════════════════════════════════════════════════════════
+   ANIMATION UTILITIES  (same system as HomePage)
+   ════════════════════════════════════════════════════════════════ */
+
+/** Types out text character by character. Returns [displayedText, isDone]. */
+function useTypewriter(text, speed = 42) {
+  const [typed, setTyped] = useState('');
+  const [done, setDone]   = useState(false);
+  useEffect(() => {
+    setTyped('');
+    setDone(false);
+    if (!text) return;
+    let i = 0;
+    const id = setInterval(() => {
+      i++;
+      setTyped(text.slice(0, i));
+      if (i >= text.length) { setDone(true); clearInterval(id); }
+    }, speed);
+    return () => clearInterval(id);
+  }, [text, speed]);
+  return [typed, done];
+}
+
+/** Scroll-reveal wrapper — fades + slides up on entering viewport. */
+function Reveal({ children, delay = 0, y = 26, className = '', style = {} }) {
+  const ref = useRef(null);
+  const [vis, setVis] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVis(true); obs.unobserve(el); } },
+      { threshold: 0.1 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: vis ? 1 : 0,
+        transform: vis ? 'none' : `translateY(${y}px)`,
+        transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+/** Counts a numeric string (e.g. '25,000', '18+') up from zero when scrolled into view. */
+function AnimatedNumber({ value, className = '', style = {} }) {
+  const ref     = useRef(null);
+  const started = useRef(false);
+  const [display, setDisplay] = useState(value);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    // Skip values that don't start with a digit (e.g. 'ISO-8')
+    if (!/^\d/.test(String(value))) { setDisplay(value); return; }
+    // Skip values containing '/' (e.g. '4.9/5')
+    if (String(value).includes('/')) { setDisplay(value); return; }
+
+    const raw      = String(value).replace(/[^0-9.]/g, '');
+    const num      = parseFloat(raw);
+    if (isNaN(num)) { setDisplay(value); return; }
+
+    const suffix     = String(value).replace(/^[\d,. ]+/, '');
+    const hasComma   = String(value).includes(',');
+    const hasDecimal = String(value).replace(suffix, '').includes('.');
+    const decimals   = hasDecimal ? (String(value).replace(suffix, '').split('.')[1]?.length ?? 1) : 0;
+
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !started.current) {
+        started.current = true;
+        obs.unobserve(el);
+        let t0 = null;
+        const dur = 2000;
+        const tick = (ts) => {
+          if (!t0) t0 = ts;
+          const p     = Math.min((ts - t0) / dur, 1);
+          const eased = 1 - (1 - p) ** 3;
+          const cur   = eased * num;
+          const fmt   = hasDecimal
+            ? cur.toFixed(decimals)
+            : hasComma
+            ? Math.floor(cur).toLocaleString()
+            : Math.floor(cur).toString();
+          setDisplay(fmt + suffix);
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+    }, { threshold: 0.5 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [value]);
+
+  return <span ref={ref} className={className} style={style}>{display}</span>;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   PAGE COMPONENT
+   ════════════════════════════════════════════════════════════════ */
 export default function AboutCompanyPage() {
+  const heroTitle = 'Srilin Electronics\nPrivate Limited';
+  const [typedHero, heroDone] = useTypewriter(heroTitle, 36);
+
   return (
     <div className="bg-[#f7f9fb] font-['Inter'] min-h-screen">
-      {/* HERO */}
+
+      {/* ══ HERO ══════════════════════════════════════════════════ */}
       <section className="relative w-full overflow-hidden bg-[#0F172A] min-h-[340px] sm:min-h-[380px] md:min-h-[420px] flex items-center">
         <img
           src="/about-us2.png"
@@ -90,33 +206,50 @@ export default function AboutCompanyPage() {
         <div
           className="absolute inset-0 opacity-20"
           style={{
-            backgroundImage:
-              'radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)',
+            backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)',
             backgroundSize: '24px 24px',
           }}
         />
 
         <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 py-10 md:py-0">
-          <div className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6">
-            <p className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4">
+          <div className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6" style={{ animation: 'aboutHeroIn 0.8s cubic-bezier(0.16,1,0.3,1) both' }}>
+
+            {/* Section label */}
+            <p className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4"
+              style={{ animation: 'aboutHeroIn 0.6s 0.1s ease both' }}>
               About Company
             </p>
-            <h1 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-3 md:mb-4">
-              Srilin Electronics Private Limited
+
+            {/* Typewriter heading */}
+            <h1 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-3 md:mb-4"
+              style={{ minHeight: '1.2em', whiteSpace: 'pre-line' }}>
+              {typedHero}
+              {/* Blinking cursor while typing */}
+              {!heroDone && (
+                <span style={{
+                  display: 'inline-block', width: 3, height: '0.85em',
+                  background: '#166b7f', marginLeft: 4, verticalAlign: 'middle',
+                  animation: 'cursorBlink 0.75s step-end infinite',
+                }} />
+              )}
             </h1>
-            <p className="text-white/75 text-sm sm:text-base leading-relaxed mb-5 md:mb-6 max-w-lg">
+
+            {/* Sub-text fades in after typing done */}
+            <p className="text-white/75 text-sm sm:text-base leading-relaxed mb-5 md:mb-6 max-w-lg transition-all duration-700"
+              style={{ opacity: heroDone ? 1 : 0, transform: heroDone ? 'none' : 'translateY(8px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}>
               Premier ESDM/EMS services with certified quality systems, scalable production,
               and reliable manufacturing support from design to box build.
             </p>
 
-            <div className="flex flex-wrap gap-2.5 sm:gap-3">
+            {/* Badges fade in after desc */}
+            <div className="flex flex-wrap gap-2.5 sm:gap-3 transition-all duration-700"
+              style={{ opacity: heroDone ? 1 : 0, transform: heroDone ? 'none' : 'translateY(8px)', transition: 'opacity 0.6s 0.15s ease, transform 0.6s 0.15s ease' }}
+              aria-label="Srilin certifications">
               <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
-                <CheckCircleIcon />
-                ISO & AS9 Certified
+                <CheckCircleIcon size={13} /> ISO &amp; AS9 Certified
               </span>
               <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
-                <Building2 size={13} />
-                E-City EMC, Hyderabad
+                <Building2 size={13} /> E-City EMC, Hyderabad
               </span>
             </div>
           </div>
@@ -125,16 +258,18 @@ export default function AboutCompanyPage() {
         <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#166b7f]/60 via-[#166b7f]/10 to-transparent" />
       </section>
 
-      {/* INTRO + CERTS */}
+      {/* ══ INTRO + CERTS ════════════════════════════════════════ */}
       <section className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mb-12">
-          <div className="lg:col-span-2">
+
+          {/* Body text */}
+          <Reveal className="lg:col-span-2" delay={0}>
             <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#166b7f] pl-4">
               About Srilin
             </h2>
             <p className="text-[#44474d] mt-4 leading-relaxed">
-              Srilin Electronics Pvt Ltd is an ISO9001:2015, AS9100D, ANSI ESD S20.20 2021 &
-              IEC 61340 5.1 certified Premier Electronics System Design & Manufacturing Services
+              Srilin Electronics Pvt Ltd is an ISO9001:2015, AS9100D, ANSI ESD S20.20 2021 &amp;
+              IEC 61340 5.1 certified Premier Electronics System Design &amp; Manufacturing Services
               (ESDM/EMS) company located in E-city EMC (Formerly Fabcity), Hyderabad, India.
               Established in 2017, we support quick prototyping, mid-volume production, and
               high-volume manufacturing.
@@ -146,202 +281,206 @@ export default function AboutCompanyPage() {
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3" aria-label="Srilin certifications">
-              {certificationBadges.map((certification) => (
-                <span
-                  key={certification}
-                  className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-[#E2E8F0] text-sm text-[#0F172A] shadow-sm"
-                >
-                  <ShieldCheck size={16} className="text-[#0F172A]" />
-                  <span className="font-semibold">{certification}</span>
-                </span>
+              {certificationBadges.map((cert, i) => (
+                <Reveal key={cert} delay={i * 60} style={{ display: 'inline-block' }}>
+                  <span className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-[#E2E8F0] text-sm text-[#0F172A] shadow-sm">
+                    <ShieldCheck size={16} className="text-[#0F172A]" />
+                    <span className="font-semibold">{cert}</span>
+                  </span>
+                </Reveal>
               ))}
             </div>
-          </div>
+          </Reveal>
 
-          <aside className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm">
-            <img
-              src="/about-us2.png"
-              alt="Srilin electronics manufacturing facility"
-              className="h-48 w-full object-cover"
-            />
-            <div className="p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 flex items-center justify-center bg-[#eceef0] text-[#0F172A]">
-                  <Building2 size={20} />
+          {/* Aside card */}
+          <Reveal delay={150}>
+            <aside className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm">
+              <img src="/about-us2.png" alt="Srilin electronics manufacturing facility" className="h-48 w-full object-cover" />
+              <div className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 flex items-center justify-center bg-[#eceef0] text-[#0F172A]">
+                    <Building2 size={20} />
+                  </div>
+                  <div>
+                    <p className="text-xs text-[#94A3B8] uppercase tracking-widest">Location</p>
+                    <p className="font-semibold text-sm text-[#0F172A]">E-City EMC, Hyderabad</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-xs text-[#94A3B8] uppercase tracking-widest">Location</p>
-                  <p className="font-semibold text-sm text-[#0F172A]">E-City EMC, Hyderabad</p>
-                </div>
+                <p className="text-sm text-[#44474d] leading-relaxed">
+                  15 minutes from Rajiv Gandhi International Airport and cargo terminal. Positioned in
+                  Hyderabad's manufacturing corridor for aerospace and defence electronics.
+                </p>
               </div>
-              <p className="text-sm text-[#44474d] leading-relaxed">
-                15 minutes from Rajiv Gandhi International Airport and cargo terminal. Positioned in
-                Hyderabad&apos;s manufacturing corridor for aerospace and defence electronics.
-              </p>
-            </div>
-          </aside>
+            </aside>
+          </Reveal>
         </div>
 
-        {/* STATS + SERVICES */}
+        {/* ══ STATS + SERVICES ══════════════════════════════════ */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[2fr_1fr] mb-16">
+
           <div className="grid gap-4">
+            {/* Stat cards — counting numbers */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {aboutStats.map((stat) => {
+              {aboutStats.map((stat, i) => {
                 const Icon = stat.icon;
                 return (
-                  <article
-                    key={stat.label}
-                    className="group relative overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#166b7f] hover:shadow-lg"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <strong className="block text-2xl font-['JetBrains_Mono'] text-[#0F172A] leading-tight">
-                          {stat.value}
-                        </strong>
-                        <span className="mt-2 block text-sm text-[#64748b] leading-snug">
-                          {stat.label}
-                        </span>
+                  <Reveal key={stat.label} delay={i * 80}>
+                    <article className="group relative overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#166b7f] hover:shadow-lg">
+                      {/* Top accent bar on hover */}
+                      <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#166b7f] scale-x-0 group-hover:scale-x-100 transition-transform duration-400 origin-left rounded-t-2xl" />
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <strong className="block text-2xl font-['JetBrains_Mono'] text-[#0F172A] leading-tight">
+                            <AnimatedNumber value={stat.value} />
+                          </strong>
+                          <span className="mt-2 block text-sm text-[#64748b] leading-snug">
+                            {stat.label}
+                          </span>
+                        </div>
+                        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#ecfeff] text-[#0F766E] shadow-sm shrink-0">
+                          <Icon size={18} strokeWidth={1.8} />
+                        </div>
                       </div>
-                      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#ecfeff] text-[#0F766E] shadow-sm">
-                        <Icon size={18} strokeWidth={1.8} />
-                      </div>
-                    </div>
-                  </article>
+                    </article>
+                  </Reveal>
                 );
               })}
             </div>
-            <div className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm">
-              <img
-                src="/about-us2.png"
-                alt="Srilin electronics manufacturing facility"
-                className="h-full w-full object-cover"
-              />
-            </div>
+
+            {/* Facility image */}
+            <Reveal delay={200}>
+              <div className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm">
+                <img src="/about-us2.png" alt="Srilin electronics manufacturing facility" className="h-full w-full object-cover" />
+              </div>
+            </Reveal>
           </div>
 
           <div className="flex flex-col gap-4">
-            <article className="rounded-3xl border border-[#E2E8F0] bg-[#f8fafc] p-6 shadow-sm">
-              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.28em] text-[#94A3B8]">
-                    Featured Stat
-                  </p>
-                  <div className="mt-4 flex items-center gap-3 text-[#0F172A]">
-                    <strong className="text-5xl font-['JetBrains_Mono'] leading-none">
-                      {featuredStat.value}
-                    </strong>
-                    <div className="rounded-2xl bg-[#ecfeff] p-3 text-[#0F766E] shadow-sm">
-                      {(() => {
-                        const FeaturedIcon = featuredStat.icon;
-                        return <FeaturedIcon size={24} strokeWidth={1.8} />;
-                      })()}
+            {/* Featured ISO-8 stat */}
+            <Reveal delay={100}>
+              <article className="rounded-3xl border border-[#E2E8F0] bg-[#f8fafc] p-6 shadow-sm">
+                <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.28em] text-[#94A3B8]">Featured Stat</p>
+                    <div className="mt-4 flex items-center gap-3 text-[#0F172A]">
+                      <strong className="text-5xl font-['JetBrains_Mono'] leading-none">
+                        <AnimatedNumber value={featuredStat.value} />
+                      </strong>
+                      <div className="rounded-2xl bg-[#ecfeff] p-3 text-[#0F766E] shadow-sm">
+                        {(() => { const FeaturedIcon = featuredStat.icon; return <FeaturedIcon size={24} strokeWidth={1.8} />; })()}
+                      </div>
                     </div>
+                    <p className="mt-4 text-sm text-[#475569]">{featuredStat.label}</p>
                   </div>
-                  <p className="mt-4 text-sm text-[#475569]">{featuredStat.label}</p>
                 </div>
-              </div>
-              <p className="mt-5 text-sm leading-relaxed text-[#475569]">
-                {featuredStat.description}
-              </p>
-            </article>
+                <p className="mt-5 text-sm leading-relaxed text-[#475569]">{featuredStat.description}</p>
+              </article>
+            </Reveal>
 
-            <div className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white">
-              <div className="p-6">
-                <p className="text-xs font-semibold uppercase tracking-widest text-[#94A3B8] mb-2">
-                  Core EMS Services
-                </p>
-                <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] mb-4 leading-snug">
-                  One-stop electronics manufacturing support from design to box build.
-                </h3>
-                <div className="grid grid-cols-1 gap-2">
-                  {aboutServices.map((service) => (
-                    <span
-                      key={service}
-                      className="flex items-center gap-3 px-3 py-2 border border-[#E2E8F0] bg-[#f7f9fb] text-sm text-[#0F172A]"
-                    >
-                      <span className="w-8 h-8 flex items-center justify-center bg-[#eceef0] text-[#0F172A] shrink-0">
-                        {service === 'SMT Mounting' || service === 'Embedded Design' ? (
-                          <Cpu size={16} />
-                        ) : (
-                          <Factory size={16} />
-                        )}
-                      </span>
-                      <span>{service}</span>
-                    </span>
-                  ))}
+            {/* Core services list */}
+            <Reveal delay={160}>
+              <div className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white">
+                <div className="p-6">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-[#94A3B8] mb-2">
+                    Core EMS Services
+                  </p>
+                  <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] mb-4 leading-snug">
+                    One-stop electronics manufacturing support from design to box build.
+                  </h3>
+                  <div className="grid grid-cols-1 gap-2">
+                    {aboutServices.map((service, i) => (
+                      <Reveal key={service} delay={i * 50}>
+                        <span className="flex items-center gap-3 px-3 py-2 border border-[#E2E8F0] bg-[#f7f9fb] text-sm text-[#0F172A]">
+                          <span className="w-8 h-8 flex items-center justify-center bg-[#eceef0] text-[#0F172A] shrink-0">
+                            {service === 'SMT Mounting' || service === 'Embedded Design' ? (
+                              <Cpu size={16} />
+                            ) : (
+                              <Factory size={16} />
+                            )}
+                          </span>
+                          <span>{service}</span>
+                        </span>
+                      </Reveal>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
 
-        {/* HIGHLIGHTS */}
+        {/* ══ HIGHLIGHTS ════════════════════════════════════════ */}
         <div className="mb-10">
-          <div className="text-center mb-8">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#94A3B8]">
-              Why Choose Srilin
-            </p>
-            <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] mt-2">
-              Reliable manufacturing capability with strategic scale and quality discipline.
-            </h2>
-          </div>
+          <Reveal>
+            <div className="text-center mb-8">
+              <p className="text-xs font-semibold uppercase tracking-widest text-[#94A3B8]">
+                Why Choose Srilin
+              </p>
+              <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] mt-2">
+                Reliable manufacturing capability with strategic scale and quality discipline.
+              </h2>
+            </div>
+          </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {aboutHighlights.map(({ icon: Icon, title, meta, text }) => (
-              <article
-                key={title}
-                className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#166b7f] hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
-              >
-                <div className="flex items-start gap-3">
-                  <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#166b7f]/10 group-hover:text-[#00696f] transition-colors shrink-0">
-                    <Icon size={20} strokeWidth={1.8} />
+            {aboutHighlights.map(({ icon: Icon, title, meta, text }, i) => (
+              <Reveal key={title} delay={i * 80}>
+                <article className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#166b7f] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full">
+                  <div className="flex items-start gap-3">
+                    <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#166b7f]/10 group-hover:text-[#00696f] transition-colors shrink-0">
+                      <Icon size={20} strokeWidth={1.8} />
+                    </div>
+                    <div>
+                      <h3 className="font-['JetBrains_Mono'] font-semibold text-base text-[#0F172A] leading-snug">{title}</h3>
+                      <p className="text-xs text-[#64748b] mt-1">{meta}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-['JetBrains_Mono'] font-semibold text-base text-[#0F172A] leading-snug">
-                      {title}
-                    </h3>
-                    <p className="text-xs text-[#64748b] mt-1">{meta}</p>
-                  </div>
-                </div>
-                <p className="text-sm text-[#44474d] leading-relaxed">{text}</p>
-              </article>
+                  <p className="text-sm text-[#44474d] leading-relaxed">{text}</p>
+                </article>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
+      {/* ══ CTA ══════════════════════════════════════════════════ */}
       <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
         <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/40 to-transparent hidden md:block" />
         <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/20 to-transparent hidden md:block" />
 
-        <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-          <div className="max-w-lg">
-            <h3 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-white mb-3">
-              Interested in partnering or visiting?
-            </h3>
-            <p className="text-white/60 text-sm md:text-base leading-relaxed">
-              Contact our sales and operations team to discuss capacity, audits, or a plant tour.
-            </p>
-          </div>
+        <Reveal>
+          <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+            <div className="max-w-lg">
+              <h3 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-white mb-3">
+                Interested in partnering or visiting?
+              </h3>
+              <p className="text-white/60 text-sm md:text-base leading-relaxed">
+                Contact our sales and operations team to discuss capacity, audits, or a plant tour.
+              </p>
+            </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-            <a
-              href="mailto:info@srilinelectronics.com"
-              className="inline-flex items-center justify-center gap-2 bg-[#166b7f] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
-            >
-              <Building2 size={15} />
-              Contact Sales
-            </a>
-            <a
-              href="/careers"
-              className="inline-flex items-center justify-center gap-2 border border-white/30 text-white px-6 py-3 text-sm font-semibold hover:bg-white/10 transition-colors"
-            >
-              View Careers
-            </a>
+            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+              <a
+                href="mailto:info@srilinelectronics.com"
+                className="inline-flex items-center justify-center gap-2 bg-[#166b7f] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
+              >
+                <Building2 size={15} /> Contact Sales
+              </a>
+              <a
+                href="/careers"
+                className="inline-flex items-center justify-center gap-2 border border-white/30 text-white px-6 py-3 text-sm font-semibold hover:bg-white/10 transition-colors"
+              >
+                View Careers
+              </a>
+            </div>
           </div>
-        </div>
+        </Reveal>
       </section>
+
+      <style>{`
+        @keyframes aboutHeroIn { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes cursorBlink  { 0%,100%{opacity:1} 50%{opacity:0} }
+      `}</style>
     </div>
   );
 }

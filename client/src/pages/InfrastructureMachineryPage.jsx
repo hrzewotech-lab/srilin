@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Layers,
@@ -10,6 +11,89 @@ import {
   ArrowRight,
   Wrench,
 } from 'lucide-react';
+
+/* ════════════════════════════════════════════════════════════════
+   ANIMATION UTILITIES  (same system as HomePage / ServicesPage / ProductsPage / ContactPage)
+   ════════════════════════════════════════════════════════════════ */
+
+function useTypewriter(text, speed = 40) {
+  const [typed, setTyped] = useState('');
+  const [done, setDone]   = useState(false);
+  useEffect(() => {
+    setTyped(''); setDone(false);
+    if (!text) return;
+    let i = 0;
+    const id = setInterval(() => {
+      i++; setTyped(text.slice(0, i));
+      if (i >= text.length) { setDone(true); clearInterval(id); }
+    }, speed);
+    return () => clearInterval(id);
+  }, [text, speed]);
+  return [typed, done];
+}
+
+function Reveal({ children, delay = 0, y = 26, className = '', style = {} }) {
+  const ref = useRef(null);
+  const [vis, setVis] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVis(true); obs.unobserve(el); } },
+      { threshold: 0.08 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div ref={ref} className={className} style={{
+      opacity: vis ? 1 : 0,
+      transform: vis ? 'none' : `translateY(${y}px)`,
+      transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
+      ...style,
+    }}>
+      {children}
+    </div>
+  );
+}
+
+function AnimatedNumber({ value, className = '', style = {} }) {
+  const ref     = useRef(null);
+  const started = useRef(false);
+  const [display, setDisplay] = useState(value);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (!/^\d/.test(String(value))) { setDisplay(value); return; }
+    const raw      = String(value).replace(/[^0-9.]/g, '');
+    const num      = parseFloat(raw);
+    if (isNaN(num)) { setDisplay(value); return; }
+    const suffix     = String(value).replace(/^[\d,. ]+/, '');
+    const hasComma   = String(value).includes(',');
+    const hasDecimal = String(value).replace(suffix, '').includes('.');
+    const decimals   = hasDecimal ? (String(value).replace(suffix,'').split('.')[1]?.length ?? 1) : 0;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !started.current) {
+        started.current = true; obs.unobserve(el);
+        let t0 = null;
+        const dur = 1800;
+        const tick = (ts) => {
+          if (!t0) t0 = ts;
+          const p = Math.min((ts - t0) / dur, 1);
+          const eased = 1 - (1 - p) ** 3;
+          const cur = eased * num;
+          const fmt = hasDecimal ? cur.toFixed(decimals) : hasComma ? Math.floor(cur).toLocaleString() : Math.floor(cur).toString();
+          setDisplay(fmt + suffix);
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+    }, { threshold: 0.5 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [value]);
+  return <span ref={ref} className={className} style={style}>{display}</span>;
+}
 
 // --- DATA ---
 const capabilityStats = [
@@ -101,6 +185,9 @@ const benchmarkRows = [
 ];
 
 export default function InfrastructureMachineryPage() {
+  const heroText              = 'Precision Hardware. Zero Compromise.';
+  const [typedHero, heroDone] = useTypewriter(heroText, 40);
+
   return (
     <div className="bg-[#f7f9fb] font-['Inter'] min-h-screen">
 
@@ -128,20 +215,54 @@ export default function InfrastructureMachineryPage() {
         />
 
         <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 py-10 md:py-0">
-          <div className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6">
-            <p className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4">
+          <div
+            className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6"
+            style={{ animation: 'imHeroIn 0.8s cubic-bezier(0.16,1,0.3,1) both' }}
+          >
+            <p
+              className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4"
+              style={{ animation: 'imHeroIn 0.6s 0.05s ease both' }}
+            >
               Infrastructure &amp; Machinery
             </p>
-            <h1 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-3 md:mb-4">
-              Precision Hardware.
-              <br />
-              Zero Compromise.
+
+            {/* Typewriter heading — "Precision Hardware." plain, "Zero Compromise." cyan */}
+            <h1
+              className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-3 md:mb-4"
+              style={{ minHeight: '2.4em' }}
+            >
+              {(() => {
+                const plain = 'Precision Hardware. ';
+                if (typedHero.length <= plain.length) {
+                  return (
+                    <>
+                      {typedHero}
+                      {!heroDone && <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#00dbe7', marginLeft: 4, verticalAlign: 'middle', animation: 'imCursorBlink 0.75s step-end infinite' }} />}
+                    </>
+                  );
+                }
+                return (
+                  <>
+                    {plain.trim()}
+                    <br />
+                    <span className="text-[#00dbe7]">{typedHero.slice(plain.length)}</span>
+                    {!heroDone && <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#00dbe7', marginLeft: 4, verticalAlign: 'middle', animation: 'imCursorBlink 0.75s step-end infinite' }} />}
+                  </>
+                );
+              })()}
             </h1>
-            <p className="text-white/75 text-sm sm:text-base leading-relaxed mb-5 md:mb-6 max-w-lg">
+
+            <p
+              className="text-white/75 text-sm sm:text-base leading-relaxed mb-5 md:mb-6 max-w-lg"
+              style={{ opacity: heroDone ? 1 : 0, transform: heroDone ? 'none' : 'translateY(8px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
+            >
               SriLin's SMT line in Hyderabad combines automated printing, inline 3D inspection,
               and high-speed assembly — engineered for Class 3 reliability from the ground up.
             </p>
-            <div className="flex flex-wrap gap-2.5 sm:gap-3">
+            <div
+              className="flex flex-wrap gap-2.5 sm:gap-3"
+              style={{ opacity: heroDone ? 1 : 0, transition: 'opacity 0.5s 0.15s ease' }}
+            >
               <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <CheckCircle2 size={14} /> IPC-A-610 Class 3
               </span>
@@ -175,7 +296,7 @@ export default function InfrastructureMachineryPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
 
           {/* Capability Stats */}
-          <div>
+          <Reveal>
             <div className="mb-8">
               <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#166b7f] pl-4">
                 Line Capabilities
@@ -185,54 +306,59 @@ export default function InfrastructureMachineryPage() {
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {capabilityStats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="bg-white border border-[#E2E8F0] p-5 hover:border-[#166b7f] transition-colors duration-200"
-                >
-                  <p className="font-['JetBrains_Mono'] font-bold text-xl text-[#00696f] mb-1">
-                    {stat.value}
-                  </p>
-                  <p className="text-[10px] text-[#44474d] uppercase tracking-wider leading-snug">
-                    {stat.label}
-                  </p>
-                </div>
+              {capabilityStats.map((stat, i) => (
+                <Reveal key={stat.label} delay={i * 80}>
+                  <div
+                    className="bg-white border border-[#E2E8F0] p-5 hover:border-[#166b7f] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200"
+                  >
+                    <p className="font-['JetBrains_Mono'] font-bold text-xl text-[#00696f] mb-1">
+                      <AnimatedNumber value={stat.value} />
+                    </p>
+                    <p className="text-[10px] text-[#44474d] uppercase tracking-wider leading-snug">
+                      {stat.label}
+                    </p>
+                  </div>
+                </Reveal>
               ))}
             </div>
-          </div>
+          </Reveal>
 
           {/* SMT Flow */}
-          <div className="bg-[#0F172A] p-7 md:p-8">
-            <div className="flex items-center gap-2 mb-6">
-              <Factory size={18} className="text-[#166b7f]" strokeWidth={1.8} />
-              <p className="font-['JetBrains_Mono'] font-semibold text-sm text-[#166b7f] uppercase tracking-widest">
-                SMT Line Flow
-              </p>
+          <Reveal delay={150}>
+            <div className="bg-[#0F172A] p-7 md:p-8">
+              <div className="flex items-center gap-2 mb-6">
+                <Factory size={18} className="text-[#166b7f]" strokeWidth={1.8} />
+                <p className="font-['JetBrains_Mono'] font-semibold text-sm text-[#166b7f] uppercase tracking-widest">
+                  SMT Line Flow
+                </p>
+              </div>
+              <ol className="space-y-3">
+                {processFlow.map(({ step, label }, i) => (
+                  <Reveal key={step} delay={i * 70} y={12}>
+                    <li className="flex items-center gap-4">
+                      <span className="font-['JetBrains_Mono'] text-[#166b7f] text-xs font-semibold w-6 shrink-0">
+                        {step}
+                      </span>
+                      <div className="flex-1 flex items-center gap-3">
+                        <div
+                          className="h-px flex-1 bg-white/10"
+                          style={{ opacity: i === processFlow.length - 1 ? 0 : 1 }}
+                        />
+                      </div>
+                      <span className="text-white/85 text-sm font-medium text-right">
+                        {label}
+                      </span>
+                    </li>
+                  </Reveal>
+                ))}
+              </ol>
+              <div className="mt-6 pt-5 border-t border-white/10">
+                <p className="text-white/40 text-[11px] uppercase tracking-widest">
+                  Closed-loop &nbsp;•&nbsp; Fully automated &nbsp;•&nbsp; IPC Class 3
+                </p>
+              </div>
             </div>
-            <ol className="space-y-3">
-              {processFlow.map(({ step, label }, i) => (
-                <li key={step} className="flex items-center gap-4">
-                  <span className="font-['JetBrains_Mono'] text-[#166b7f] text-xs font-semibold w-6 shrink-0">
-                    {step}
-                  </span>
-                  <div className="flex-1 flex items-center gap-3">
-                    <div
-                      className="h-px flex-1 bg-white/10"
-                      style={{ opacity: i === processFlow.length - 1 ? 0 : 1 }}
-                    />
-                  </div>
-                  <span className="text-white/85 text-sm font-medium text-right">
-                    {label}
-                  </span>
-                </li>
-              ))}
-            </ol>
-            <div className="mt-6 pt-5 border-t border-white/10">
-              <p className="text-white/40 text-[11px] uppercase tracking-widest">
-                Closed-loop &nbsp;•&nbsp; Fully automated &nbsp;•&nbsp; IPC Class 3
-              </p>
-            </div>
-          </div>
+          </Reveal>
 
         </div>
       </section>
@@ -240,93 +366,96 @@ export default function InfrastructureMachineryPage() {
       {/* ── MACHINERY CARDS ── */}
       <section className="bg-[#eceef0] py-16 md:py-20">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
-          <div className="mb-10">
-            <p className="text-[#00696f] text-xs font-semibold uppercase tracking-widest mb-2">
-              Equipment Overview
-            </p>
-            <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#166b7f] pl-4">
-              Machinery on the Floor
-            </h2>
-            <p className="text-[#44474d] mt-3 max-w-2xl">
-              Every machine in SriLin's SMT line is selected for precision, throughput, and long-term
-              reliability across high-mix and high-volume production environments.
-            </p>
-          </div>
+          <Reveal>
+            <div className="mb-10">
+              <p className="text-[#00696f] text-xs font-semibold uppercase tracking-widest mb-2">
+                Equipment Overview
+              </p>
+              <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#166b7f] pl-4">
+                Machinery on the Floor
+              </h2>
+              <p className="text-[#44474d] mt-3 max-w-2xl">
+                Every machine in SriLin's SMT line is selected for precision, throughput, and long-term
+                reliability across high-mix and high-volume production environments.
+              </p>
+            </div>
+          </Reveal>
 
           <div className="space-y-6">
             {equipment.map(({ title, eyebrow, image, icon: Icon, tag, summary, specs, details }, index) => {
               const isEven = index % 2 === 0;
               return (
-                <div
-                  key={title + eyebrow}
-                  className="group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#166b7f] hover:shadow-lg transition-all duration-300 grid grid-cols-1 lg:grid-cols-12"
-                >
-                  {/* Image */}
+                <Reveal key={title + eyebrow} delay={index * 80}>
                   <div
-                    className={`lg:col-span-4 h-52 lg:h-auto bg-[#0F172A] overflow-hidden ${
-                      isEven ? 'lg:order-1' : 'lg:order-2'
-                    }`}
+                    className="group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#166b7f] hover:shadow-lg transition-all duration-300 grid grid-cols-1 lg:grid-cols-12"
                   >
-                    <img
-                      src={image}
-                      alt={title}
-                      className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-                    />
-                  </div>
-
-                  {/* Content */}
-                  <div
-                    className={`lg:col-span-8 p-7 md:p-10 flex flex-col gap-5 ${
-                      isEven ? 'lg:order-2' : 'lg:order-1'
-                    }`}
-                  >
-                    {/* Header */}
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <p className="text-[#00696f] text-[10px] font-semibold uppercase tracking-widest mb-1">
-                          {eyebrow}
-                        </p>
-                        <h3 className="font-['JetBrains_Mono'] font-bold text-xl md:text-2xl text-[#0F172A] leading-snug">
-                          {title}
-                        </h3>
-                      </div>
-                      <div className="w-10 h-10 shrink-0 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#166b7f]/10 group-hover:text-[#00696f] transition-colors">
-                        <Icon size={20} strokeWidth={1.8} />
-                      </div>
+                    {/* Image */}
+                    <div
+                      className={`lg:col-span-4 h-52 lg:h-auto bg-[#0F172A] overflow-hidden ${
+                        isEven ? 'lg:order-1' : 'lg:order-2'
+                      }`}
+                    >
+                      <img
+                        src={image}
+                        alt={title}
+                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                      />
                     </div>
 
-                    <p className="text-sm text-[#44474d] leading-relaxed">{summary}</p>
-
-                    {/* Specs */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                      {specs.map((spec) => (
-                        <div
-                          key={spec}
-                          className="bg-[#f7f9fb] border border-[#E2E8F0] px-3 py-2.5"
-                        >
-                          <p className="font-['JetBrains_Mono'] text-xs font-semibold text-[#0F172A]">
-                            {spec}
+                    {/* Content */}
+                    <div
+                      className={`lg:col-span-8 p-7 md:p-10 flex flex-col gap-5 ${
+                        isEven ? 'lg:order-2' : 'lg:order-1'
+                      }`}
+                    >
+                      {/* Header */}
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <p className="text-[#00696f] text-[10px] font-semibold uppercase tracking-widest mb-1">
+                            {eyebrow}
                           </p>
+                          <h3 className="font-['JetBrains_Mono'] font-bold text-xl md:text-2xl text-[#0F172A] leading-snug">
+                            {title}
+                          </h3>
                         </div>
-                      ))}
-                    </div>
+                        <div className="w-10 h-10 shrink-0 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#166b7f]/10 group-hover:text-[#00696f] transition-colors">
+                          <Icon size={20} strokeWidth={1.8} />
+                        </div>
+                      </div>
 
-                    {/* Details + Tag */}
-                    <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 pt-1 border-t border-[#E2E8F0]">
-                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
-                        {details.map((detail) => (
-                          <li key={detail} className="flex items-center gap-2 text-sm text-[#44474d]">
-                            <CheckCircle2 size={13} className="text-[#00696f] shrink-0" />
-                            {detail}
-                          </li>
+                      <p className="text-sm text-[#44474d] leading-relaxed">{summary}</p>
+
+                      {/* Specs */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        {specs.map((spec) => (
+                          <div
+                            key={spec}
+                            className="bg-[#f7f9fb] border border-[#E2E8F0] px-3 py-2.5"
+                          >
+                            <p className="font-['JetBrains_Mono'] text-xs font-semibold text-[#0F172A]">
+                              {spec}
+                            </p>
+                          </div>
                         ))}
-                      </ul>
-                      <span className="inline-block bg-[#0F172A] text-[#166b7f] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 shrink-0">
-                        {tag}
-                      </span>
+                      </div>
+
+                      {/* Details + Tag */}
+                      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 pt-1 border-t border-[#E2E8F0]">
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
+                          {details.map((detail) => (
+                            <li key={detail} className="flex items-center gap-2 text-sm text-[#44474d]">
+                              <CheckCircle2 size={13} className="text-[#00696f] shrink-0" />
+                              {detail}
+                            </li>
+                          ))}
+                        </ul>
+                        <span className="inline-block bg-[#0F172A] text-[#166b7f] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 shrink-0">
+                          {tag}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Reveal>
               );
             })}
           </div>
@@ -335,41 +464,48 @@ export default function InfrastructureMachineryPage() {
 
       {/* ── BENCHMARK TABLE ── */}
       <section className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20">
-        <div className="text-center mb-10">
-          <p className="text-[#00696f] text-xs font-semibold uppercase tracking-widest mb-2">
-            Technical Benchmarks
-          </p>
-          <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A]">
-            Machine Performance at a Glance
-          </h2>
-        </div>
+        <Reveal>
+          <div className="text-center mb-10">
+            <p className="text-[#00696f] text-xs font-semibold uppercase tracking-widest mb-2">
+              Technical Benchmarks
+            </p>
+            <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A]">
+              Machine Performance at a Glance
+            </h2>
+          </div>
+        </Reveal>
 
-        <div className="overflow-x-auto bg-white border border-[#E2E8F0]">
-          <table className="w-full text-left text-sm min-w-[600px]">
-            <thead>
-              <tr className="bg-[#0F172A] text-white uppercase text-xs">
-                <th className="p-4 font-semibold">Metric</th>
-                <th className="p-4 font-semibold">Fuji AIMEX IIIc</th>
-                <th className="p-4 font-semibold">Panasonic NPM-D3A</th>
-                <th className="p-4 font-semibold">Koh Young / Fuji Printer</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#E2E8F0]">
-              {benchmarkRows.map((row, i) => (
-                <tr key={row.metric} className={i % 2 === 0 ? 'bg-white' : 'bg-[#f7f9fb]'}>
-                  <td className="p-4 font-semibold text-[#0F172A] whitespace-nowrap">
-                    {row.metric}
-                  </td>
-                  {row.values.map((v, idx) => (
-                    <td key={idx} className="p-4 text-[#44474d] whitespace-nowrap font-['JetBrains_Mono'] text-xs">
-                      {v}
-                    </td>
-                  ))}
+        <Reveal delay={120}>
+          <div className="overflow-x-auto bg-white border border-[#E2E8F0]">
+            <table className="w-full text-left text-sm min-w-[600px]">
+              <thead>
+                <tr className="bg-[#0F172A] text-white uppercase text-xs">
+                  <th className="p-4 font-semibold">Metric</th>
+                  <th className="p-4 font-semibold">Fuji AIMEX IIIc</th>
+                  <th className="p-4 font-semibold">Panasonic NPM-D3A</th>
+                  <th className="p-4 font-semibold">Koh Young / Fuji Printer</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-[#E2E8F0]">
+                {benchmarkRows.map((row, i) => (
+                  <tr
+                    key={row.metric}
+                    className={`${i % 2 === 0 ? 'bg-white' : 'bg-[#f7f9fb]'} hover:bg-[#166b7f]/5 transition-colors duration-200`}
+                  >
+                    <td className="p-4 font-semibold text-[#0F172A] whitespace-nowrap">
+                      {row.metric}
+                    </td>
+                    {row.values.map((v, idx) => (
+                      <td key={idx} className="p-4 text-[#44474d] whitespace-nowrap font-['JetBrains_Mono'] text-xs">
+                        {v}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Reveal>
       </section>
 
       {/* ── CTA ── */}
@@ -378,7 +514,7 @@ export default function InfrastructureMachineryPage() {
         <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/20 to-transparent hidden md:block" />
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-          <div className="max-w-lg">
+          <Reveal className="max-w-lg">
             <h3 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-white mb-3">
               Want a facility walkthrough?
             </h3>
@@ -386,8 +522,8 @@ export default function InfrastructureMachineryPage() {
               Our engineering team can walk you through machine capabilities, line throughput,
               and compliance readiness for your specific assembly requirements.
             </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+          </Reveal>
+          <Reveal delay={120} className="flex flex-col sm:flex-row gap-3 shrink-0">
             <Link
               to="/contact-us"
               className="inline-flex items-center justify-center gap-2 bg-[#166b7f] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
@@ -400,10 +536,14 @@ export default function InfrastructureMachineryPage() {
             >
               Download Equipment Specs
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
+      <style>{`
+        @keyframes imHeroIn     { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes imCursorBlink{ 0%,100%{opacity:1} 50%{opacity:0} }
+      `}</style>
     </div>
   );
 }

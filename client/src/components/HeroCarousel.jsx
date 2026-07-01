@@ -71,8 +71,8 @@ export default function HeroCarousel() {
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
-      className="relative w-full overflow-hidden"
-      style={{ height: 'min(90vh, 720px)', minHeight: 480 }}
+      className="relative w-full overflow-hidden font-mono"
+      style={{ aspectRatio: '16 / 9', minHeight: 480, maxHeight: '90vh', width: '100%' }}
     >
       {/* ── Slide images ── */}
       <div aria-live="polite">
@@ -81,13 +81,16 @@ export default function HeroCarousel() {
             key={slide._id || index}
             src={slide.image?.url}
             alt={slide.title || `Featured image ${index + 1}`}
+            loading="lazy"
+            decoding="async"
             aria-hidden={index !== activeIndex}
-            className="absolute inset-0 w-full h-full object-cover transition-all duration-1000"
+            className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-1000"
             style={{
               opacity: index === activeIndex ? 1 : 0,
               zIndex: index === activeIndex ? 1 : 0,
               filter: 'brightness(0.38)',
-              transform: index === activeIndex ? 'scale(1.02)' : 'scale(1)',
+              transform: index === activeIndex ? 'scale(1.04)' : 'scale(1)',
+              objectPosition: 'center center',
             }}
           />
         ))}
@@ -101,7 +104,7 @@ export default function HeroCarousel() {
 
       {/* ── Tech grid ── */}
       <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 3,
-        backgroundImage: 'linear-gradient(rgba(0,241,254,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,241,254,0.025) 1px,transparent 1px)',
+        backgroundImage: 'linear-gradient(rgba(22,107,127,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(22,107,127,0.025) 1px,transparent 1px)',
         backgroundSize: '64px 64px' }} />
 
       {/* ── Slide content ── */}
@@ -110,15 +113,15 @@ export default function HeroCarousel() {
 
           {/* Cert badge */}
           <span className="inline-flex items-center gap-2 mb-5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest"
-            style={{ color: '#00f1fe', border: '1px solid rgba(0,241,254,0.35)', background: 'rgba(0,241,254,0.08)' }}>
-            <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: '#00f1fe', animation: 'pulse 2s ease infinite' }} />
+            style={{ color: '#166b7f', border: '1px solid rgba(22,107,127,0.35)', background: 'rgba(22,107,127,0.1)' }}>
+            <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: '#166b7f', animation: 'pulse 2s ease infinite' }} />
             <ShieldCheck size={11} />
             {activeSlide?.tag || 'AS9100D Certified EMS'}
           </span>
 
           {/* Title */}
           <h1 className="text-white font-bold leading-[1.1] mb-5 font-['JetBrains_Mono']"
-            style={{ fontSize: 'clamp(1.8rem, 5.5vw, 3.75rem)', textShadow: '0 2px 40px rgba(0,0,0,0.5)' }}>
+            style={{ fontFamily: 'Courier New, Courier, monospace', fontSize: 'clamp(1.8rem, 5.5vw, 3.75rem)', textShadow: '0 2px 40px rgba(0,0,0,0.5)' }}>
             {activeSlide?.title || 'Precision Electronics Manufacturing'}
           </h1>
 
@@ -131,7 +134,7 @@ export default function HeroCarousel() {
           <div className="flex flex-wrap gap-3">
             <a href="/contact-us"
               className="inline-flex items-center gap-2 text-sm font-bold px-7 py-3.5 transition-all duration-200 hover:opacity-90 hover:gap-3"
-              style={{ background: '#00f1fe', color: '#0F172A' }}>
+              style={{ background: '#166b7f', color: '#F8FAFC' }}>
               Start a Project
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             </a>
@@ -158,7 +161,7 @@ export default function HeroCarousel() {
       {/* ── Progress bar ── */}
       <div className="absolute bottom-0 left-0 right-0 h-0.5" style={{ zIndex: 10, background: 'rgba(255,255,255,0.08)' }}>
         <div key={`progress-${activeIndex}`} className="h-full"
-          style={{ background: '#00f1fe', animation: isPaused ? 'none' : 'progressFill 5s linear forwards' }} />
+          style={{ background: '#166b7f', animation: isPaused ? 'none' : 'progressFill 5s linear forwards' }} />
       </div>
 
       {/* ── Slide counter ── */}
@@ -174,13 +177,13 @@ export default function HeroCarousel() {
         <>
           <button type="button" onClick={() => setActiveIndex((p) => (p - 1 + slides.length) % slides.length)}
             aria-label="Previous slide"
-            className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 border border-white/20 text-white hover:border-[#00f1fe] hover:text-[#00f1fe] transition-all duration-200"
+            className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 border border-white/20 text-white hover:border-[#166b7f] hover:text-[#166b7f] transition-all duration-200"
             style={{ zIndex: 10 }}>
             <ChevronLeft size={20} />
           </button>
           <button type="button" onClick={() => setActiveIndex((p) => (p + 1) % slides.length)}
             aria-label="Next slide"
-            className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 border border-white/20 text-white hover:border-[#00f1fe] hover:text-[#00f1fe] transition-all duration-200"
+            className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 border border-white/20 text-white hover:border-[#166b7f] hover:text-[#166b7f] transition-all duration-200"
             style={{ zIndex: 10 }}>
             <ChevronRight size={20} />
           </button>
@@ -197,7 +200,7 @@ export default function HeroCarousel() {
               style={{
                 width: index === activeIndex ? 32 : 8,
                 height: 4,
-                background: index === activeIndex ? '#00f1fe' : 'rgba(255,255,255,0.25)',
+                background: index === activeIndex ? '#166b7f' : 'rgba(255,255,255,0.25)',
                 borderRadius: 2,
                 border: 'none',
                 padding: 0,

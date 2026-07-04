@@ -287,11 +287,11 @@ export default function TeamPage() {
 
         <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 py-10 md:py-0">
           <div
-            className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6"
+            className="max-w-2xl border-l-2 border-[#c29f5d] pl-5 md:pl-6"
             style={{ animation: 'teamHeroIn 0.8s cubic-bezier(0.16,1,0.3,1) both' }}
           >
             <p
-              className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4"
+              className="text-[#c29f5d] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4"
               style={{ animation: 'teamHeroIn 0.6s 0.05s ease both' }}
             >
               Our People
@@ -309,7 +309,7 @@ export default function TeamPage() {
                     display: 'inline-block',
                     width: 3,
                     height: '0.85em',
-                    background: '#00dbe7',
+                    background: '#f0c27b',
                     marginLeft: 4,
                     verticalAlign: 'middle',
                     animation: 'cursorBlink 0.75s step-end infinite',
@@ -334,13 +334,13 @@ export default function TeamPage() {
               className="flex flex-wrap gap-2.5 sm:gap-3"
               style={{ opacity: heroDone ? 1 : 0, transition: 'opacity 0.5s 0.2s ease' }}
             >
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#94f2ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#c29f5d]/30 text-[#ffe8cc] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <Users size={13} />
                 {loading ? 'Loading…' : (
                   <><AnimatedNumber value={String(stats.total)} /> team profiles</>
                 )}
               </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#94f2ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#c29f5d]/30 text-[#ffe8cc] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <ShieldCheck size={13} />
                 {loading ? 'Loading…' : (
                   <><AnimatedNumber value={String(stats.featured)} /> featured leaders</>
@@ -350,7 +350,7 @@ export default function TeamPage() {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#166b7f]/60 via-[#166b7f]/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#c29f5d]/60 via-[#c29f5d]/10 to-transparent" />
       </section>
 
       {/* ══ MAIN LAYOUT ═══════════════════════════════════════════ */}
@@ -358,7 +358,7 @@ export default function TeamPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[1.7fr_1fr] gap-8 items-start mb-12">
           <Reveal>
             <div>
-              <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#166b7f] pl-4">
+              <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#c29f5d] pl-4">
                 About our leadership
               </h2>
               <p className="text-[#44474d] mt-4 leading-relaxed">
@@ -367,7 +367,7 @@ export default function TeamPage() {
               <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {leadershipPillars.map(({ icon: Icon, title, text }, i) => (
                   <Reveal key={title} delay={i * 80}>
-                    <article className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm hover:border-[#166b7f] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                    <article className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
                       <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#ecfeff] text-[#0F766E]">
                         <Icon size={20} aria-hidden="true" />
                       </div>
@@ -436,7 +436,7 @@ export default function TeamPage() {
                   tabIndex={0}
                   onClick={() => setSelectedMember(chairman)}
                   onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedMember(chairman); } }}
-                  className="cursor-pointer rounded-[28px] border border-[#E2E8F0] bg-white p-6 shadow-sm mb-10 hover:border-[#166b7f] hover:shadow-lg transition-all duration-300"
+                  className="cursor-pointer rounded-[28px] border border-[#E2E8F0] bg-white p-6 shadow-sm mb-10 hover:border-[#c29f5d] hover:shadow-lg transition-all duration-300"
                 >
                   <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
                     <div className="rounded-3xl overflow-hidden bg-[#eceef0]">
@@ -493,7 +493,7 @@ export default function TeamPage() {
                         tabIndex={0}
                         onClick={() => setSelectedMember(member)}
                         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedMember(member); } }}
-                        className="cursor-pointer rounded-[28px] border border-[#E2E8F0] bg-[#f7f9fb] p-5 shadow-sm hover:border-[#166b7f] hover:-translate-y-1 hover:shadow-md transition-all duration-300"
+                        className="cursor-pointer rounded-[28px] border border-[#E2E8F0] bg-[#f7f9fb] p-5 shadow-sm hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-md transition-all duration-300"
                       >
                         <div className="flex items-start gap-4">
                           <div className="h-16 w-16 overflow-hidden rounded-3xl bg-[#eceef0]">
@@ -534,7 +534,7 @@ export default function TeamPage() {
                         tabIndex={0}
                         onClick={() => setSelectedMember(member)}
                         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedMember(member); } }}
-                        className="h-full flex flex-col cursor-pointer rounded-[28px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:border-[#166b7f] hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+                        className="h-full flex flex-col cursor-pointer rounded-[28px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
                       >
                         <div className="flex flex-col gap-5 lg:flex-row lg:items-center">
                           <div className="h-28 w-28 flex-shrink-0 overflow-hidden rounded-3xl bg-[#eceef0]">

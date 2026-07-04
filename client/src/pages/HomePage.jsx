@@ -186,7 +186,7 @@ export default function HomePage() {
         <div className="flex gap-0 w-max" style={{ animation: 'tickerScroll 40s linear infinite' }}>
           {[...tickerItems, ...tickerItems].map((item, i) => (
             <span key={i} className="inline-flex items-center gap-3 px-6 text-xs font-mono font-semibold whitespace-nowrap"
-              style={{ color: i % 2 === 0 ? '#166b7f' : 'rgba(255,255,255,0.45)' }}>
+              style={{ color: i % 2 === 0 ? '#c29f5d' : 'rgba(255,255,255,0.45)' }}>
               {item}<span className="w-1 h-1 rounded-full bg-white/20 shrink-0" />
             </span>
           ))}
@@ -200,7 +200,7 @@ export default function HomePage() {
             {quickFacts.map(({ value, label, icon: Icon }, i) => (
               <Reveal key={label} delay={i * 80} style={{ display: 'contents' }}>
                 <div className="group flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-5 sm:py-6 hover:bg-[#f7f9fb] transition-colors">
-                  <span className="shrink-0 inline-flex h-10 w-10 items-center justify-center bg-[#eceef0] group-hover:bg-teal-50 transition-colors" style={{ color: '#00696f' }}>
+                  <span className="shrink-0 inline-flex h-10 w-10 items-center justify-center bg-[#eceef0] group-hover:bg-teal-50 transition-colors" style={{ color: '#9a7a3e' }}>
                     <Icon size={18} />
                   </span>
                   <div>
@@ -223,7 +223,7 @@ export default function HomePage() {
 
         <Reveal>
           <div className="flex items-center gap-3 mb-10 md:mb-14">
-            <span className="font-['JetBrains_Mono'] text-xs font-bold text-[#00696f] uppercase tracking-widest">About Company</span>
+            <span className="font-['JetBrains_Mono'] text-xs font-bold text-[#9a7a3e] uppercase tracking-widest">About Company</span>
             <span className="flex-1 h-px bg-[#E2E8F0] max-w-[60px]" />
           </div>
         </Reveal>
@@ -237,16 +237,16 @@ export default function HomePage() {
                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
                   className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{ background: 'linear-gradient(to top,rgba(22,107,127,0.08),transparent)' }} />
+                  style={{ background: 'linear-gradient(to top,rgba(194, 159, 93,0.08),transparent)' }} />
                 <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 bg-[#0F172A]/90 text-white text-xs font-['JetBrains_Mono'] px-3 py-2 border border-white/10">
-                  <Building2 size={14} style={{ color: '#166b7f' }} /> E-City EMC, Hyderabad
+                  <Building2 size={14} style={{ color: '#c29f5d' }} /> E-City EMC, Hyderabad
                 </div>
                 <div className="absolute top-4 right-4 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider font-['JetBrains_Mono']"
-                  style={{ background: 'rgba(22,107,127,0.1)', color: '#166b7f', border: '1px solid rgba(22,107,127,0.3)' }}>
+                  style={{ background: 'rgba(194, 159, 93,0.1)', color: '#c29f5d', border: '1px solid rgba(194, 159, 93,0.3)' }}>
                   AS9100D Certified
                 </div>
               </div>
-              <div className="absolute -bottom-3 -right-3 w-full h-full border border-[#166b7f]/15 pointer-events-none" />
+              <div className="absolute -bottom-3 -right-3 w-full h-full border border-[#c29f5d]/15 pointer-events-none" />
             </div>
           </Reveal>
 
@@ -270,7 +270,7 @@ export default function HomePage() {
               <ul className="flex flex-col gap-2 mt-1">
                 {['Design-to-delivery in one location','Aerospace-grade quality systems','Flexible volumes — prototype to high-volume'].map((item) => (
                   <li key={item} className="flex items-center gap-2 text-sm text-[#334155]">
-                    <CheckCircle2 size={15} style={{ color: '#00696f', flexShrink: 0 }} /> {item}
+                    <CheckCircle2 size={15} style={{ color: '#9a7a3e', flexShrink: 0 }} /> {item}
                   </li>
                 ))}
               </ul>
@@ -284,8 +284,8 @@ export default function HomePage() {
               </div>
               <div className="flex flex-wrap gap-2 mt-1">
                 {certificationBadges.map((cert) => (
-                  <span key={cert} className="inline-flex items-center gap-1.5 border border-[#E2E8F0] bg-white px-3 py-1.5 text-xs font-medium text-[#334155] hover:border-[#00696f]/40 transition-colors">
-                    <ShieldCheck size={12} style={{ color: '#00696f' }} /> {cert}
+                  <span key={cert} className="inline-flex items-center gap-1.5 border border-[#E2E8F0] bg-white px-3 py-1.5 text-xs font-medium text-[#334155] hover:border-[#9a7a3e]/40 transition-colors">
+                    <ShieldCheck size={12} style={{ color: '#9a7a3e' }} /> {cert}
                   </span>
                 ))}
               </div>
@@ -297,8 +297,8 @@ export default function HomePage() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-12 md:mt-16">
           {aboutStats.map((stat, i) => (
             <Reveal key={stat.label} delay={i * 90}>
-              <article className="relative group border border-[#E2E8F0] bg-white p-4 sm:p-6 overflow-hidden hover:border-[#166b7f]/40 hover:-translate-y-0.5 transition-all duration-300">
-                <div className="absolute top-0 left-0 w-0.5 h-full bg-[#166b7f] scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top" />
+              <article className="relative group border border-[#E2E8F0] bg-white p-4 sm:p-6 overflow-hidden hover:border-[#c29f5d]/40 hover:-translate-y-0.5 transition-all duration-300">
+                <div className="absolute top-0 left-0 w-0.5 h-full bg-[#c29f5d] scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top" />
                 <strong className="block font-['JetBrains_Mono'] text-xl sm:text-2xl text-[#0F172A]">
                   <AnimatedNumber value={stat.value} />
                 </strong>
@@ -312,15 +312,15 @@ export default function HomePage() {
         <Reveal delay={150}>
           <div className="mt-4 flex flex-col gap-4 border border-[#E2E8F0] bg-white p-5 sm:p-6 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <p className="text-[#00696f] text-xs font-bold uppercase tracking-widest">Core EMS Services</p>
+              <p className="text-[#9a7a3e] text-xs font-bold uppercase tracking-widest">Core EMS Services</p>
               <h3 className="mt-1.5 font-['JetBrains_Mono'] font-semibold text-base sm:text-lg text-[#0F172A]">
                 One-stop manufacturing support from design to box build.
               </h3>
             </div>
             <div className="flex flex-wrap gap-2">
               {coreServices.map((s) => (
-                <span key={s} className="inline-flex items-center gap-1.5 border border-[#E2E8F0] bg-[#f7f9fb] px-3 py-1.5 text-xs sm:text-sm font-medium text-[#334155] hover:border-[#00696f]/40 hover:bg-white transition-colors">
-                  {s === 'SMT Mounting' || s === 'Embedded Design' ? <Cpu size={13} style={{ color: '#00696f' }} /> : <Factory size={13} style={{ color: '#00696f' }} />}
+                <span key={s} className="inline-flex items-center gap-1.5 border border-[#E2E8F0] bg-[#f7f9fb] px-3 py-1.5 text-xs sm:text-sm font-medium text-[#334155] hover:border-[#9a7a3e]/40 hover:bg-white transition-colors">
+                  {s === 'SMT Mounting' || s === 'Embedded Design' ? <Cpu size={13} style={{ color: '#9a7a3e' }} /> : <Factory size={13} style={{ color: '#9a7a3e' }} />}
                   {s}
                 </span>
               ))}
@@ -332,14 +332,14 @@ export default function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
           {aboutHighlights.map(({ icon: Icon, title, meta, text }, i) => (
             <Reveal key={title} delay={i * 70}>
-              <article className="group relative border border-[#E2E8F0] bg-white p-5 sm:p-6 hover:border-[#166b7f]/40 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-teal-500/5 transition-all duration-300 overflow-hidden h-full">
+              <article className="group relative border border-[#E2E8F0] bg-white p-5 sm:p-6 hover:border-[#c29f5d]/40 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-teal-500/5 transition-all duration-300 overflow-hidden h-full">
                 <div className="absolute top-0 right-0 w-20 h-20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-                  style={{ background: 'radial-gradient(circle at top right,rgba(22,107,127,0.06),transparent)' }} />
-                <span className="inline-flex h-10 w-10 items-center justify-center bg-[#eceef0] group-hover:bg-teal-50 transition-colors mb-3" style={{ color: '#00696f' }}>
+                  style={{ background: 'radial-gradient(circle at top right,rgba(194, 159, 93,0.06),transparent)' }} />
+                <span className="inline-flex h-10 w-10 items-center justify-center bg-[#eceef0] group-hover:bg-teal-50 transition-colors mb-3" style={{ color: '#9a7a3e' }}>
                   <Icon size={20} />
                 </span>
                 <h4 className="font-['JetBrains_Mono'] font-semibold text-sm sm:text-base text-[#0F172A]">{title}</h4>
-                <p className="mt-1 text-xs font-semibold" style={{ color: '#00696f' }}>{meta}</p>
+                <p className="mt-1 text-xs font-semibold" style={{ color: '#9a7a3e' }}>{meta}</p>
                 <p className="mt-3 text-sm leading-relaxed text-[#334155]">{text}</p>
               </article>
             </Reveal>
@@ -350,19 +350,19 @@ export default function HomePage() {
       {/* ══ CLIENTS MARQUEE ═══════════════════════════════════════ */}
       <section className="bg-[#eceef0] py-10 md:py-14 border-y border-[#E2E8F0] overflow-hidden">
         <Reveal>
-          <p className="text-center text-[#00696f] text-xs font-bold uppercase tracking-widest mb-6 px-4">Trusted by Leading Companies</p>
+          <p className="text-center text-[#9a7a3e] text-xs font-bold uppercase tracking-widest mb-6 px-4">Trusted by Leading Companies</p>
         </Reveal>
         <div className="space-y-4">
           <div className="flex gap-6 sm:gap-10 animate-[marquee-left_30s_linear_infinite] w-max">
             {rowA.map((client, i) => (
-              <div key={`${client.companyName}-${i}`} className="flex items-center justify-center h-14 sm:h-16 w-28 sm:w-36 bg-white border border-[#E2E8F0] shrink-0 hover:border-[#00696f]/30 transition-colors">
+              <div key={`${client.companyName}-${i}`} className="flex items-center justify-center h-14 sm:h-16 w-28 sm:w-36 bg-white border border-[#E2E8F0] shrink-0 hover:border-[#9a7a3e]/30 transition-colors">
                 {client.logo?.url && <img src={client.logo.url} alt={client.companyName} className="max-h-8 sm:max-h-10 max-w-[80%] object-contain" />}
               </div>
             ))}
           </div>
           <div className="flex gap-6 sm:gap-10 animate-[marquee-right_30s_linear_infinite] w-max">
             {rowB.map((client, i) => (
-              <div key={`${client.companyName}-rev-${i}`} className="flex items-center justify-center h-14 sm:h-16 w-28 sm:w-36 bg-white border border-[#E2E8F0] shrink-0 hover:border-[#00696f]/30 transition-colors">
+              <div key={`${client.companyName}-rev-${i}`} className="flex items-center justify-center h-14 sm:h-16 w-28 sm:w-36 bg-white border border-[#E2E8F0] shrink-0 hover:border-[#9a7a3e]/30 transition-colors">
                 {client.logo?.url && <img src={client.logo.url} alt={client.companyName} className="max-h-8 sm:max-h-10 max-w-[80%] object-contain" />}
               </div>
             ))}
@@ -373,17 +373,17 @@ export default function HomePage() {
       {/* ══ SECTION 02 — HOW WE WORK ══════════════════════════════ */}
       <section className="relative bg-[#0F172A] py-16 md:py-28 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none"
-          style={{ backgroundImage: 'linear-gradient(rgba(22,107,127,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(22,107,127,0.03) 1px,transparent 1px)', backgroundSize: '56px 56px' }} />
+          style={{ backgroundImage: 'linear-gradient(rgba(194, 159, 93,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(194, 159, 93,0.03) 1px,transparent 1px)', backgroundSize: '56px 56px' }} />
         <div className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-[600px] h-48 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse,rgba(22,107,127,0.06) 0%,transparent 70%)', filter: 'blur(40px)' }} />
+          style={{ background: 'radial-gradient(ellipse,rgba(194, 159, 93,0.06) 0%,transparent 70%)', filter: 'blur(40px)' }} />
         <span className="absolute -top-6 right-0 select-none pointer-events-none font-['JetBrains_Mono'] font-bold text-white opacity-[0.025]"
           style={{ fontSize: 'clamp(6rem,18vw,14rem)', lineHeight: 1 }}>02</span>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
           <Reveal>
             <div className="flex items-center gap-3 mb-3">
-              <span className="font-['JetBrains_Mono'] text-xs font-bold uppercase tracking-widest" style={{ color: '#166b7f' }}>How We Work</span>
-              <span className="flex-1 h-px max-w-[60px]" style={{ background: 'rgba(22,107,127,0.2)' }} />
+              <span className="font-['JetBrains_Mono'] text-xs font-bold uppercase tracking-widest" style={{ color: '#c29f5d' }}>How We Work</span>
+              <span className="flex-1 h-px max-w-[60px]" style={{ background: 'rgba(194, 159, 93,0.2)' }} />
             </div>
             <h2 className="font-['JetBrains_Mono'] font-bold text-white leading-tight mb-12 md:mb-16"
               style={{ fontSize: 'clamp(1.5rem,3.5vw,2.25rem)', maxWidth: 600 }}>
@@ -396,10 +396,10 @@ export default function HomePage() {
               <Reveal key={step} delay={idx * 120}>
                 <article className="group relative bg-[#0F172A] p-6 sm:p-8 hover:bg-white/5 transition-colors duration-300 h-full">
                   <div className="flex items-start gap-4 mb-5">
-                    <span className="font-['JetBrains_Mono'] font-bold text-xs" style={{ color: '#166b7f' }}>{step}</span>
-                    <div className="flex-1 h-px mt-2" style={{ background: 'rgba(22,107,127,0.2)' }} />
+                    <span className="font-['JetBrains_Mono'] font-bold text-xs" style={{ color: '#c29f5d' }}>{step}</span>
+                    <div className="flex-1 h-px mt-2" style={{ background: 'rgba(194, 159, 93,0.2)' }} />
                   </div>
-                  <span className="inline-flex h-10 w-10 items-center justify-center mb-4 border border-white/10 group-hover:border-[#166b7f]/30 transition-colors" style={{ color: '#166b7f' }}>
+                  <span className="inline-flex h-10 w-10 items-center justify-center mb-4 border border-white/10 group-hover:border-[#c29f5d]/30 transition-colors" style={{ color: '#c29f5d' }}>
                     <Icon size={18} />
                   </span>
                   <h3 className="font-['JetBrains_Mono'] font-semibold text-white text-base mb-3">{title}</h3>
@@ -418,7 +418,7 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
           <Reveal>
             <div className="flex items-center gap-3 mb-3">
-              <span className="text-[#00696f] text-xs font-bold uppercase tracking-widest">Featured Services</span>
+              <span className="text-[#9a7a3e] text-xs font-bold uppercase tracking-widest">Featured Services</span>
               <span className="flex-1 h-px bg-[#E2E8F0] max-w-[60px]" />
             </div>
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
@@ -426,7 +426,7 @@ export default function HomePage() {
                 style={{ fontSize: 'clamp(1.4rem,3vw,2rem)', maxWidth: 520 }}>
                 Explore our top service capabilities.
               </h2>
-              <Link to="/services" className="inline-flex items-center gap-2 text-[#00696f] font-['JetBrains_Mono'] font-semibold text-sm shrink-0 hover:gap-3 transition-all">
+              <Link to="/services" className="inline-flex items-center gap-2 text-[#9a7a3e] font-['JetBrains_Mono'] font-semibold text-sm shrink-0 hover:gap-3 transition-all">
                 View all services <ArrowRight size={14} />
               </Link>
             </div>
@@ -438,7 +438,7 @@ export default function HomePage() {
                 if (!service) return null;
                 return (
                   <Reveal key={service._id} delay={idx * 60}>
-                    <article className="group border border-[#E2E8F0] bg-white overflow-hidden hover:border-[#166b7f] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 h-full">
+                    <article className="group border border-[#E2E8F0] bg-white overflow-hidden hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 h-full">
                       <div className="relative overflow-hidden bg-[#eceef0]" style={{ aspectRatio: '16/9' }}>
                         <div className="absolute top-3 left-3 z-10 font-['JetBrains_Mono'] text-[10px] font-bold text-white/60">
                           {String(idx + 1).padStart(2, '0')}
@@ -449,11 +449,11 @@ export default function HomePage() {
                             className="w-full h-full object-contain object-center transition-transform duration-500 group-hover:scale-105" />
                         </div>
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                          style={{ background: 'linear-gradient(to top,rgba(22,107,127,0.08),transparent)' }} />
+                          style={{ background: 'linear-gradient(to top,rgba(194, 159, 93,0.08),transparent)' }} />
                       </div>
                       <div className="p-4 flex items-center justify-between">
                         <h3 className="font-['JetBrains_Mono'] font-semibold text-sm text-[#0F172A] leading-snug">{service.title || 'Untitled service'}</h3>
-                        <ArrowUpRight size={14} className="shrink-0 text-[#E2E8F0] group-hover:text-[#00696f] transition-colors" />
+                        <ArrowUpRight size={14} className="shrink-0 text-[#E2E8F0] group-hover:text-[#9a7a3e] transition-colors" />
                       </div>
                     </article>
                   </Reveal>
@@ -464,10 +464,10 @@ export default function HomePage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {coreServices.map((svc, idx) => (
                 <Reveal key={svc} delay={idx * 60}>
-                  <article className="group flex items-center gap-4 border border-[#E2E8F0] bg-white p-5 hover:border-[#166b7f] hover:-translate-y-0.5 transition-all duration-300">
-                    <span className="font-['JetBrains_Mono'] text-xs font-bold text-[#00696f] shrink-0">{String(idx + 1).padStart(2, '0')}</span>
+                  <article className="group flex items-center gap-4 border border-[#E2E8F0] bg-white p-5 hover:border-[#c29f5d] hover:-translate-y-0.5 transition-all duration-300">
+                    <span className="font-['JetBrains_Mono'] text-xs font-bold text-[#9a7a3e] shrink-0">{String(idx + 1).padStart(2, '0')}</span>
                     <span className="font-['JetBrains_Mono'] font-semibold text-sm text-[#0F172A]">{svc}</span>
-                    <ArrowRight size={14} className="ml-auto shrink-0 text-[#E2E8F0] group-hover:text-[#00696f] group-hover:translate-x-1 transition-all" />
+                    <ArrowRight size={14} className="ml-auto shrink-0 text-[#E2E8F0] group-hover:text-[#9a7a3e] group-hover:translate-x-1 transition-all" />
                   </article>
                 </Reveal>
               ))}
@@ -482,7 +482,7 @@ export default function HomePage() {
           style={{ fontSize: 'clamp(6rem,18vw,14rem)', lineHeight: 1 }}>04</span>
         <Reveal>
           <div className="flex items-center gap-3 mb-3">
-            <span className="text-[#00696f] text-xs font-bold uppercase tracking-widest">Why Choose SriLin</span>
+            <span className="text-[#9a7a3e] text-xs font-bold uppercase tracking-widest">Why Choose SriLin</span>
             <span className="flex-1 h-px bg-[#E2E8F0] max-w-[60px]" />
           </div>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 md:mb-12">
@@ -490,7 +490,7 @@ export default function HomePage() {
               style={{ fontSize: 'clamp(1.4rem,3vw,2rem)', maxWidth: 520 }}>
               Built for electronics teams that need precision, speed, and accountability.
             </h2>
-            <Link to="/about-company" className="inline-flex items-center gap-2 text-[#00696f] font-semibold text-sm shrink-0 hover:gap-3 transition-all">
+            <Link to="/about-company" className="inline-flex items-center gap-2 text-[#9a7a3e] font-semibold text-sm shrink-0 hover:gap-3 transition-all">
               About us <ArrowRight size={14} />
             </Link>
           </div>
@@ -498,19 +498,19 @@ export default function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {whyChoose.map(({ icon: Icon, title, text }, idx) => (
             <Reveal key={title} delay={idx * 100}>
-              <article className="group relative border border-[#E2E8F0] bg-white p-6 sm:p-8 hover:border-[#166b7f] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 overflow-hidden h-full">
-                <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#166b7f] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+              <article className="group relative border border-[#E2E8F0] bg-white p-6 sm:p-8 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 overflow-hidden h-full">
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c29f5d] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 <div className="flex items-start justify-between mb-5">
                   <span className="inline-flex h-11 w-11 items-center justify-center bg-[#eceef0] group-hover:bg-teal-50 text-[#0F172A] transition-colors">
                     <Icon size={22} />
                   </span>
-                  <span className="font-['JetBrains_Mono'] text-xs font-bold text-[#E2E8F0] group-hover:text-[#166b7f] transition-colors">
+                  <span className="font-['JetBrains_Mono'] text-xs font-bold text-[#E2E8F0] group-hover:text-[#c29f5d] transition-colors">
                     {String(idx + 1).padStart(2, '0')}
                   </span>
                 </div>
                 <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] mb-3">{title}</h3>
                 <p className="text-sm leading-relaxed text-[#334155]">{text}</p>
-                <div className="mt-5 flex items-center gap-1.5 text-xs font-semibold text-[#00696f] opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-300">
+                <div className="mt-5 flex items-center gap-1.5 text-xs font-semibold text-[#9a7a3e] opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-300">
                   Learn more <ArrowRight size={12} />
                 </div>
               </article>
@@ -522,9 +522,9 @@ export default function HomePage() {
       {/* ══ SECTION 05 — INDUSTRIES ═══════════════════════════════ */}
       <section className="bg-[#0F172A] py-16 md:py-28 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none"
-          style={{ backgroundImage: 'linear-gradient(rgba(22,107,127,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(22,107,127,0.03) 1px,transparent 1px)', backgroundSize: '56px 56px' }} />
+          style={{ backgroundImage: 'linear-gradient(rgba(194, 159, 93,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(194, 159, 93,0.03) 1px,transparent 1px)', backgroundSize: '56px 56px' }} />
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle,rgba(22,107,127,0.06) 0%,transparent 70%)', transform: 'translate(30%,-30%)' }} />
+          style={{ background: 'radial-gradient(circle,rgba(194, 159, 93,0.06) 0%,transparent 70%)', transform: 'translate(30%,-30%)' }} />
         <span className="absolute -bottom-6 left-0 select-none pointer-events-none font-['JetBrains_Mono'] font-bold text-white opacity-[0.025]"
           style={{ fontSize: 'clamp(6rem,18vw,14rem)', lineHeight: 1 }}>05</span>
 
@@ -533,8 +533,8 @@ export default function HomePage() {
             <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 mb-10 md:mb-14">
               <div>
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#166b7f' }}>Industries Served</span>
-                  <span className="flex-1 h-px max-w-[60px]" style={{ background: 'rgba(22,107,127,0.2)' }} />
+                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#c29f5d' }}>Industries Served</span>
+                  <span className="flex-1 h-px max-w-[60px]" style={{ background: 'rgba(194, 159, 93,0.2)' }} />
                 </div>
                 <h2 className="font-['JetBrains_Mono'] font-bold text-white leading-tight"
                   style={{ fontSize: 'clamp(1.4rem,3vw,2rem)', maxWidth: 480 }}>
@@ -544,7 +544,7 @@ export default function HomePage() {
               <div className="shrink-0 border border-white/10 bg-white/5 px-6 py-5 flex flex-col gap-1 min-w-[180px]">
                 <strong className="font-['JetBrains_Mono'] font-bold text-3xl text-white">8</strong>
                 <span className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>Industry verticals</span>
-                <span className="text-xs mt-1" style={{ color: '#166b7f' }}>Aerospace to Medical</span>
+                <span className="text-xs mt-1" style={{ color: '#c29f5d' }}>Aerospace to Medical</span>
               </div>
             </div>
           </Reveal>
@@ -552,8 +552,8 @@ export default function HomePage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
             {industries.map(([industry, Icon], i) => (
               <Reveal key={industry} delay={i * 60}>
-                <article className="group flex flex-col items-start gap-3 border border-white/10 bg-white/5 p-4 sm:p-5 hover:border-[#166b7f]/50 hover:bg-white/10 transition-all duration-300 cursor-default h-full">
-                  <span className="inline-flex h-9 w-9 items-center justify-center bg-white/10 group-hover:bg-[#166b7f]/10 transition-colors" style={{ color: '#166b7f' }}>
+                <article className="group flex flex-col items-start gap-3 border border-white/10 bg-white/5 p-4 sm:p-5 hover:border-[#c29f5d]/50 hover:bg-white/10 transition-all duration-300 cursor-default h-full">
+                  <span className="inline-flex h-9 w-9 items-center justify-center bg-white/10 group-hover:bg-[#c29f5d]/10 transition-colors" style={{ color: '#c29f5d' }}>
                     <Icon size={18} />
                   </span>
                   <span className="text-white text-sm font-medium leading-snug">{industry}</span>
@@ -572,14 +572,14 @@ export default function HomePage() {
           <div className="flex flex-col lg:flex-row lg:items-start lg:gap-16">
             <Reveal className="lg:w-72 shrink-0 mb-10 lg:mb-0">
               <div className="flex items-center gap-3 mb-3">
-                <span className="text-[#00696f] text-xs font-bold uppercase tracking-widest">Performance Metrics</span>
+                <span className="text-[#9a7a3e] text-xs font-bold uppercase tracking-widest">Performance Metrics</span>
                 <span className="flex-1 h-px bg-[#E2E8F0] max-w-[40px]" />
               </div>
               <h2 className="font-['JetBrains_Mono'] font-bold text-[#0F172A] leading-tight mb-5"
                 style={{ fontSize: 'clamp(1.4rem,3vw,2rem)' }}>
                 Numbers that prove reliability, speed, and quality.
               </h2>
-              <Link to="/about-company" className="inline-flex items-center gap-2 text-sm font-semibold text-[#00696f] hover:gap-3 transition-all">
+              <Link to="/about-company" className="inline-flex items-center gap-2 text-sm font-semibold text-[#9a7a3e] hover:gap-3 transition-all">
                 Our story <ArrowRight size={14} />
               </Link>
             </Reveal>
@@ -587,16 +587,16 @@ export default function HomePage() {
             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
               {premiumStats.map((stat, i) => (
                 <Reveal key={stat.label} delay={i * 80}>
-                  <article className="group relative border border-[#E2E8F0] bg-white p-6 sm:p-8 overflow-hidden hover:border-[#166b7f]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 h-full">
+                  <article className="group relative border border-[#E2E8F0] bg-white p-6 sm:p-8 overflow-hidden hover:border-[#c29f5d]/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 h-full">
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                       style={{ background: 'linear-gradient(135deg,rgba(0,105,111,0.04) 0%,transparent 60%)' }} />
-                    <span className="block text-xs font-bold uppercase tracking-wider mb-3" style={{ color: '#00696f' }}>{stat.label}</span>
+                    <span className="block text-xs font-bold uppercase tracking-wider mb-3" style={{ color: '#9a7a3e' }}>{stat.label}</span>
                     <div className="font-['JetBrains_Mono'] font-bold text-[#0F172A]"
                       style={{ fontSize: 'clamp(2rem,5vw,3rem)', lineHeight: 1 }}>
                       <AnimatedNumber value={stat.value} />
                     </div>
                     <p className="mt-3 text-sm text-[#334155] leading-relaxed">{stat.detail}</p>
-                    <div className="absolute bottom-0 left-0 w-8 h-0.5 bg-[#166b7f] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                    <div className="absolute bottom-0 left-0 w-8 h-0.5 bg-[#c29f5d] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
                   </article>
                 </Reveal>
               ))}
@@ -615,7 +615,7 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
           <Reveal>
             <div className="flex items-center gap-3 mb-3">
-              <span className="text-[#00696f] text-xs font-bold uppercase tracking-widest">Client Testimonials</span>
+              <span className="text-[#9a7a3e] text-xs font-bold uppercase tracking-widest">Client Testimonials</span>
               <span className="flex-1 h-px bg-[#E2E8F0] max-w-[60px]" />
             </div>
             <h2 className="font-['JetBrains_Mono'] font-bold text-[#0F172A] leading-tight mb-10 md:mb-14"
@@ -627,11 +627,11 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {testimonials.map((t, i) => (
               <Reveal key={t.name} delay={i * 120}>
-                <article className="group relative border border-[#E2E8F0] bg-white p-7 sm:p-10 hover:border-[#00696f]/30 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 overflow-hidden h-full">
+                <article className="group relative border border-[#E2E8F0] bg-white p-7 sm:p-10 hover:border-[#9a7a3e]/30 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 overflow-hidden h-full">
                   <div className="absolute top-0 right-0 w-28 h-28 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-                    style={{ background: 'radial-gradient(circle at top right,rgba(22,107,127,0.06),transparent)' }} />
+                    style={{ background: 'radial-gradient(circle at top right,rgba(194, 159, 93,0.06),transparent)' }} />
                   <div className="font-['JetBrains_Mono'] font-bold leading-none select-none mb-4"
-                    style={{ fontSize: '5rem', color: '#00696f', opacity: 0.12, lineHeight: 0.8 }}>"</div>
+                    style={{ fontSize: '5rem', color: '#9a7a3e', opacity: 0.12, lineHeight: 0.8 }}>"</div>
                   <div className="flex gap-0.5 mb-4">
                     {[...Array(5)].map((_, si) => (
                       <svg key={si} width="14" height="14" viewBox="0 0 24 24" fill="#f59e0b"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -640,7 +640,7 @@ export default function HomePage() {
                   <p className="text-base leading-relaxed text-[#334155] mb-6">{t.quote}</p>
                   <div className="flex items-center gap-3 pt-5 border-t border-[#E2E8F0]">
                     <div className="flex items-center justify-center w-10 h-10 font-bold text-sm text-white font-['JetBrains_Mono'] shrink-0"
-                      style={{ background: 'linear-gradient(135deg,#00696f,#0F172A)' }}>
+                      style={{ background: 'linear-gradient(135deg,#9a7a3e,#0F172A)' }}>
                       {t.name[0]}
                     </div>
                     <div>
@@ -660,16 +660,16 @@ export default function HomePage() {
         <Reveal>
           <div className="relative bg-[#0F172A] overflow-hidden">
             <div className="absolute inset-0 pointer-events-none"
-              style={{ backgroundImage: 'linear-gradient(rgba(22,107,127,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(22,107,127,0.04) 1px,transparent 1px)', backgroundSize: '50px 50px' }} />
-            <div className="absolute left-0 top-0 bottom-0 w-1" style={{ background: 'linear-gradient(to bottom,transparent,#166b7f,transparent)' }} />
+              style={{ backgroundImage: 'linear-gradient(rgba(194, 159, 93,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(194, 159, 93,0.04) 1px,transparent 1px)', backgroundSize: '50px 50px' }} />
+            <div className="absolute left-0 top-0 bottom-0 w-1" style={{ background: 'linear-gradient(to bottom,transparent,#c29f5d,transparent)' }} />
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-32 pointer-events-none"
-              style={{ background: 'radial-gradient(ellipse,rgba(22,107,127,0.08) 0%,transparent 70%)', filter: 'blur(32px)' }} />
+              style={{ background: 'radial-gradient(ellipse,rgba(194, 159, 93,0.08) 0%,transparent 70%)', filter: 'blur(32px)' }} />
 
             <div className="relative px-6 sm:px-10 md:px-16 py-12 sm:py-16 md:py-20">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
                 <div className="flex flex-col gap-5 max-w-xl">
                   <span className="inline-flex items-center gap-2 self-start px-3 py-1 text-xs font-bold uppercase tracking-widest"
-                    style={{ color: '#166b7f', border: '1px solid rgba(22,107,127,0.3)', background: 'rgba(22,107,127,0.08)' }}>
+                    style={{ color: '#c29f5d', border: '1px solid rgba(194, 159, 93,0.3)', background: 'rgba(194, 159, 93,0.08)' }}>
                     <Sparkles size={11} /> Start a Conversation
                   </span>
                   <h2 className="font-['JetBrains_Mono'] font-bold text-white leading-tight"
@@ -683,7 +683,7 @@ export default function HomePage() {
                 <div className="flex flex-col gap-4 shrink-0">
                   <Link to="/contact-us"
                     className="inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-bold hover:opacity-90 hover:gap-3 transition-all"
-                    style={{ background: '#166b7f', color: '#0F172A' }}>
+                    style={{ background: '#c29f5d', color: '#0F172A' }}>
                     Contact SriLin <ArrowRight size={16} />
                   </Link>
                   <Link to="/services"
@@ -693,7 +693,7 @@ export default function HomePage() {
                   <div className="flex flex-wrap gap-3 mt-1">
                     {certificationBadges.slice(0, 2).map((cert) => (
                       <span key={cert} className="flex items-center gap-1.5 text-xs font-['JetBrains_Mono']" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                        <ShieldCheck size={10} style={{ color: '#166b7f' }} /> {cert}
+                        <ShieldCheck size={10} style={{ color: '#c29f5d' }} /> {cert}
                       </span>
                     ))}
                   </div>
@@ -708,7 +708,7 @@ export default function HomePage() {
       <div className="fixed bottom-6 right-4 sm:right-6 z-50">
         <Link to="/contact-us"
           className="inline-flex items-center gap-2 px-4 sm:px-5 py-3 text-xs sm:text-sm font-bold transition-all hover:opacity-90"
-          style={{ background: '#166b7f', color: '#0F172A', boxShadow: '0 4px 20px rgba(22,107,127,0.3)' }}>
+          style={{ background: '#c29f5d', color: '#0F172A', boxShadow: '0 4px 20px rgba(194, 159, 93,0.3)' }}>
           <Sparkles size={14} /> Request Quote
         </Link>
       </div>

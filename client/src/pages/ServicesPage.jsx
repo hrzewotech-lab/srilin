@@ -162,7 +162,7 @@ export default function ServicesPage() {
           <div className="max-w-2xl" style={{ animation: 'svcHeroIn 0.8s cubic-bezier(0.16,1,0.3,1) both' }}>
 
             {/* Badge */}
-            <span className="inline-block px-3 py-1 bg-[#166b7f] text-[#0F172A] text-xs font-bold uppercase tracking-widest mb-3 md:mb-4"
+            <span className="inline-block px-3 py-1 bg-[#c29f5d] text-[#0F172A] text-xs font-bold uppercase tracking-widest mb-3 md:mb-4"
               style={{ animation: 'svcHeroIn 0.6s 0.05s ease both' }}>
               High-Precision EMS
             </span>
@@ -179,7 +179,7 @@ export default function ServicesPage() {
                     <>
                       {typedHero}
                       {!heroDone && (
-                        <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#00dbe7', marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 0.75s step-end infinite' }} />
+                        <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#f0c27b', marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 0.75s step-end infinite' }} />
                       )}
                     </>
                   );
@@ -188,9 +188,9 @@ export default function ServicesPage() {
                 return (
                   <>
                     {plain}
-                    <span className="text-[#00dbe7]">{accentPart}</span>
+                    <span className="text-[#f0c27b]">{accentPart}</span>
                     {!heroDone && (
-                      <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#00dbe7', marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 0.75s step-end infinite' }} />
+                      <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#f0c27b', marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 0.75s step-end infinite' }} />
                     )}
                   </>
                 );
@@ -256,8 +256,8 @@ export default function ServicesPage() {
                             onClick={() => setActiveId(service._id)}
                             className={`group flex items-center justify-between gap-2 px-3 lg:p-4 py-2 border-l-4 font-['JetBrains_Mono'] text-xs md:text-sm transition-all ${
                               activeId === service._id
-                                ? 'bg-white border-[#00696f] text-[#00696f]'
-                                : 'bg-white lg:bg-transparent border-[#E2E8F0] lg:border-transparent text-[#334155] hover:border-[#00696f]/40 hover:bg-[#eceef0]'
+                                ? 'bg-white border-[#9a7a3e] text-[#9a7a3e]'
+                                : 'bg-white lg:bg-transparent border-[#E2E8F0] lg:border-transparent text-[#334155] hover:border-[#9a7a3e]/40 hover:bg-[#eceef0]'
                             }`}
                           >
                             <span className="truncate pr-1 max-w-[160px] lg:max-w-none">
@@ -280,7 +280,7 @@ export default function ServicesPage() {
                       </p>
                       <Link
                         to="/contact-us"
-                        className="flex items-center justify-center gap-2 w-full py-2.5 md:py-3 border border-[#00dbe7] text-[#00dbe7] text-xs md:text-sm font-['JetBrains_Mono'] font-semibold hover:bg-[#00dbe7] hover:text-[#0F172A] transition-all"
+                        className="flex items-center justify-center gap-2 w-full py-2.5 md:py-3 border border-[#f0c27b] text-[#f0c27b] text-xs md:text-sm font-['JetBrains_Mono'] font-semibold hover:bg-[#f0c27b] hover:text-[#0F172A] transition-all"
                       >
                         <Mail size={14} /> Contact Engineering
                       </Link>
@@ -302,7 +302,7 @@ export default function ServicesPage() {
                     <Reveal key={key} delay={index * 60}>
                       <article
                         id={`service-${service._id || index}`}
-                        className="group flex flex-col bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#166b7f] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full"
+                        className="group flex flex-col bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full"
                       >
                         {/* Image */}
                         <div className="h-36 sm:h-40 md:h-44 overflow-hidden relative bg-[#eceef0]">
@@ -319,7 +319,7 @@ export default function ServicesPage() {
                             />
                           </div>
                           {/* Teal top-border reveal on hover */}
-                          <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#00dbe7] scale-x-0 group-hover:scale-x-100 transition-transform duration-400 origin-left" />
+                          <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#f0c27b] scale-x-0 group-hover:scale-x-100 transition-transform duration-400 origin-left" />
                         </div>
 
                         {/* Body */}
@@ -335,7 +335,7 @@ export default function ServicesPage() {
                             <ul className="space-y-1.5 mb-3">
                               {bullets.slice(0, 2).map((bullet, bulletIndex) => (
                                 <li key={`${key}-bullet-${bulletIndex}`} className="flex items-start gap-1.5 text-xs text-[#44474d]">
-                                  <Sparkles size={12} className="text-[#00696f] mt-0.5 shrink-0" />
+                                  <Sparkles size={12} className="text-[#9a7a3e] mt-0.5 shrink-0" />
                                   <span className="line-clamp-1">{bullet}</span>
                                 </li>
                               ))}
@@ -345,7 +345,7 @@ export default function ServicesPage() {
                           {service._id && (
                             <Link
                               to={`/services/${service._id}`}
-                              className="mt-auto inline-flex items-center gap-1.5 text-[#00696f] font-['JetBrains_Mono'] font-semibold text-xs md:text-sm hover:gap-2.5 transition-all"
+                              className="mt-auto inline-flex items-center gap-1.5 text-[#9a7a3e] font-['JetBrains_Mono'] font-semibold text-xs md:text-sm hover:gap-2.5 transition-all"
                             >
                               View details
                               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />

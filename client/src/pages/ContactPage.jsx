@@ -118,11 +118,11 @@ export default function ContactPage() {
 
         <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 py-10 md:py-0">
           <div
-            className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6"
+            className="max-w-2xl border-l-2 border-[#c29f5d] pl-5 md:pl-6"
             style={{ animation: 'ctHeroIn 0.8s cubic-bezier(0.16,1,0.3,1) both' }}
           >
             <p
-              className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4"
+              className="text-[#c29f5d] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4"
               style={{ animation: 'ctHeroIn 0.6s 0.05s ease both' }}
             >
               Contact Us
@@ -140,7 +140,7 @@ export default function ContactPage() {
                   return (
                     <>
                       {typedHero}
-                      {!heroDone && <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#00dbe7', marginLeft: 4, verticalAlign: 'middle', animation: 'ctCursorBlink 0.75s step-end infinite' }} />}
+                      {!heroDone && <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#f0c27b', marginLeft: 4, verticalAlign: 'middle', animation: 'ctCursorBlink 0.75s step-end infinite' }} />}
                     </>
                   );
                 }
@@ -148,8 +148,8 @@ export default function ContactPage() {
                   <>
                     {plain.trim()}
                     <br />
-                    <span className="text-[#00dbe7]">{typedHero.slice(plain.length)}</span>
-                    {!heroDone && <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#00dbe7', marginLeft: 4, verticalAlign: 'middle', animation: 'ctCursorBlink 0.75s step-end infinite' }} />}
+                    <span className="text-[#f0c27b]">{typedHero.slice(plain.length)}</span>
+                    {!heroDone && <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#f0c27b', marginLeft: 4, verticalAlign: 'middle', animation: 'ctCursorBlink 0.75s step-end infinite' }} />}
                   </>
                 );
               })()}
@@ -166,17 +166,17 @@ export default function ContactPage() {
               className="flex flex-wrap gap-2.5 sm:gap-3"
               style={{ opacity: heroDone ? 1 : 0, transition: 'opacity 0.5s 0.15s ease' }}
             >
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#c29f5d]/30 text-[#ffd199] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <MessageSquare size={13} /> WhatsApp Enabled
               </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#c29f5d]/30 text-[#ffd199] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <Mail size={13} /> Direct Email Support
               </span>
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#166b7f]/60 via-[#166b7f]/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#c29f5d]/60 via-[#c29f5d]/10 to-transparent" />
       </section>
 
       {/* ── SPEC STRIP ── */}
@@ -185,7 +185,7 @@ export default function ContactPage() {
           <p className="text-white/50 text-[10px] sm:text-[11px] tracking-wide text-center sm:text-left">
             ISO 13485:2016 &nbsp;•&nbsp; IPC-A-610 CLASS 3 &nbsp;•&nbsp; AS9100D &nbsp;•&nbsp; IATF 16949
           </p>
-          <p className="text-[#166b7f] font-['JetBrains_Mono'] text-xs tracking-widest text-center sm:text-right">
+          <p className="text-[#c29f5d] font-['JetBrains_Mono'] text-xs tracking-widest text-center sm:text-right">
             SRILIN_CONTACT_24×7
           </p>
         </div>
@@ -195,7 +195,7 @@ export default function ContactPage() {
       <section className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20">
         <Reveal>
           <div className="mb-10">
-            <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#166b7f] pl-4">
+            <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#c29f5d] pl-4">
               Get in Touch
             </h2>
             <p className="text-[#44474d] mt-3 max-w-2xl">
@@ -209,9 +209,9 @@ export default function ContactPage() {
           {contactCards.map(({ icon: Icon, title, value, sub }, i) => (
             <Reveal key={title} delay={i * 100}>
               <div
-                className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#166b7f] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full"
+                className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full"
               >
-                <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#166b7f]/10 group-hover:text-[#00696f] transition-colors">
+                <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#c29f5d]/10 group-hover:text-[#9a7a3e] transition-colors">
                   <Icon size={22} strokeWidth={1.8} />
                 </div>
                 <div>
@@ -222,7 +222,7 @@ export default function ContactPage() {
                   <p className="text-xs text-[#64748b] leading-relaxed">{sub}</p>
                 </div>
                 <div className="mt-auto pt-4 border-t border-[#E2E8F0]">
-                  <span className="inline-block bg-[#0F172A] text-[#166b7f] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1">
+                  <span className="inline-block bg-[#0F172A] text-[#c29f5d] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1">
                     {title === 'Phone' ? 'Call Direct' : title === 'Email' ? 'Write to Us' : 'Visit Us'}
                   </span>
                 </div>
@@ -239,7 +239,7 @@ export default function ContactPage() {
               <h3 className="font-['JetBrains_Mono'] font-bold text-white text-base sm:text-lg">
                 Send Your Requirement
               </h3>
-              <span className="text-[#166b7f] font-['JetBrains_Mono'] text-xs tracking-widest hidden sm:block">
+              <span className="text-[#c29f5d] font-['JetBrains_Mono'] text-xs tracking-widest hidden sm:block">
                 VIA WHATSAPP
               </span>
             </div>
@@ -268,7 +268,7 @@ export default function ContactPage() {
                         onChange={handleChange}
                         placeholder={placeholder}
                         required
-                        className="w-full px-4 py-3 border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#166b7f] focus:ring-1 focus:ring-[#166b7f]/40 transition-colors bg-[#f7f9fb]"
+                        className="w-full px-4 py-3 border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#c29f5d] focus:ring-1 focus:ring-[#c29f5d]/40 transition-colors bg-[#f7f9fb]"
                       />
                     </Reveal>
                   ))}
@@ -290,7 +290,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       placeholder="Describe your product, production volume, or service requirement…"
                       required
-                      className="w-full px-4 py-3 border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#166b7f] focus:ring-1 focus:ring-[#166b7f]/40 transition-colors bg-[#f7f9fb] resize-vertical min-h-[140px]"
+                      className="w-full px-4 py-3 border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#c29f5d] focus:ring-1 focus:ring-[#c29f5d]/40 transition-colors bg-[#f7f9fb] resize-vertical min-h-[140px]"
                     />
                   </div>
                 </Reveal>
@@ -318,8 +318,8 @@ export default function ContactPage() {
 
       {/* ── CTA ── */}
       <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
-        <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/40 to-transparent hidden md:block" />
-        <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/20 to-transparent hidden md:block" />
+        <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#c29f5d]/40 to-transparent hidden md:block" />
+        <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#c29f5d]/20 to-transparent hidden md:block" />
 
         <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
           <Reveal className="max-w-lg">
@@ -334,7 +334,7 @@ export default function ContactPage() {
           <Reveal delay={120} className="flex flex-col sm:flex-row gap-3 shrink-0">
             <a
               href="mailto:info@srilinelectronics.com"
-              className="inline-flex items-center justify-center gap-2 bg-[#166b7f] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
+              className="inline-flex items-center justify-center gap-2 bg-[#c29f5d] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
             >
               <Mail size={15} /> Email Our Team
             </a>

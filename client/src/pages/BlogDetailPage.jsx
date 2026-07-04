@@ -109,7 +109,7 @@ export default function BlogDetailPage() {
         <div className="max-w-6xl mx-auto px-6 md:px-12">
           <Link
             to="/resources/blog"
-            className="inline-flex items-center gap-2 text-white/80 hover:text-[#166b7f] transition-colors text-sm font-semibold"
+            className="inline-flex items-center gap-2 text-white/80 hover:text-[#c29f5d] transition-colors text-sm font-semibold"
             style={{ animation: 'bdHeroIn 0.6s ease both' }}
           >
             <ArrowLeft size={16} /> Back to blog
@@ -150,7 +150,7 @@ export default function BlogDetailPage() {
                   display: 'inline-block',
                   width: 3,
                   height: '0.85em',
-                  background: '#166b7f',
+                  background: '#c29f5d',
                   marginLeft: 4,
                   verticalAlign: 'middle',
                   animation: 'bdCursorBlink 0.75s step-end infinite',
@@ -190,8 +190,8 @@ export default function BlogDetailPage() {
                 </div>
               </div>
               <div className="flex gap-3 pt-3 border-t border-[#E2E8F0]">
-                <Share2 size={16} className="text-[#00696f] cursor-pointer hover:text-[#0F172A] transition-colors" />
-                <Mail size={16} className="text-[#00696f] cursor-pointer hover:text-[#0F172A] transition-colors" />
+                <Share2 size={16} className="text-[#9a7a3e] cursor-pointer hover:text-[#0F172A] transition-colors" />
+                <Mail size={16} className="text-[#9a7a3e] cursor-pointer hover:text-[#0F172A] transition-colors" />
               </div>
             </div>
           </Reveal>
@@ -204,7 +204,7 @@ export default function BlogDetailPage() {
               </p>
               <Link
                 to="/contact-us"
-                className="block text-center bg-[#166b7f] text-[#0F172A] py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity"
+                className="block text-center bg-[#c29f5d] text-[#0F172A] py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity"
               >
                 Discuss this topic
               </Link>
@@ -215,14 +215,14 @@ export default function BlogDetailPage() {
         {/* Article body */}
         <article className="lg:col-span-9 order-1 lg:order-2">
           <Reveal>
-            <div className="flex items-center gap-2 mb-6 text-[#00696f]">
+            <div className="flex items-center gap-2 mb-6 text-[#9a7a3e]">
               <BookOpen size={20} />
               <span className="text-xs font-semibold uppercase tracking-wider">Article Overview</span>
             </div>
           </Reveal>
 
           <Reveal delay={80}>
-            <div className="p-6 md:p-8 bg-white border-l-4 border-[#00696f] border-y border-r border-[#E2E8F0]">
+            <div className="p-6 md:p-8 bg-white border-l-4 border-[#9a7a3e] border-y border-r border-[#E2E8F0]">
               <p className="font-['Inter'] text-base md:text-lg leading-relaxed text-[#334155] whitespace-pre-line">
                 {blog.description}
               </p>

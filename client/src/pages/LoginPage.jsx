@@ -126,7 +126,7 @@ export default function LoginPage() {
                     key={highlight}
                     className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/85 backdrop-blur-sm"
                   >
-                    <CheckCircle2 size={18} className="shrink-0 text-[#166b7f]" />
+                    <CheckCircle2 size={18} className="shrink-0 text-[#c29f5d]" />
                     <span>{highlight}</span>
                   </div>
                 ))}
@@ -135,7 +135,7 @@ export default function LoginPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
-                <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-[#166b7f]/10 text-[#166b7f]">
+                <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-[#c29f5d]/10 text-[#c29f5d]">
                   <KeyRound size={20} />
                 </div>
                 <p className="text-sm font-medium text-white">Role-based access</p>
@@ -145,7 +145,7 @@ export default function LoginPage() {
               </div>
 
               <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
-                <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-[#166b7f]/10 text-[#166b7f]">
+                <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-[#c29f5d]/10 text-[#c29f5d]">
                   <Building2 size={20} />
                 </div>
                 <p className="text-sm font-medium text-white">Company portal</p>
@@ -201,7 +201,7 @@ export default function LoginPage() {
                       value={form.email}
                       onChange={handleChange}
                       required
-                      className="h-12 w-full rounded-xl border border-[#E2E8F0] bg-[#f8fafc] px-4 text-sm text-[#0F172A] outline-none transition focus:border-[#166b7f] focus:bg-white focus:ring-4 focus:ring-[#166b7f]/10"
+                      className="h-12 w-full rounded-xl border border-[#E2E8F0] bg-[#f8fafc] px-4 text-sm text-[#0F172A] outline-none transition focus:border-[#c29f5d] focus:bg-white focus:ring-4 focus:ring-[#c29f5d]/10"
                     />
                   </div>
 
@@ -219,7 +219,7 @@ export default function LoginPage() {
                         value={form.password}
                         onChange={handleChange}
                         required
-                        className="h-12 w-full rounded-xl border border-[#E2E8F0] bg-[#f8fafc] px-4 pr-12 text-sm text-[#0F172A] outline-none transition focus:border-[#166b7f] focus:bg-white focus:ring-4 focus:ring-[#166b7f]/10"
+                        className="h-12 w-full rounded-xl border border-[#E2E8F0] bg-[#f8fafc] px-4 pr-12 text-sm text-[#0F172A] outline-none transition focus:border-[#c29f5d] focus:bg-white focus:ring-4 focus:ring-[#c29f5d]/10"
                       />
                       <button
                         type="button"
@@ -239,12 +239,12 @@ export default function LoginPage() {
                         type="checkbox"
                         checked={rememberMe}
                         onChange={(event) => setRememberMe(event.target.checked)}
-                        className="h-4 w-4 rounded border-[#cbd5e1] text-[#166b7f] focus:ring-[#166b7f]"
+                        className="h-4 w-4 rounded border-[#cbd5e1] text-[#c29f5d] focus:ring-[#c29f5d]"
                       />
                       <span>Remember me</span>
                     </label>
 
-                    <Link to="/contact-us" className="text-sm font-medium text-[#00696f] hover:text-[#0F172A]">
+                    <Link to="/contact-us" className="text-sm font-medium text-[#9a7a3e] hover:text-[#0F172A]">
                       Need help signing in?
                     </Link>
                   </div>
@@ -258,7 +258,7 @@ export default function LoginPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-[#166b7f] px-5 text-sm font-semibold text-[#0F172A] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-[#c29f5d] px-5 text-sm font-semibold text-[#0F172A] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {loading ? 'Signing in...' : 'Sign In'}
                   </button>
@@ -270,7 +270,7 @@ export default function LoginPage() {
                   </p>
                   <Link
                     to="/"
-                    className="inline-flex items-center gap-2 text-sm font-medium text-[#0F172A] hover:text-[#00696f]"
+                    className="inline-flex items-center gap-2 text-sm font-medium text-[#0F172A] hover:text-[#9a7a3e]"
                   >
                     <ArrowLeft size={16} />
                     Home

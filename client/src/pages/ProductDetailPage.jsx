@@ -109,7 +109,7 @@ export default function ProductDetailPage() {
       <div className="bg-[#0F172A] py-4" style={{ animation: 'detailFadeIn 0.4s ease both' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
           <Link to="/products"
-            className="inline-flex items-center gap-2 text-white/80 hover:text-[#166b7f] transition-colors text-sm font-semibold">
+            className="inline-flex items-center gap-2 text-white/80 hover:text-[#c29f5d] transition-colors text-sm font-semibold">
             <ArrowLeft size={16} /> Back to products
           </Link>
         </div>
@@ -123,8 +123,8 @@ export default function ProductDetailPage() {
 
           {/* Label */}
           <div className="flex items-center gap-3 mb-5" style={{ animation: 'detailFadeIn 0.5s 0.1s ease both' }}>
-            <span className="w-8 h-[2px] bg-[#00dbe7]" />
-            <span className="font-['JetBrains_Mono'] text-[#00dbe7] text-xs font-bold uppercase tracking-[0.15em]">
+            <span className="w-8 h-[2px] bg-[#f0c27b]" />
+            <span className="font-['JetBrains_Mono'] text-[#f0c27b] text-xs font-bold uppercase tracking-[0.15em]">
               Srilin Electronics — Product
             </span>
           </div>
@@ -134,7 +134,7 @@ export default function ProductDetailPage() {
             style={{ minHeight: '1.1em' }}>
             {typedTitle}
             {!titleDone && (
-              <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#00dbe7',
+              <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#f0c27b',
                 marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 0.75s step-end infinite' }} />
             )}
           </h1>
@@ -142,7 +142,7 @@ export default function ProductDetailPage() {
           {/* Badges — fade in after typing */}
           <div className="flex flex-wrap gap-2"
             style={{ opacity: titleDone ? 1 : 0, transform: titleDone ? 'none' : 'translateY(8px)', transition: 'opacity 0.5s ease, transform 0.5s ease' }}>
-            <span className="px-3 py-1 bg-[#166b7f]/20 text-[#00dbe7] text-xs font-['JetBrains_Mono'] font-bold uppercase tracking-widest border border-[#00dbe7]/30">
+            <span className="px-3 py-1 bg-[#c29f5d]/20 text-[#f0c27b] text-xs font-['JetBrains_Mono'] font-bold uppercase tracking-widest border border-[#f0c27b]/30">
               Srilin Product
             </span>
             <span className="px-3 py-1 bg-white/10 text-white/70 text-xs font-['JetBrains_Mono'] font-bold uppercase tracking-widest border border-white/20">
@@ -166,7 +166,7 @@ export default function ProductDetailPage() {
                 <img src={product.image?.url || '/image.png'} alt={product.name}
                   onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/image.png'; }}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                <div className="absolute top-0 left-0 w-1 h-full bg-[#00696f]" />
+                <div className="absolute top-0 left-0 w-1 h-full bg-[#9a7a3e]" />
               </div>
             </Reveal>
 
@@ -183,8 +183,8 @@ export default function ProductDetailPage() {
                   </div>
                 </div>
                 <div className="flex gap-3 pt-3 border-t border-[#E2E8F0]">
-                  <Share2 size={16} className="text-[#00696f] cursor-pointer hover:text-[#0F172A] transition-colors" />
-                  <Mail size={16} className="text-[#00696f] cursor-pointer hover:text-[#0F172A] transition-colors" />
+                  <Share2 size={16} className="text-[#9a7a3e] cursor-pointer hover:text-[#0F172A] transition-colors" />
+                  <Mail size={16} className="text-[#9a7a3e] cursor-pointer hover:text-[#0F172A] transition-colors" />
                 </div>
               </div>
             </Reveal>
@@ -198,7 +198,7 @@ export default function ProductDetailPage() {
                 </p>
                 <div className="flex flex-wrap gap-3 pt-1">
                   <Link to="/contact-us"
-                    className="inline-block bg-[#166b7f] text-[#0F172A] px-6 py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity">
+                    className="inline-block bg-[#c29f5d] text-[#0F172A] px-6 py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity">
                     Request this solution
                   </Link>
                   <Link to="/products"
@@ -215,10 +215,10 @@ export default function ProductDetailPage() {
 
             {/* Overview card */}
             <Reveal delay={60}>
-              <div className="bg-white border border-[#E2E8F0] shadow-sm hover:border-[#00696f]/30 transition-colors">
+              <div className="bg-white border border-[#E2E8F0] shadow-sm hover:border-[#9a7a3e]/30 transition-colors">
                 <div className="flex items-center gap-2 px-6 py-4 border-b border-[#E2E8F0]">
-                  <Boxes size={16} className="text-[#00696f]" />
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#00696f]">
+                  <Boxes size={16} className="text-[#9a7a3e]" />
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[#9a7a3e]">
                     Product Overview
                   </span>
                 </div>
@@ -235,17 +235,17 @@ export default function ProductDetailPage() {
               <Reveal delay={140}>
                 <div className="bg-white border border-[#E2E8F0] shadow-sm">
                   <div className="flex items-center gap-2 px-6 py-4 border-b border-[#E2E8F0]">
-                    <Sparkles size={16} className="text-[#00696f]" />
-                    <span className="text-xs font-semibold uppercase tracking-wider text-[#00696f]">
+                    <Sparkles size={16} className="text-[#9a7a3e]" />
+                    <span className="text-xs font-semibold uppercase tracking-wider text-[#9a7a3e]">
                       Key Highlights
                     </span>
                   </div>
                   <ul className="px-6 py-5 space-y-3">
                     {product.specifications.map((spec, i) => (
                       <Reveal key={spec} delay={i * 60}>
-                        <li className="flex items-start gap-3 p-3 border border-[#E2E8F0] hover:border-[#00696f] hover:bg-[#f7f9fb] transition-colors">
-                          <span className="mt-0.5 w-5 h-5 rounded-full bg-[#166b7f]/20 flex items-center justify-center shrink-0">
-                            <Sparkles size={11} className="text-[#00696f]" />
+                        <li className="flex items-start gap-3 p-3 border border-[#E2E8F0] hover:border-[#9a7a3e] hover:bg-[#f7f9fb] transition-colors">
+                          <span className="mt-0.5 w-5 h-5 rounded-full bg-[#c29f5d]/20 flex items-center justify-center shrink-0">
+                            <Sparkles size={11} className="text-[#9a7a3e]" />
                           </span>
                           <span className="text-[#334155] text-sm leading-relaxed">{spec}</span>
                         </li>

@@ -184,7 +184,7 @@ export default function FaqsPage() {
             style={{ animation: 'fqHeroIn 0.8s cubic-bezier(0.16,1,0.3,1) both' }}
           >
             <span
-              className="inline-block px-3 py-1 bg-[#166b7f] text-[#0F172A] text-xs font-bold uppercase tracking-widest mb-3 md:mb-4"
+              className="inline-block px-3 py-1 bg-[#c29f5d] text-[#0F172A] text-xs font-bold uppercase tracking-widest mb-3 md:mb-4"
               style={{ animation: 'fqHeroIn 0.6s 0.05s ease both' }}
             >
               Support Center
@@ -201,15 +201,15 @@ export default function FaqsPage() {
                   return (
                     <>
                       {typedHero}
-                      {!heroDone && <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#00dbe7', marginLeft: 4, verticalAlign: 'middle', animation: 'fqCursorBlink 0.75s step-end infinite' }} />}
+                      {!heroDone && <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#f0c27b', marginLeft: 4, verticalAlign: 'middle', animation: 'fqCursorBlink 0.75s step-end infinite' }} />}
                     </>
                   );
                 }
                 return (
                   <>
                     {plain}
-                    <span className="text-[#00dbe7]">{typedHero.slice(plain.length)}</span>
-                    {!heroDone && <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#00dbe7', marginLeft: 4, verticalAlign: 'middle', animation: 'fqCursorBlink 0.75s step-end infinite' }} />}
+                    <span className="text-[#f0c27b]">{typedHero.slice(plain.length)}</span>
+                    {!heroDone && <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#f0c27b', marginLeft: 4, verticalAlign: 'middle', animation: 'fqCursorBlink 0.75s step-end infinite' }} />}
                   </>
                 );
               })()}
@@ -232,7 +232,7 @@ export default function FaqsPage() {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#166b7f]/60 via-[#166b7f]/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#c29f5d]/60 via-[#c29f5d]/10 to-transparent" />
       </section>
 
       {/* MAIN LAYOUT */}
@@ -263,7 +263,7 @@ export default function FaqsPage() {
                     <Reveal key={key} delay={index * 60}>
                       <article
                         id={`faq-${faq._id || index}`}
-                        className="group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#166b7f] transition-colors duration-300"
+                        className="group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#c29f5d] transition-colors duration-300"
                       >
                         <button
                           type="button"
@@ -274,7 +274,7 @@ export default function FaqsPage() {
                         >
                           <div className="flex items-start gap-3">
                             <span className="w-10 h-10 flex items-center justify-center bg-[#eceef0] text-[#0F172A] shrink-0">
-                              <Sparkles size={16} className="text-[#00696f]" />
+                              <Sparkles size={16} className="text-[#9a7a3e]" />
                             </span>
                             <div>
                               <h3 className="font-['JetBrains_Mono'] font-semibold text-base md:text-lg text-[#0F172A] leading-snug">
@@ -288,7 +288,7 @@ export default function FaqsPage() {
 
                           <ChevronRight
                             size={18}
-                            className={`shrink-0 text-[#00696f] transition-transform duration-300 ${
+                            className={`shrink-0 text-[#9a7a3e] transition-transform duration-300 ${
                               isOpen ? 'rotate-90' : ''
                             }`}
                           />
@@ -301,7 +301,7 @@ export default function FaqsPage() {
                           }`}
                         >
                           <div className="px-4 md:px-5 pb-4 md:pb-5 pl-16 md:pl-[4.75rem]">
-                            <p className="text-sm md:text-base text-[#44474d] leading-relaxed border-l-2 border-[#166b7f] pl-4">
+                            <p className="text-sm md:text-base text-[#44474d] leading-relaxed border-l-2 border-[#c29f5d] pl-4">
                               {faq.answer || 'No answer provided.'}
                             </p>
                           </div>
@@ -326,7 +326,7 @@ export default function FaqsPage() {
                         type="button"
                         onClick={() => goToPage(currentPage - 1)}
                         disabled={currentPage === 1}
-                        className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-[#E2E8F0] bg-[#f7f9fb] text-[#0F172A] disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#166b7f] transition-colors"
+                        className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-[#E2E8F0] bg-[#f7f9fb] text-[#0F172A] disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#c29f5d] transition-colors"
                       >
                         <ChevronLeft size={16} />
                         Prev
@@ -341,7 +341,7 @@ export default function FaqsPage() {
                             className={`min-w-10 h-10 px-3 text-sm border transition-colors ${
                               currentPage === page
                                 ? 'bg-[#0F172A] text-white border-[#0F172A]'
-                                : 'bg-white text-[#0F172A] border-[#E2E8F0] hover:border-[#166b7f]'
+                                : 'bg-white text-[#0F172A] border-[#E2E8F0] hover:border-[#c29f5d]'
                             }`}
                           >
                             {page}
@@ -353,7 +353,7 @@ export default function FaqsPage() {
                         type="button"
                         onClick={() => goToPage(currentPage + 1)}
                         disabled={currentPage === totalPages}
-                        className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-[#E2E8F0] bg-[#f7f9fb] text-[#0F172A] disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#166b7f] transition-colors"
+                        className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-[#E2E8F0] bg-[#f7f9fb] text-[#0F172A] disabled:opacity-50 disabled:cursor-not-allowed hover:border-[#c29f5d] transition-colors"
                       >
                         Next
                         <ChevronRight size={16} />

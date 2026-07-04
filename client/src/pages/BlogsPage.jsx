@@ -115,10 +115,10 @@ export default function BlogsPage() {
           style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
 
         <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 py-10 md:py-0">
-          <div className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6"
+          <div className="max-w-2xl border-l-2 border-[#c29f5d] pl-5 md:pl-6"
             style={{ animation: 'blogsHeroIn 0.8s cubic-bezier(0.16,1,0.3,1) both' }}>
 
-            <p className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4"
+            <p className="text-[#c29f5d] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4"
               style={{ animation: 'blogsHeroIn 0.6s 0.05s ease both' }}>
               Engineering Journal
             </p>
@@ -128,7 +128,7 @@ export default function BlogsPage() {
               style={{ minHeight: '1.1em' }}>
               {typedHero}
               {!heroDone && (
-                <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#166b7f',
+                <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#c29f5d',
                   marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 0.75s step-end infinite' }} />
               )}
             </h1>
@@ -148,7 +148,7 @@ export default function BlogsPage() {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#166b7f]/60 via-[#166b7f]/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#c29f5d]/60 via-[#c29f5d]/10 to-transparent" />
       </section>
 
       {/* ══ CONTENT ═══════════════════════════════════════════════ */}
@@ -175,12 +175,12 @@ export default function BlogsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogs.map((blog, i) => (
               <Reveal key={blog._id} delay={i * 70}>
-                <article className="group bg-white border border-[#E2E8F0] hover:border-[#166b7f] transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1 hover:shadow-lg h-full">
+                <article className="group bg-white border border-[#E2E8F0] hover:border-[#c29f5d] transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1 hover:shadow-lg h-full">
                   <div className="h-48 overflow-hidden bg-[#eceef0] relative">
                     <img src={blog.image?.url || '/image.png'} alt={blog.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                     {/* Teal top-border on hover */}
-                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#166b7f] scale-x-0 group-hover:scale-x-100 transition-transform duration-400 origin-left" />
+                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c29f5d] scale-x-0 group-hover:scale-x-100 transition-transform duration-400 origin-left" />
                   </div>
                   <div className="p-6 flex flex-col gap-3 flex-1">
                     {blog.readTime && (
@@ -188,14 +188,14 @@ export default function BlogsPage() {
                         <Clock size={14} /> {blog.readTime}
                       </span>
                     )}
-                    <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] leading-snug group-hover:text-[#00696f] transition-colors">
+                    <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] leading-snug group-hover:text-[#9a7a3e] transition-colors">
                       {blog.title}
                     </h3>
                     <p className="text-sm text-[#44474d] line-clamp-3">
                       {blog.description}
                     </p>
                     <Link to={`/resources/blog/${blog._id}`}
-                      className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-[#00696f] hover:underline pt-2">
+                      className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-[#9a7a3e] hover:underline pt-2">
                       Read full article
                       <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                     </Link>

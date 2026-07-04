@@ -212,10 +212,10 @@ export default function AboutCompanyPage() {
         />
 
         <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 py-10 md:py-0">
-          <div className="max-w-2xl border-l-2 border-[#166b7f] pl-5 md:pl-6" style={{ animation: 'aboutHeroIn 0.8s cubic-bezier(0.16,1,0.3,1) both' }}>
+          <div className="max-w-2xl border-l-2 border-[#c29f5d] pl-5 md:pl-6" style={{ animation: 'aboutHeroIn 0.8s cubic-bezier(0.16,1,0.3,1) both' }}>
 
             {/* Section label */}
-            <p className="text-[#166b7f] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4"
+            <p className="text-[#c29f5d] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4"
               style={{ animation: 'aboutHeroIn 0.6s 0.1s ease both' }}>
               About Company
             </p>
@@ -228,7 +228,7 @@ export default function AboutCompanyPage() {
               {!heroDone && (
                 <span style={{
                   display: 'inline-block', width: 3, height: '0.85em',
-                  background: '#166b7f', marginLeft: 4, verticalAlign: 'middle',
+                  background: '#c29f5d', marginLeft: 4, verticalAlign: 'middle',
                   animation: 'cursorBlink 0.75s step-end infinite',
                 }} />
               )}
@@ -245,17 +245,17 @@ export default function AboutCompanyPage() {
             <div className="flex flex-wrap gap-2.5 sm:gap-3 transition-all duration-700"
               style={{ opacity: heroDone ? 1 : 0, transform: heroDone ? 'none' : 'translateY(8px)', transition: 'opacity 0.6s 0.15s ease, transform 0.6s 0.15s ease' }}
               aria-label="Srilin certifications">
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#c29f5d]/30 text-[#ffd199] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <CheckCircleIcon size={13} /> ISO &amp; AS9 Certified
               </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#166b7f]/30 text-[#74f5ff] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#c29f5d]/30 text-[#ffd199] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
                 <Building2 size={13} /> E-City EMC, Hyderabad
               </span>
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#166b7f]/60 via-[#166b7f]/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#c29f5d]/60 via-[#c29f5d]/10 to-transparent" />
       </section>
 
       {/* ══ INTRO + CERTS ════════════════════════════════════════ */}
@@ -264,7 +264,7 @@ export default function AboutCompanyPage() {
 
           {/* Body text */}
           <Reveal className="lg:col-span-2" delay={0}>
-            <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#166b7f] pl-4">
+            <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#c29f5d] pl-4">
               About Srilin
             </h2>
             <p className="text-[#44474d] mt-4 leading-relaxed">
@@ -325,9 +325,9 @@ export default function AboutCompanyPage() {
                 const Icon = stat.icon;
                 return (
                   <Reveal key={stat.label} delay={i * 80}>
-                    <article className="group relative overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#166b7f] hover:shadow-lg">
+                    <article className="group relative overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#c29f5d] hover:shadow-lg">
                       {/* Top accent bar on hover */}
-                      <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#166b7f] scale-x-0 group-hover:scale-x-100 transition-transform duration-400 origin-left rounded-t-2xl" />
+                      <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c29f5d] scale-x-0 group-hover:scale-x-100 transition-transform duration-400 origin-left rounded-t-2xl" />
                       <div className="flex items-start justify-between gap-3">
                         <div>
                           <strong className="block text-2xl font-['JetBrains_Mono'] text-[#0F172A] leading-tight">
@@ -425,9 +425,9 @@ export default function AboutCompanyPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {aboutHighlights.map(({ icon: Icon, title, meta, text }, i) => (
               <Reveal key={title} delay={i * 80}>
-                <article className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#166b7f] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full">
+                <article className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full">
                   <div className="flex items-start gap-3">
-                    <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#166b7f]/10 group-hover:text-[#00696f] transition-colors shrink-0">
+                    <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#c29f5d]/10 group-hover:text-[#9a7a3e] transition-colors shrink-0">
                       <Icon size={20} strokeWidth={1.8} />
                     </div>
                     <div>
@@ -445,8 +445,8 @@ export default function AboutCompanyPage() {
 
       {/* ══ CTA ══════════════════════════════════════════════════ */}
       <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
-        <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/40 to-transparent hidden md:block" />
-        <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#166b7f]/20 to-transparent hidden md:block" />
+        <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#c29f5d]/40 to-transparent hidden md:block" />
+        <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#c29f5d]/20 to-transparent hidden md:block" />
 
         <Reveal>
           <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
@@ -462,7 +462,7 @@ export default function AboutCompanyPage() {
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
               <a
                 href="mailto:info@srilinelectronics.com"
-                className="inline-flex items-center justify-center gap-2 bg-[#166b7f] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
+                className="inline-flex items-center justify-center gap-2 bg-[#c29f5d] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
               >
                 <Building2 size={15} /> Contact Sales
               </a>

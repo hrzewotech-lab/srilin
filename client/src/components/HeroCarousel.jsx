@@ -109,16 +109,16 @@ export default function HeroCarousel() {
 
       {/* ── Tech grid ── */}
       <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 3,
-        backgroundImage: 'linear-gradient(rgba(0,241,254,0.028) 1px,transparent 1px),linear-gradient(90deg,rgba(0,241,254,0.028) 1px,transparent 1px)',
+        backgroundImage: 'linear-gradient(rgba(212, 178, 111,0.028) 1px,transparent 1px),linear-gradient(90deg,rgba(212, 178, 111,0.028) 1px,transparent 1px)',
         backgroundSize: '64px 64px' }} />
 
       {/* ── Animated corner brackets ── */}
       <div className="absolute top-6 left-6 w-10 h-10 pointer-events-none" style={{ zIndex: 4,
-        borderTop: '2px solid rgba(0,241,254,0.3)', borderLeft: '2px solid rgba(0,241,254,0.3)' }} />
+        borderTop: '2px solid rgba(212, 178, 111,0.3)', borderLeft: '2px solid rgba(212, 178, 111,0.3)' }} />
       <div className="absolute top-6 right-6 w-10 h-10 pointer-events-none" style={{ zIndex: 4,
-        borderTop: '2px solid rgba(0,241,254,0.3)', borderRight: '2px solid rgba(0,241,254,0.3)' }} />
+        borderTop: '2px solid rgba(212, 178, 111,0.3)', borderRight: '2px solid rgba(212, 178, 111,0.3)' }} />
       <div className="absolute bottom-14 left-6 w-10 h-10 pointer-events-none" style={{ zIndex: 4,
-        borderBottom: '2px solid rgba(0,241,254,0.3)', borderLeft: '2px solid rgba(0,241,254,0.3)' }} />
+        borderBottom: '2px solid rgba(212, 178, 111,0.3)', borderLeft: '2px solid rgba(212, 178, 111,0.3)' }} />
 
       {/* ── Slide content ── */}
       <div className="relative flex flex-col justify-end h-full max-w-7xl mx-auto px-4 sm:px-8 md:px-12 pb-20 sm:pb-28" style={{ zIndex: 10 }}>
@@ -127,9 +127,9 @@ export default function HeroCarousel() {
           {/* Cert badge */}
           <div style={{ animation: 'heroSlideUp 0.6s 0.1s ease both' }}>
             <span className="inline-flex items-center gap-2 mb-5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest"
-              style={{ color: '#00f1fe', border: '1px solid rgba(0,241,254,0.35)', background: 'rgba(0,241,254,0.08)' }}>
+              style={{ color: '#d4b26f', border: '1px solid rgba(212, 178, 111,0.35)', background: 'rgba(212, 178, 111,0.08)' }}>
               <span className="inline-block w-1.5 h-1.5 rounded-full"
-                style={{ background: '#00f1fe', animation: 'hPulse 1.6s ease infinite' }} />
+                style={{ background: '#d4b26f', animation: 'hPulse 1.6s ease infinite' }} />
               <ShieldCheck size={11} />
               {activeSlide?.tag || 'AS9100D Certified EMS'}
             </span>
@@ -141,7 +141,7 @@ export default function HeroCarousel() {
             {typedTitle}
             {/* Blinking cursor while typing */}
             {!typeDone && (
-              <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#00f1fe',
+              <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#d4b26f',
                 marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 0.75s step-end infinite' }} />
             )}
           </h1>
@@ -168,7 +168,7 @@ export default function HeroCarousel() {
             }}>
             <a href="/contact-us"
               className="inline-flex items-center gap-2 text-sm font-bold px-7 py-3.5 transition-all duration-200 hover:opacity-90 hover:gap-3"
-              style={{ background: '#00f1fe', color: '#0F172A' }}>
+              style={{ background: '#d4b26f', color: '#0F172A' }}>
               Start a Project
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
@@ -199,7 +199,7 @@ export default function HeroCarousel() {
       {/* ── Progress bar ── */}
       <div className="absolute bottom-0 left-0 right-0 h-0.5" style={{ zIndex: 10, background: 'rgba(255,255,255,0.07)' }}>
         <div key={`p-${activeIndex}`} className="h-full"
-          style={{ background: 'linear-gradient(90deg,#00696f,#00f1fe)',
+          style={{ background: 'linear-gradient(90deg,#9a7a3e,#d4b26f)',
             animation: isPaused ? 'none' : 'progressFill 5.5s linear forwards' }} />
       </div>
 
@@ -216,13 +216,13 @@ export default function HeroCarousel() {
         <>
           <button type="button" onClick={() => setActiveIndex((p) => (p - 1 + slides.length) % slides.length)}
             aria-label="Previous slide"
-            className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 border border-white/20 text-white hover:border-[#00f1fe] hover:text-[#00f1fe] transition-all duration-200"
+            className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 border border-white/20 text-white hover:border-[#d4b26f] hover:text-[#d4b26f] transition-all duration-200"
             style={{ zIndex: 10 }}>
             <ChevronLeft size={20} />
           </button>
           <button type="button" onClick={() => setActiveIndex((p) => (p + 1) % slides.length)}
             aria-label="Next slide"
-            className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 border border-white/20 text-white hover:border-[#00f1fe] hover:text-[#00f1fe] transition-all duration-200"
+            className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-11 h-11 border border-white/20 text-white hover:border-[#d4b26f] hover:text-[#d4b26f] transition-all duration-200"
             style={{ zIndex: 10 }}>
             <ChevronRight size={20} />
           </button>
@@ -237,7 +237,7 @@ export default function HeroCarousel() {
               aria-label={`Show slide ${index + 1}`} aria-current={index === activeIndex ? 'true' : undefined}
               style={{
                 width: index === activeIndex ? 32 : 8, height: 4,
-                background: index === activeIndex ? '#00f1fe' : 'rgba(255,255,255,0.22)',
+                background: index === activeIndex ? '#d4b26f' : 'rgba(255,255,255,0.22)',
                 borderRadius: 2, border: 'none', padding: 0, cursor: 'pointer',
                 transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)',
               }} />

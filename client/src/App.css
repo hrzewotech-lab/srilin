@@ -6,11 +6,11 @@
 }
 
 :root {
-  --brand: #166b7f;
-  --brand-soft: rgba(22, 107, 127, 0.08);
-  --brand-muted: rgba(22, 107, 127, 0.16);
-  --brand-border: rgba(22, 107, 127, 0.24);
-  --brand-ring: rgba(22, 107, 127, 0.3);
+  --brand: #c29f5d;
+  --brand-soft: rgba(194, 159, 93, 0.08);
+  --brand-muted: rgba(194, 159, 93, 0.16);
+  --brand-border: rgba(194, 159, 93, 0.24);
+  --brand-ring: rgba(194, 159, 93, 0.3);
 }
 
 .navbar {
@@ -191,7 +191,7 @@
 
 .site-nav-link:hover,
 .site-nav-link.active {
-  color: #166b7f;
+  color: #c29f5d;
   transform: translateY(-1px);
 }
 
@@ -2406,7 +2406,7 @@ select:focus-visible,
   width: 0.35rem;
   height: 0.35rem;
   border-radius: 999px;
-  background: #166b7f;
+  background: #c29f5d;
 }
 
 .hero-carousel-copy {
@@ -2461,7 +2461,7 @@ select:focus-visible,
 }
 
 .hero-cta {
-  background: linear-gradient(135deg, #166b7f, #0f766e);
+  background: linear-gradient(135deg, #c29f5d, #0f766e);
   color: #071433;
 }
 
@@ -2564,7 +2564,7 @@ select:focus-visible,
 }
 
 .hero-dot.active {
-  background: #166b7f;
+  background: #c29f5d;
   transform: scale(1.2);
 }
 
@@ -7645,8 +7645,8 @@ select {
   --home-ink: #111827;
   --home-muted: #526173;
   --home-line: #dde6ef;
-  --home-cyan: #00dbe7;
-  --home-teal: #00696f;
+  --home-cyan: #f0c27b;
+  --home-teal: #9a7a3e;
   --home-red: #ef4e42;
   --home-soft: #f7f9fb;
   overflow: hidden;

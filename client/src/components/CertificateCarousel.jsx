@@ -1,228 +1,225 @@
-import { useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight, ShieldCheck, Award } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight, Award, ShieldCheck } from 'lucide-react';
 import api from '../api/axios';
 
-/* ── Fallback shown when API returns nothing (sandbox / graceful degradation) ── */
+/* ── Fallback certificates with real local images ── */
 const fallbackCertificates = [
-  { _id: 'fc-1', name: 'AS9100D',              subtitle: 'Aerospace Quality Management',   image: { url: null } },
-  { _id: 'fc-2', name: 'ISO 9001:2015',         subtitle: 'Quality Management System',       image: { url: null } },
-  { _id: 'fc-3', name: 'ANSI ESD S20.20 2021',  subtitle: 'Electrostatic Discharge Control', image: { url: null } },
-  { _id: 'fc-4', name: 'IEC 61340 5.1',         subtitle: 'ESD Protection Specification',    image: { url: null } },
+  { _id: 'fc-1', name: 'AS9100D',             subtitle: 'Aerospace Quality Management',   image: { url: '/certificate-01.jpg' } },
+  { _id: 'fc-2', name: 'ISO 9001:2015',        subtitle: 'Quality Management System',       image: { url: '/certificate-02.jpg' } },
+  { _id: 'fc-3', name: 'ANSI ESD S20.20 2021', subtitle: 'Electrostatic Discharge Control', image: { url: '/certificate-2026.jpg' } },
+  { _id: 'fc-4', name: 'IATF 16949',           subtitle: 'Automotive Quality Management',   image: { url: '/iatf-cert.jpg'        } },
 ];
 
 export default function CertificateCarousel() {
   const [certificates, setCertificates] = useState([]);
   const [activeIndex, setActiveIndex]   = useState(0);
   const [isPaused, setIsPaused]         = useState(false);
+  const [cardsToShow, setCardsToShow]   = useState(1);
+  const trackRef = useRef(null);
 
+  /* ── Load from API ── */
   useEffect(() => {
     let isMounted = true;
-    const loadCertificates = async () => {
+    (async () => {
       try {
-        const response = await api.get('/certificates');
-        if (isMounted) {
-          const loaded = (response.data.certificates || []).filter((c) => c.image?.url);
-          setCertificates(loaded.length ? loaded : fallbackCertificates);
-        }
+        const res = await api.get('/certificates');
+        const loaded = (res.data.certificates || []).filter((c) => c.image?.url);
+        if (isMounted) setCertificates(loaded.length ? loaded : fallbackCertificates);
       } catch {
         if (isMounted) setCertificates(fallbackCertificates);
       }
-    };
-    loadCertificates();
+    })();
     return () => { isMounted = false; };
   }, []);
 
+  /* ── Responsive cards to show listener ── */
   useEffect(() => {
-    if (certificates.length < 2 || isPaused) return undefined;
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % certificates.length);
-    }, 4500);
-    return () => window.clearInterval(timer);
-  }, [certificates.length, isPaused]);
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setCardsToShow(3);
+      } else if (window.innerWidth >= 768) {
+        setCardsToShow(2);
+      } else {
+        setCardsToShow(1);
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const total = certificates.length;
+  const maxIndex = Math.max(0, total - cardsToShow);
+
+  /* ── Auto-advance ── */
+  useEffect(() => {
+    if (total < 2 || isPaused) return;
+    const t = setInterval(() => {
+      setActiveIndex((p) => (p >= maxIndex ? 0 : p + 1));
+    }, 3500);
+    return () => clearInterval(t);
+  }, [total, isPaused, maxIndex]);
 
   if (!certificates.length) return null;
 
-  const showPrevious = () => setActiveIndex((c) => (c - 1 + certificates.length) % certificates.length);
-  const showNext     = () => setActiveIndex((c) => (c + 1) % certificates.length);
-
-  const cert = certificates[activeIndex];
+  const goTo = (i) => {
+    if (maxIndex <= 0) {
+      setActiveIndex(0);
+    } else {
+      setActiveIndex((i + maxIndex + 1) % (maxIndex + 1));
+    }
+  };
 
   return (
     <section
-      className="relative bg-[#0F172A] py-16 md:py-24 overflow-hidden"
+      className="relative bg-white py-16 md:py-24 overflow-hidden border-y border-[#E2E8F0]"
       aria-label="Quality certifications"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      onFocusCapture={() => setIsPaused(true)}
-      onBlurCapture={() => setIsPaused(false)}
     >
-      {/* Grid overlay */}
+      {/* subtle gold grid */}
       <div className="absolute inset-0 pointer-events-none"
-        style={{ backgroundImage: 'linear-gradient(rgba(212, 178, 111,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(212, 178, 111,0.03) 1px,transparent 1px)', backgroundSize: '56px 56px' }} />
-      {/* Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-64 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse,rgba(212, 178, 111,0.06) 0%,transparent 70%)', filter: 'blur(40px)' }} />
-      {/* Ghost section label */}
-      <span className="absolute -top-4 right-0 select-none pointer-events-none font-['JetBrains_Mono'] font-bold text-white opacity-[0.025]"
-        style={{ fontSize: 'clamp(6rem, 18vw, 14rem)', lineHeight: 1 }}>07</span>
+        style={{ backgroundImage: 'linear-gradient(rgba(194,159,93,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(194,159,93,0.04) 1px,transparent 1px)', backgroundSize: '56px 56px' }} />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
 
-        {/* Heading */}
+        {/* ── Heading row ── */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 md:mb-14">
           <div>
             <div className="flex items-center gap-3 mb-3">
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#d4b26f' }}>Quality Certifications</span>
-              <span className="flex-1 h-px max-w-[60px]" style={{ background: 'rgba(212, 178, 111,0.2)' }} />
+              <span className="text-xs font-bold uppercase tracking-widest text-[#9a7a3e]">Quality Certifications</span>
+              <span className="flex-1 h-px bg-[#E2E8F0] max-w-[60px]" />
             </div>
-            <h2 className="font-['JetBrains_Mono'] font-bold text-white leading-tight"
-              style={{ fontSize: 'clamp(1.3rem, 3vw, 1.9rem)', maxWidth: 480 }}>
+            <h2 className="font-['JetBrains_Mono'] font-bold text-[#0F172A] leading-tight"
+              style={{ fontSize: 'clamp(1.3rem,3vw,1.9rem)', maxWidth: 480 }}>
               Recognized standards behind dependable manufacturing.
             </h2>
-            <p className="mt-2 text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.45)', maxWidth: 440 }}>
+            <p className="mt-2 text-sm leading-relaxed text-[#64748b]" style={{ maxWidth: 440 }}>
               Certifications that support our commitment to consistent quality and production discipline.
             </p>
           </div>
 
-          {/* Cert count badge */}
-          <div className="shrink-0 border border-white/10 bg-white/5 px-5 py-4 flex items-center gap-3 self-start sm:self-auto">
-            <Award size={20} style={{ color: '#d4b26f' }} />
+          {/* count badge */}
+          <div className="shrink-0 border border-[#E2E8F0] bg-[#f7f9fb] px-5 py-4 flex items-center gap-3 self-start sm:self-auto">
+            <Award size={20} className="text-[#9a7a3e]" />
             <div>
-              <strong className="block font-['JetBrains_Mono'] text-white font-bold text-lg leading-none">
-                {certificates.length}
-              </strong>
-              <span className="text-xs mt-0.5 block" style={{ color: 'rgba(255,255,255,0.45)' }}>Active certifications</span>
+              <strong className="block font-['JetBrains_Mono'] text-[#0F172A] font-bold text-lg leading-none">{total}</strong>
+              <span className="text-xs mt-0.5 block text-[#64748b]">Active certifications</span>
             </div>
           </div>
         </div>
 
-        {/* Main carousel area */}
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 lg:items-stretch">
-
-          {/* Certificate card */}
-          <div className="flex-1 relative" aria-live="polite">
-            <div
-              key={cert._id || activeIndex}
-              className="border border-white/10 bg-white/5 overflow-hidden"
-              style={{ animation: 'certFadeIn 0.5s ease both', minHeight: 300 }}
-            >
-              {cert.image?.url ? (
-                /* Has image — show it */
-                <div className="relative h-56 sm:h-72 lg:h-80 bg-[#0a1121]">
-                  <img
-                    src={cert.image.url}
-                    alt={cert.name}
-                    className="w-full h-full object-contain p-6"
-                    style={{ filter: 'drop-shadow(0 0 24px rgba(212, 178, 111,0.08))' }}
-                  />
-                </div>
-              ) : (
-                /* No image — show premium cert card */
-                <div className="relative flex flex-col items-center justify-center px-8 py-14 sm:py-20 text-center"
-                  style={{ background: 'linear-gradient(135deg,rgba(212, 178, 111,0.04) 0%,rgba(0,105,111,0.06) 100%)' }}>
-                  {/* Decorative border corners */}
-                  <div className="absolute top-4 left-4 w-8 h-8 border-t border-l" style={{ borderColor: 'rgba(212, 178, 111,0.3)' }} />
-                  <div className="absolute top-4 right-4 w-8 h-8 border-t border-r" style={{ borderColor: 'rgba(212, 178, 111,0.3)' }} />
-                  <div className="absolute bottom-4 left-4 w-8 h-8 border-b border-l" style={{ borderColor: 'rgba(212, 178, 111,0.3)' }} />
-                  <div className="absolute bottom-4 right-4 w-8 h-8 border-b border-r" style={{ borderColor: 'rgba(212, 178, 111,0.3)' }} />
-
-                  <div className="inline-flex h-16 w-16 items-center justify-center border border-[#d4b26f]/30 bg-[#d4b26f]/5 mb-5">
-                    <ShieldCheck size={32} style={{ color: '#d4b26f' }} />
-                  </div>
-                  <strong className="font-['JetBrains_Mono'] font-bold text-white block leading-tight"
-                    style={{ fontSize: 'clamp(1.25rem, 3.5vw, 2rem)' }}>
-                    {cert.name}
-                  </strong>
-                  {cert.subtitle && (
-                    <span className="mt-2 block text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>{cert.subtitle}</span>
-                  )}
-                  <div className="mt-5 px-4 py-1.5 text-xs font-bold uppercase tracking-wider font-['JetBrains_Mono']"
-                    style={{ color: '#d4b26f', border: '1px solid rgba(212, 178, 111,0.25)', background: 'rgba(212, 178, 111,0.06)' }}>
-                    Certified
-                  </div>
-                </div>
-              )}
-
-              {/* Bottom label bar (always shown) */}
-              <div className="flex items-center gap-3 px-5 py-4 border-t border-white/10">
-                <ShieldCheck size={15} style={{ color: '#d4b26f', flexShrink: 0 }} />
-                <span className="font-['JetBrains_Mono'] font-semibold text-white text-sm leading-snug">{cert.name}</span>
-                <span className="ml-auto font-['JetBrains_Mono'] text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
-                  {String(activeIndex + 1).padStart(2, '0')} / {String(certificates.length).padStart(2, '0')}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right panel — cert list / thumbnails */}
-          <div className="lg:w-56 shrink-0 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible">
-            {certificates.map((c, index) => (
-              <button
-                key={c._id || index}
-                type="button"
-                onClick={() => setActiveIndex(index)}
-                aria-label={`Show certificate ${index + 1}: ${c.name}`}
-                aria-current={index === activeIndex ? 'true' : undefined}
-                className="flex-shrink-0 lg:flex-shrink text-left flex items-center gap-3 px-4 py-3 border transition-all duration-200"
-                style={{
-                  background: index === activeIndex ? 'rgba(212, 178, 111,0.08)' : 'rgba(255,255,255,0.03)',
-                  borderColor: index === activeIndex ? 'rgba(212, 178, 111,0.4)' : 'rgba(255,255,255,0.08)',
-                  minWidth: 160,
-                }}
+        {/* ── Slider track (overflow hidden window) ── */}
+        <div className="relative overflow-hidden" ref={trackRef}>
+          {/* sliding rail */}
+          <div
+            className="flex transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] gap-4 md:gap-6"
+            style={{ transform: `translateX(calc(-${activeIndex * (100 / cardsToShow)}% - ${activeIndex * (16 / cardsToShow)}px))` }}
+          >
+            {certificates.map((cert, i) => (
+              <div
+                key={cert._id || i}
+                className="shrink-0"
+                style={{ width: `calc(${100 / cardsToShow}% - ${(16 * (cardsToShow - 1)) / cardsToShow}px)` }}
+                aria-hidden={i < activeIndex || i >= activeIndex + cardsToShow}
               >
-                <div className="w-1.5 h-1.5 rounded-full shrink-0 transition-colors"
-                  style={{ background: index === activeIndex ? '#d4b26f' : 'rgba(255,255,255,0.2)' }} />
-                <span className="font-['JetBrains_Mono'] text-xs leading-snug font-medium"
-                  style={{ color: index === activeIndex ? '#fff' : 'rgba(255,255,255,0.4)' }}>
-                  {c.name}
-                </span>
-              </button>
+                {/* ── Card ── */}
+                <div className="border border-[#E2E8F0] bg-white overflow-hidden hover:border-[#c29f5d]/50 hover:shadow-xl transition-all duration-300 group h-full flex flex-col justify-between">
+
+                  {/* full certificate image */}
+                  <div className="relative bg-[#f8fafc] flex items-center justify-center flex-1"
+                    style={{ minHeight: 280, maxHeight: 380 }}>
+                    {cert.image?.url ? (
+                      <img
+                        src={cert.image.url}
+                        alt={cert.name}
+                        className="w-full h-full object-contain"
+                        style={{ maxHeight: 340, padding: '1.5rem', display: 'block' }}
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                      />
+                    ) : (
+                      <div className="flex flex-col items-center justify-center py-16 gap-4">
+                        <div className="inline-flex h-16 w-16 items-center justify-center border border-[#c29f5d]/30 bg-[#c29f5d]/05">
+                          <ShieldCheck size={32} className="text-[#c29f5d]" />
+                        </div>
+                        <span className="font-['JetBrains_Mono'] font-bold text-[#0F172A] text-xl">{cert.name}</span>
+                      </div>
+                    )}
+                    {/* gold top accent */}
+                    <div className="absolute top-0 left-0 right-0 h-1"
+                      style={{ background: 'linear-gradient(90deg,#c29f5d,#9a7a3e,transparent)' }} />
+                  </div>
+
+                  {/* name / subtitle label */}
+                  <div className="flex items-center gap-3 px-5 py-4 border-t border-[#E2E8F0] bg-white">
+                    <ShieldCheck size={16} className="text-[#9a7a3e] shrink-0" />
+                    <div className="flex flex-col">
+                      <span className="font-['JetBrains_Mono'] font-bold text-[#0F172A] text-xs md:text-sm leading-tight">{cert.name}</span>
+                      {cert.subtitle && (
+                        <span className="text-[10px] md:text-xs text-[#64748b] mt-0.5">{cert.subtitle}</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
 
-        {/* Progress bar */}
-        <div className="mt-6 h-px bg-white/5">
-          <div key={`cert-progress-${activeIndex}`} className="h-full"
+        {/* ── Progress bar ── */}
+        <div className="mt-8 h-0.5 bg-[#E2E8F0] overflow-hidden">
+          <div
+            key={`cp-${activeIndex}`}
+            className="h-full"
             style={{
-              background: '#d4b26f',
-              animation: isPaused ? 'none' : 'certProgress 4.5s linear forwards',
-            }} />
+              background: 'linear-gradient(90deg,#c29f5d,#9a7a3e)',
+              animation: isPaused ? 'none' : 'certProgress 3.5s linear forwards',
+            }}
+          />
         </div>
 
-        {/* Navigation */}
-        {certificates.length > 1 && (
-          <div className="flex items-center gap-4 mt-5">
-            <button type="button" onClick={showPrevious} aria-label="Previous certificate"
-              className="inline-flex items-center justify-center w-9 h-9 border border-white/15 text-white hover:border-[#d4b26f] hover:text-[#d4b26f] transition-colors">
-              <ChevronLeft size={18} />
+        {/* ── Controls row ── */}
+        {maxIndex > 0 && (
+          <div className="flex items-center justify-between mt-6">
+            {/* prev button */}
+            <button type="button" onClick={() => goTo(activeIndex - 1)} aria-label="Previous certificate"
+              className="inline-flex items-center justify-center w-10 h-10 border border-[#E2E8F0] bg-white text-[#334155] hover:border-[#c29f5d] hover:text-[#9a7a3e] transition-all">
+              <ChevronLeft size={20} />
             </button>
-            <div className="flex gap-2" aria-label="Choose a certificate">
-              {certificates.map((c, index) => (
-                <button key={c._id || index} type="button" onClick={() => setActiveIndex(index)}
-                  aria-label={`Certificate ${index + 1}`} aria-current={index === activeIndex ? 'true' : undefined}
+
+            {/* dot indicators */}
+            <div className="flex items-center gap-2">
+              {[...Array(maxIndex + 1)].map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => goTo(i)}
+                  aria-label={`Certificate Group ${i + 1}`}
+                  aria-current={i === activeIndex ? 'true' : undefined}
                   style={{
-                    width: index === activeIndex ? 24 : 7,
-                    height: 4,
-                    background: index === activeIndex ? '#d4b26f' : 'rgba(255,255,255,0.2)',
-                    borderRadius: 2,
+                    width:  i === activeIndex ? 28 : 8,
+                    height: 6,
+                    borderRadius: 3,
                     border: 'none',
                     padding: 0,
                     cursor: 'pointer',
-                    transition: 'all 0.3s',
-                  }} />
+                    background: i === activeIndex ? '#c29f5d' : 'rgba(194,159,93,0.25)',
+                    transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)',
+                  }}
+                />
               ))}
             </div>
-            <button type="button" onClick={showNext} aria-label="Next certificate"
-              className="inline-flex items-center justify-center w-9 h-9 border border-white/15 text-white hover:border-[#d4b26f] hover:text-[#d4b26f] transition-colors">
-              <ChevronRight size={18} />
+
+            {/* next button */}
+            <button type="button" onClick={() => goTo(activeIndex + 1)} aria-label="Next certificate"
+              className="inline-flex items-center justify-center w-10 h-10 border border-[#E2E8F0] bg-white text-[#334155] hover:border-[#c29f5d] hover:text-[#9a7a3e] transition-all">
+              <ChevronRight size={20} />
             </button>
           </div>
         )}
       </div>
 
       <style>{`
-        @keyframes certFadeIn   { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
         @keyframes certProgress { from { width:0%; } to { width:100%; } }
       `}</style>
     </section>

@@ -1,8 +1,9 @@
 const asyncHandler = require("express-async-handler");
 const Faq = require("../models/Faq");
+const { FAQ_CATEGORIES } = require("../models/Faq");
 
 const createFaq = asyncHandler(async (req, res) => {
-  const { question, answer, isActive } = req.body;
+  const { question, answer, category, isActive } = req.body;
 
   if (!question || !answer) {
     res.status(400);
@@ -12,6 +13,7 @@ const createFaq = asyncHandler(async (req, res) => {
   const faq = await Faq.create({
     question,
     answer,
+    category: category || "General",
     isActive: isActive === undefined ? true : isActive === "true" || isActive === true,
     createdBy: req.user._id,
   });
@@ -21,7 +23,8 @@ const createFaq = asyncHandler(async (req, res) => {
 
 const getFaqs = asyncHandler(async (req, res) => {
   const filter = req.query.all === "true" ? {} : { isActive: true };
-  const faqs = await Faq.find(filter).sort({ createdAt: -1 });
+  if (req.query.category) filter.category = req.query.category;
+  const faqs = await Faq.find(filter).sort({ category: 1, createdAt: -1 });
   res.status(200).json({ success: true, count: faqs.length, faqs });
 });
 
@@ -41,10 +44,11 @@ const updateFaq = asyncHandler(async (req, res) => {
     throw new Error("FAQ not found");
   }
 
-  const { question, answer, isActive } = req.body;
+  const { question, answer, category, isActive } = req.body;
 
   if (question) faq.question = question;
   if (answer !== undefined) faq.answer = answer;
+  if (category !== undefined) faq.category = category;
   if (isActive !== undefined) faq.isActive = isActive === "true" || isActive === true;
 
   await faq.save();
@@ -64,4 +68,8 @@ const deleteFaq = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, message: "FAQ deleted successfully" });
 });
 
-module.exports = { createFaq, getFaqs, getFaqById, updateFaq, deleteFaq };
+const getCategories = asyncHandler(async (req, res) => {
+  res.status(200).json({ success: true, categories: FAQ_CATEGORIES });
+});
+
+module.exports = { createFaq, getFaqs, getFaqById, updateFaq, deleteFaq, getCategories };

@@ -41,7 +41,25 @@ const getServices = asyncHandler(async (req, res) => {
 });
 
 const getServiceById = asyncHandler(async (req, res) => {
-  const service = await Service.findById(req.params.id);
+  let service;
+  const isValidObjectId = /^[0-9a-fA-F]{24}$/.test(req.params.id);
+  
+  if (isValidObjectId) {
+    service = await Service.findById(req.params.id);
+  }
+
+  if (!service) {
+    const slugify = (text) => text.toString().toLowerCase().trim()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '');
+
+    const services = await Service.find({});
+    service = services.find(s => slugify(s.title) === req.params.id);
+  }
+
   if (!service) {
     res.status(404);
     throw new Error("Service not found");

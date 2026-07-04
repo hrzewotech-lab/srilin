@@ -1,18 +1,22 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useMemo, useState } from 'react';
-import { CircleHelp, Eye, EyeOff } from 'lucide-react';
+import { CircleHelp, Eye, EyeOff, Tag } from 'lucide-react';
 import api from '../api/axios';
 import { AdminPagination, EmptyState, LoadingState, MiniStat } from '../components/AdminUi';
 import { paginateItems } from '../utils/adminPagination';
 
+const EMPTY_FORM = { question: '', answer: '', category: 'General', isActive: true };
+
 export default function AdminFaqs() {
   const [faqs, setFaqs] = useState([]);
-  const [form, setForm] = useState({ question: '', answer: '', isActive: true });
+  const [categories, setCategories] = useState(['General']);
+  const [form, setForm] = useState(EMPTY_FORM);
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [page, setPage] = useState(1);
+  const [filterCategory, setFilterCategory] = useState('All');
 
   const loadFaqs = async () => {
     setPageLoading(true);
@@ -28,6 +32,9 @@ export default function AdminFaqs() {
 
   useEffect(() => {
     loadFaqs();
+    api.get('/faqs/categories')
+      .then((res) => { if (res.data.categories) setCategories(res.data.categories); })
+      .catch(() => {});
   }, []);
 
   const stats = useMemo(() => ({
@@ -35,20 +42,24 @@ export default function AdminFaqs() {
     active: faqs.filter((faq) => faq.isActive).length,
     hidden: faqs.filter((faq) => !faq.isActive).length,
   }), [faqs]);
-  const { visibleItems, totalPages } = paginateItems(faqs, page, 8);
+
+  const filteredFaqs = useMemo(() =>
+    filterCategory === 'All' ? faqs : faqs.filter((f) => f.category === filterCategory),
+    [faqs, filterCategory]
+  );
+
+  const { visibleItems, totalPages } = paginateItems(filteredFaqs, page, 8);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
       if (editingId) {
         await api.put(`/faqs/${editingId}`, form);
       } else {
         await api.post('/faqs', form);
       }
-
-      setForm({ question: '', answer: '', isActive: true });
+      setForm(EMPTY_FORM);
       setEditingId(null);
       setMessage(editingId ? 'FAQ updated successfully' : 'FAQ added successfully');
       await loadFaqs();
@@ -61,7 +72,13 @@ export default function AdminFaqs() {
 
   const startEdit = (faq) => {
     setEditingId(faq._id);
-    setForm({ question: faq.question, answer: faq.answer, isActive: faq.isActive });
+    setForm({
+      question: faq.question,
+      answer: faq.answer,
+      category: faq.category || 'General',
+      isActive: faq.isActive,
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const toggleActive = async (faq) => {
@@ -85,6 +102,20 @@ export default function AdminFaqs() {
     }
   };
 
+  const categoryColors = {
+    'Embedded Hardware Design Services': '#3b82f6',
+    'Embedded Software Development Services': '#8b5cf6',
+    'ECAD Layout Services': '#06b6d4',
+    'PCB Manufacturing': '#10b981',
+    'Stencil Manufacturing Services': '#f59e0b',
+    'Component Sourcing Services': '#ef4444',
+    'Testing Services': '#ec4899',
+    'Laser Marking/ Laser Printing': '#f97316',
+    'Conformal Coating': '#84cc16',
+    'About Srilin': '#6366f1',
+    'General': '#64748b',
+  };
+
   return (
     <div className="admin-users-page">
       <section className="inner-stat-grid">
@@ -105,8 +136,44 @@ export default function AdminFaqs() {
         {message ? <div className="admin-alert">{message}</div> : null}
 
         <form className="admin-form hero-form" onSubmit={handleSubmit}>
-          <input placeholder="Question" value={form.question} onChange={(e) => setForm({ ...form, question: e.target.value })} required />
-          <textarea placeholder="Answer" rows="5" value={form.answer} onChange={(e) => setForm({ ...form, answer: e.target.value })} required />
+          <input
+            placeholder="Question"
+            value={form.question}
+            onChange={(e) => setForm({ ...form, question: e.target.value })}
+            required
+          />
+          <textarea
+            placeholder="Answer"
+            rows="5"
+            value={form.answer}
+            onChange={(e) => setForm({ ...form, answer: e.target.value })}
+            required
+          />
+
+          {/* Category select */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <label style={{ fontSize: 12, fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Category
+            </label>
+            <select
+              value={form.category}
+              onChange={(e) => setForm({ ...form, category: e.target.value })}
+              style={{
+                padding: '10px 12px',
+                border: '1px solid #E2E8F0',
+                borderRadius: 6,
+                fontSize: 14,
+                background: '#fff',
+                color: '#0F172A',
+                cursor: 'pointer',
+              }}
+            >
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </select>
+          </div>
+
           <div className="status-toggle-row">
             <button
               type="button"
@@ -121,7 +188,11 @@ export default function AdminFaqs() {
               {loading ? 'Saving...' : editingId ? 'Update FAQ' : 'Add FAQ'}
             </button>
             {editingId ? (
-              <button type="button" className="secondary-btn" onClick={() => { setEditingId(null); setForm({ question: '', answer: '', isActive: true }); }}>
+              <button
+                type="button"
+                className="secondary-btn"
+                onClick={() => { setEditingId(null); setForm(EMPTY_FORM); }}
+              >
                 Cancel
               </button>
             ) : null}
@@ -136,6 +207,39 @@ export default function AdminFaqs() {
             <h2>Question library</h2>
           </div>
         </div>
+
+        {/* Category filter tabs */}
+        {!pageLoading && faqs.length > 0 && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, padding: '12px 0 16px' }}>
+            {['All', ...categories].map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => { setFilterCategory(cat); setPage(1); }}
+                style={{
+                  padding: '5px 14px',
+                  border: '1px solid',
+                  borderRadius: 20,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                  borderColor: filterCategory === cat ? (categoryColors[cat] || '#0F172A') : '#E2E8F0',
+                  background: filterCategory === cat ? (categoryColors[cat] || '#0F172A') : '#fff',
+                  color: filterCategory === cat ? '#fff' : '#334155',
+                }}
+              >
+                {cat}
+                {cat !== 'All' && (
+                  <span style={{ marginLeft: 5, opacity: 0.7 }}>
+                    ({faqs.filter((f) => f.category === cat).length})
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
+
         {pageLoading ? <LoadingState label="Loading FAQs" /> : null}
         {!pageLoading && !faqs.length ? <EmptyState title="No FAQs yet" text="Add common questions to help visitors get answers quickly." /> : null}
         {!pageLoading && faqs.length ? (
@@ -144,7 +248,26 @@ export default function AdminFaqs() {
               {visibleItems.map((faq) => (
                 <div className="faq-item" key={faq._id}>
                   <div className="hero-card-top">
-                    <h3>{faq.question}</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                      <h3>{faq.question}</h3>
+                      {faq.category && (
+                        <span style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 4,
+                          fontSize: 11,
+                          fontWeight: 600,
+                          color: categoryColors[faq.category] || '#64748b',
+                          padding: '2px 8px',
+                          background: `${categoryColors[faq.category] || '#64748b'}18`,
+                          borderRadius: 10,
+                          width: 'fit-content',
+                        }}>
+                          <Tag size={10} />
+                          {faq.category}
+                        </span>
+                      )}
+                    </div>
                     <span className={`status-pill ${faq.isActive ? 'active' : 'inactive'}`}>
                       {faq.isActive ? 'Active' : 'Hidden'}
                     </span>

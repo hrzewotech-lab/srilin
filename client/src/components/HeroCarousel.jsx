@@ -75,8 +75,8 @@ export default function HeroCarousel() {
       onMouseLeave={() => setIsPaused(false)}
       onFocusCapture={() => setIsPaused(true)}
       onBlurCapture={() => setIsPaused(false)}
-      className="relative w-full overflow-hidden"
-      style={{ height: 'min(92vh, 760px)', minHeight: 500 }}
+      className="relative w-full overflow-hidden rounded-t-[20px] sm:rounded-t-[28px] border border-white/10"
+      style={{ height: 'min(75vh, 580px)', minHeight: 450, background: '#0a1224' }}
     >
       {/* ── Slide images — Ken Burns zoom ── */}
       <div aria-live="polite">
@@ -97,15 +97,20 @@ export default function HeroCarousel() {
               style={{
                 transform: index === activeIndex ? 'scale(1.06)' : 'scale(1)',
                 transition: 'transform 6s ease',
+                opacity: 0.78,
               }}
             />
           </div>
         ))}
       </div>
 
-      {/* ── Bottom gradient only — keeps text readable without dimming the image ── */}
-      <div className="absolute bottom-0 left-0 right-0 pointer-events-none" style={{ zIndex: 2, height: 340,
-        background: 'linear-gradient(to top, rgba(10,18,36,0.96) 0%, rgba(10,18,36,0.7) 40%, transparent 100%)' }} />
+      {/* ── Left side gradient overlay — keeps text readable ── */}
+      <div className="absolute inset-y-0 left-0 w-full md:w-3/4 pointer-events-none" style={{ zIndex: 2,
+        background: 'linear-gradient(90deg, rgba(10,18,36,0.96) 0%, rgba(10,18,36,0.8) 35%, rgba(10,18,36,0.2) 75%, transparent 100%)' }} />
+
+      {/* ── Bottom gradient only — keeps bottom controls readable ── */}
+      <div className="absolute bottom-0 left-0 right-0 pointer-events-none" style={{ zIndex: 2, height: 200,
+        background: 'linear-gradient(to top, rgba(10,18,36,0.96) 0%, rgba(10,18,36,0.6) 50%, transparent 100%)' }} />
 
       {/* ── Tech grid ── */}
       <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 3,
@@ -121,7 +126,7 @@ export default function HeroCarousel() {
         borderBottom: '2px solid rgba(212, 178, 111,0.3)', borderLeft: '2px solid rgba(212, 178, 111,0.3)' }} />
 
       {/* ── Slide content ── */}
-      <div className="relative flex flex-col justify-end h-full max-w-7xl mx-auto px-4 sm:px-8 md:px-12 pb-20 sm:pb-28" style={{ zIndex: 10 }}>
+      <div className="relative flex flex-col justify-end h-full w-full px-6 sm:px-12 md:px-16 pb-12 sm:pb-16" style={{ zIndex: 10 }}>
         <div style={{ animation: 'heroSlideUp 0.75s cubic-bezier(0.16,1,0.3,1) both', maxWidth: 680 }}>
 
           {/* Cert badge */}

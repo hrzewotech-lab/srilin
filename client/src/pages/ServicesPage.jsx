@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Settings, Sparkles, ChevronRight, Mail } from 'lucide-react';
 import api from '../api/axios';
+import { slugify } from '../utils/slugify';
 
 /* ════════════════════════════════════════════════════════════════
    ANIMATION UTILITIES  (same system as HomePage / AboutPage)
@@ -344,7 +345,7 @@ export default function ServicesPage() {
 
                           {service._id && (
                             <Link
-                              to={`/services/${service._id}`}
+                              to={`/services/${slugify(service.title)}`}
                               className="mt-auto inline-flex items-center gap-1.5 text-[#9a7a3e] font-['JetBrains_Mono'] font-semibold text-xs md:text-sm hover:gap-2.5 transition-all"
                             >
                               View details

@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { ChevronDown, Menu, X } from 'lucide-react';
+import api from '../api/axios';
+import { slugify } from '../utils/slugify';
 
-const navItems = [
+const baseNavItems = [
   { label: 'Home', path: '/' },
   {
     label: 'About Us',
@@ -15,7 +17,7 @@ const navItems = [
   },
   { label: 'Services', path: '/services' },
   { label: 'Design & Engineering', path: '/design-engineering' },
-  {label:'Industries', path:'/industries'},
+  { label: 'Industries', path: '/industries' },
   { label: 'Products', path: '/products' },
   { label: 'Infrastructure & Machinery', path: '/infrastructure-machinery' },
   {
@@ -29,10 +31,94 @@ const navItems = [
   { label: 'Contact Us', path: '/contact-us' },
 ];
 
+const languages = [
+  { code: 'en', name: 'English' },
+  { code: 'ar', name: 'العربية (Arabic)' },
+  { code: 'bn', name: 'বাংলা (Bengali)' },
+  { code: 'zh-CN', name: '中文 (Chinese)' },
+  { code: 'fr', name: 'Français (French)' },
+  { code: 'de', name: 'Deutsch (German)' },
+  { code: 'gu', name: 'ગુજરાતી (Gujarati)' },
+  { code: 'hi', name: 'हिन्दी (Hindi)' },
+  { code: 'kn', name: 'ಕನ್ನಡ (Kannada)' },
+  { code: 'ml', name: 'മലയാളം (Malayalam)' },
+  { code: 'mr', name: 'मराठी (Marathi)' },
+  { code: 'es', name: 'Español (Spanish)' },
+  { code: 'ta', name: 'தமிழ் (Tamil)' },
+  { code: 'te', name: 'తెలుగు (Telugu)' },
+];
+
 export default function Navbar() {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [expandedMenu, setExpandedMenu] = useState(null);
+  const [services, setServices] = useState([]);
+  const [activeLang, setActiveLang] = useState('en');
+  const [isLangOpen, setIsLangOpen] = useState(false);
+
+  useEffect(() => {
+    const getActiveLang = () => {
+      const match = document.cookie.match(/googtrans=\/en\/([^;]+)/);
+      return match ? match[1] : 'en';
+    };
+    setActiveLang(getActiveLang());
+
+    window.googleTranslateElementInit = () => {
+      new window.google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'ar,bn,zh-CN,fr,de,gu,hi,kn,ml,mr,es,ta,te',
+        layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    };
+
+    const scriptId = 'google-translate-script';
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement('script');
+      script.id = scriptId;
+      script.type = 'text/javascript';
+      script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, []);
+
+  const handleLanguageChange = (code) => {
+    if (code === 'en') {
+      document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname};`;
+    } else {
+      document.cookie = `googtrans=/en/${code}; path=/;`;
+      document.cookie = `googtrans=/en/${code}; path=/; domain=${window.location.hostname};`;
+    }
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+    api.get('/services')
+      .then((res) => {
+        if (isMounted) {
+          const list = Array.isArray(res?.data?.services) ? res.data.services : [];
+          setServices(list.filter((s) => s && s.isActive !== false));
+        }
+      })
+      .catch((err) => console.error('Navbar services fetch failed:', err));
+    return () => { isMounted = false; };
+  }, []);
+
+  const navItems = baseNavItems.map((item) => {
+    if (item.label === 'Services' && services.length > 0) {
+      return {
+        ...item,
+        children: services.map((s) => ({
+          label: s.title,
+          path: `/services/${slugify(s.title)}`,
+        })),
+      };
+    }
+    return item;
+  });
+
 
   useEffect(() => {
     setIsOpen(false);
@@ -128,6 +214,70 @@ export default function Navbar() {
         </nav>
       </header>
       <div className="site-header-spacer" aria-hidden="true" />
+
+      {/* Hidden container for Google Translate script callbacks */}
+      <div id="google_translate_element" style={{ display: 'none' }} />
+
+      {/* Premium custom Language floating Drop-up widget */}
+      <div className="fixed bottom-6 right-4 sm:right-6 z-50 font-sans">
+        <div className="relative">
+          {isLangOpen && (
+            <ul 
+              className="absolute bottom-full right-0 mb-2 w-48 sm:w-56 max-h-60 overflow-y-auto bg-[#0F172A] border border-[#c29f5d]/30 shadow-2xl py-1 rounded text-left z-50"
+              style={{ maxHeight: '280px', overflowY: 'auto' }}
+            >
+              {languages.map((lang) => (
+                <li key={lang.code}>
+                  <button
+                    type="button"
+                    onClick={() => handleLanguageChange(lang.code)}
+                    className={`w-full text-left px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors flex items-center justify-between ${
+                      activeLang === lang.code
+                        ? 'text-[#c29f5d] bg-[#c29f5d]/10'
+                        : 'text-white/80 hover:text-[#c29f5d] hover:bg-white/5'
+                    }`}
+                  >
+                    <span>{lang.name}</span>
+                    {activeLang === lang.code && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#c29f5d]" />
+                    )}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <button
+            type="button"
+            onClick={() => setIsLangOpen(!isLangOpen)}
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#0F172A] text-[#c29f5d] border border-[#c29f5d]/30 shadow-lg hover:border-[#c29f5d] transition-all rounded font-mono text-xs font-bold whitespace-nowrap"
+            style={{ boxShadow: '0 4px 20px rgba(194, 159, 93, 0.25)' }}
+          >
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+            <span>LANG: {languages.find(l => l.code === activeLang)?.name.split(' ')[0] || 'English'}</span>
+            <ChevronDown size={12} className={`transform transition-transform duration-200 ${isLangOpen ? 'rotate-180' : ''}`} />
+          </button>
+        </div>
+      </div>
+
+      <style>{`
+        /* Hide native Google Translate banner and elements completely */
+        .goog-te-banner-frame.skiptranslate,
+        .goog-te-banner,
+        .goog-te-balloon-frame,
+        #goog-gt-tt,
+        .goog-tooltip,
+        .goog-tooltip:hover {
+          display: none !important;
+        }
+        .goog-text-highlight {
+          background-color: transparent !important;
+          box-shadow: none !important;
+        }
+        body {
+          top: 0px !important;
+        }
+      `}</style>
     </>
   );
 }

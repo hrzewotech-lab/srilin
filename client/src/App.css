@@ -1944,7 +1944,7 @@ select:focus-visible,
 
 .footer-top {
   display: grid;
-  grid-template-columns: minmax(240px, 1.5fr) minmax(180px, 0.9fr) minmax(180px, 0.9fr) minmax(240px, 1.1fr);
+  grid-template-columns: minmax(240px, 1.3fr) minmax(140px, 0.7fr) minmax(180px, 0.9fr) minmax(140px, 0.7fr) minmax(240px, 1.1fr);
   gap: clamp(1.5rem, 3.5vw, 3rem);
   width: min(1260px, 100%);
   margin: 0 auto;

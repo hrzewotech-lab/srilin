@@ -186,9 +186,8 @@ function TestimonialCarouselSection() {
             {[current, testimonials[(currentIndex + 1) % testimonials.length]].map((item, idx) => (
               <div
                 key={idx}
-                className={`relative border border-[#E2E8F0] bg-white p-6 sm:p-8 hover:shadow-xl transition-all duration-300 min-h-[260px] flex flex-col justify-between ${
-                  idx === 1 ? 'hidden md:flex' : 'flex'
-                }`}
+                className={`relative border border-[#E2E8F0] bg-white p-6 sm:p-8 hover:shadow-xl transition-all duration-300 min-h-[260px] flex flex-col justify-between ${idx === 1 ? 'hidden md:flex' : 'flex'
+                  }`}
               >
                 <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'linear-gradient(90deg,#c29f5d,#9a7a3e,transparent)' }} />
 
@@ -440,25 +439,7 @@ export default function HomePage() {
           ))}
         </div>
 
-        {/* Core services strip */}
-        <Reveal delay={150}>
-          <div className="mt-4 flex flex-col gap-4 border border-[#E2E8F0] bg-white p-5 sm:p-6 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <p className="text-[#9a7a3e] text-xs font-bold uppercase tracking-widest">Core EMS Services</p>
-              <h3 className="mt-1.5 font-['JetBrains_Mono'] font-semibold text-base sm:text-lg text-[#0F172A]">
-                One-stop manufacturing support from design to box build.
-              </h3>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {coreServices.map((s) => (
-                <span key={s} className="inline-flex items-center gap-1.5 border border-[#E2E8F0] bg-[#f7f9fb] px-3 py-1.5 text-xs sm:text-sm font-medium text-[#334155] hover:border-[#9a7a3e]/40 hover:bg-white transition-colors">
-                  {s === 'SMT Mounting' || s === 'Embedded Design' ? <Cpu size={13} style={{ color: '#9a7a3e' }} /> : <Factory size={13} style={{ color: '#9a7a3e' }} />}
-                  {s}
-                </span>
-              ))}
-            </div>
-          </div>
-        </Reveal>
+
 
       </section>
 
@@ -523,43 +504,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ══ SECTION 04 — WHY CHOOSE ═══════════════════════════════ */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-16 md:py-28 overflow-hidden">
-        <Reveal>
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-[#9a7a3e] text-xs font-bold uppercase tracking-widest">Why Choose SriLin</span>
-            <span className="flex-1 h-px bg-[#E2E8F0] max-w-[60px]" />
-          </div>
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 md:mb-12">
-            <h2 className="font-['JetBrains_Mono'] font-bold text-[#0F172A] leading-tight"
-              style={{ fontSize: 'clamp(1.4rem,3vw,2rem)', maxWidth: 520 }}>
-              Built for electronics teams that need precision, speed, and accountability.
-            </h2>
-            <Link to="/about-company" className="inline-flex items-center gap-2 text-[#9a7a3e] font-semibold text-sm shrink-0 hover:gap-3 transition-all">
-              About us <ArrowRight size={14} />
-            </Link>
-          </div>
-        </Reveal>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-          {whyChoose.map(({ icon: Icon, title, text }, idx) => (
-            <Reveal key={title} delay={idx * 100}>
-              <article className="group relative border border-[#E2E8F0] bg-white p-6 sm:p-8 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 overflow-hidden h-full">
-                <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c29f5d] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-                <div className="flex items-start justify-between mb-5">
-                  <span className="inline-flex h-11 w-11 items-center justify-center bg-[#eceef0] group-hover:bg-teal-50 text-[#0F172A] transition-colors">
-                    <Icon size={22} />
-                  </span>
-                </div>
-                <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] mb-3">{title}</h3>
-                <p className="text-sm leading-relaxed text-[#334155]">{text}</p>
-                <div className="mt-5 flex items-center gap-1.5 text-xs font-semibold text-[#9a7a3e] opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-300">
-                  Learn more <ArrowRight size={12} />
-                </div>
-              </article>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+
 
       {/* ══ SECTION 05 — INDUSTRIES ═══════════════════════════════ */}
       <section className="bg-white py-16 md:py-28 relative overflow-hidden border-y border-[#E2E8F0]">
@@ -603,7 +548,43 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
+      {/* ══ SECTION 04 — WHY CHOOSE ═══════════════════════════════ */}
+      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-16 md:py-28 overflow-hidden">
+        <Reveal>
+          <div className="flex items-center gap-3 mb-3">
+            <span className="text-[#9a7a3e] text-xs font-bold uppercase tracking-widest">Why Choose SriLin</span>
+            <span className="flex-1 h-px bg-[#E2E8F0] max-w-[60px]" />
+          </div>
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 md:mb-12">
+            <h2 className="font-['JetBrains_Mono'] font-bold text-[#0F172A] leading-tight"
+              style={{ fontSize: 'clamp(1.4rem,3vw,2rem)', maxWidth: 520 }}>
+              Built for electronics teams that need precision, speed, and accountability.
+            </h2>
+            <Link to="/about-company" className="inline-flex items-center gap-2 text-[#9a7a3e] font-semibold text-sm shrink-0 hover:gap-3 transition-all">
+              About us <ArrowRight size={14} />
+            </Link>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+          {whyChoose.map(({ icon: Icon, title, text }, idx) => (
+            <Reveal key={title} delay={idx * 100}>
+              <article className="group relative border border-[#E2E8F0] bg-white p-6 sm:p-8 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 overflow-hidden h-full">
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c29f5d] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                <div className="flex items-start justify-between mb-5">
+                  <span className="inline-flex h-11 w-11 items-center justify-center bg-[#eceef0] group-hover:bg-teal-50 text-[#0F172A] transition-colors">
+                    <Icon size={22} />
+                  </span>
+                </div>
+                <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] mb-3">{title}</h3>
+                <p className="text-sm leading-relaxed text-[#334155]">{text}</p>
+                <div className="mt-5 flex items-center gap-1.5 text-xs font-semibold text-[#9a7a3e] opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-300">
+                  Learn more <ArrowRight size={12} />
+                </div>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
       {/* ══ CERTIFICATE CAROUSEL ══════════════════════════════════ */}
       <CertificateCarousel />

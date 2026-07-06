@@ -31,17 +31,14 @@ const industries = [
   ['Medical Devices', Activity],
 ];
 const testimonials = [
-  { quote: 'SriLin gives us the confidence of an engineering partner, not just a vendor. Their team understands production realities early.', name: 'Procurement Head', company: 'Industrial Controls Company' },
-  { quote: 'The project communication was clear, the build quality was consistent, and the delivery rhythm helped our launch stay on track.', name: 'Product Lead', company: 'Electronics Product Brand' },
-  { quote: 'SriLin\'s rapid prototyping capability cut our time-to-validation in half. From DFM feedback to first article in under 12 days — truly impressive.', name: 'Hardware Engineering Lead', company: 'Embedded IoT Startup' },
-  { quote: 'We scaled from prototype to mid-volume production without a single quality escape. SriLin\'s inspection rigour and documentation are second to none.', name: 'VP Operations', company: 'Electric Vehicle Supplier' },
-  { quote: 'The team\'s proactive communication and structured account management kept our complex multi-board program on track across three revisions.', name: 'Program Director', company: 'Defence Electronics Integrator' },
+  { quote: 'The seamless integration of Srilin team efforts with FICOSA’s requirements has been instrumental in achieving high-quality outcomes. Their responsiveness, technical expertise, and proactive approach have significantly enhanced the  collaboration. Srilin stands out as a model of professionalism, innovation and quality in the electronics manufacturing domain. ', name: 'Aravind', company: 'Technical Director, Ficosa' },
+  { quote: "Pixcellence greatly appreciates Srilin Team's unwavering commitment to delivering high-quality PCBAs, reliable on-time shipments, competitive BOM pricing and open communication. Your meticulous attention to detail and stringent quality control have significantly reduced defects and enhanced our operational efficiency. ", name: 'Huzaifa Najmi', company: 'President & CEO, Pixcellence Technologies' },
+  { quote: 'Working with Srilin Electronics has been a seamless experience. Their quality, reliability, and prompt support have consistently exceeded our expectations. Srilin is a trusted and talented EMS partner for any who chooses to engage their Electronics Manufacturing services. ', name: 'C S Rao', company: 'Chairman, Quadgen Wireless' }
 ];
 const aboutStats = [
-  { value: '2017', label: 'Established' },
-  { value: '25,000', label: 'Sqft current facility' },
-  { value: '214,000', label: 'Sqft expansion space' },
-  { value: 'ISO-8', label: 'Cleanroom class' },
+  { value: '149+', label: 'Clients Served' },
+  { value: '347+', label: 'Projects Delivered' },
+  { value: '9+', label: 'Years of Excellence' },
 ];
 const certificationBadges = ['ISO9001:2015', 'AS9100D', 'ANSI ESD S20.20 2021', 'IEC 61340 5.1'];
 const coreServices = ['Embedded Design', 'SMT Mounting', 'Product Integration', 'Testing', 'Box Build', 'Supply Chain Management'];
@@ -55,12 +52,12 @@ const aboutHighlights = [
   { icon: BadgeCheck, title: 'Quality First Approach', meta: '3D SPI, 3D AOI and X-ray systems', text: 'Multi-stage inspection with 3D SPI, 3D AOI, and X-ray systems for dependable output.' },
 ];
 const tickerItems = ['AS9100D Certified', 'ISO 9001:2015', 'ANSI ESD S20.20 2021', 'IEC 61340 5.1', '98% On-Time Delivery', '75+ Global Customers', '12-Day Prototype Cycle', 'ISO-8 Cleanroom Class', 'E-City EMC · Hyderabad', '214,000 Sqft Expansion Ready'];
-const quickFacts = [
-  { value: '2017', label: 'Year Founded', icon: Building2 },
-  { value: '98%', label: 'On-time Delivery', icon: TrendingUp },
-  { value: '75+', label: 'Global Customers', icon: Smile },
-  { value: '12 days', label: 'Prototype Cycle', icon: Zap },
-];
+// const quickFacts = [
+//   { value: '2017', label: 'Year Founded', icon: Building2 },
+//   { value: '98%', label: 'On-time Delivery', icon: TrendingUp },
+//   { value: '149+', label: 'Global Customers', icon: Smile },
+//   { value: '12 days', label: 'Prototype Cycle', icon: Zap },
+// ];
 
 
 /* ════════════════════════════════════════════════════════════════
@@ -326,7 +323,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ══ QUICK FACTS STRIP ═════════════════════════════════════ */}
+      {/* ══ QUICK FACTS STRIP ═════════════════════════════════════
       <section className="bg-white border-b border-[#E2E8F0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
           <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-[#E2E8F0]">
@@ -347,7 +344,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ══ SECTION 01 — ABOUT ════════════════════════════════════ */}
       <section className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-16 md:py-28 overflow-hidden">

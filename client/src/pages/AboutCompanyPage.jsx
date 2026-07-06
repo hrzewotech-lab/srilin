@@ -15,10 +15,10 @@ import {
    STATIC DATA — all original arrays unchanged
    ════════════════════════════════════════════════════════════════ */
 const aboutStats = [
-  { value: '2017',    label: 'Established',          icon: BadgeCheck  },
-  { value: '25,000',  label: 'Sqft current facility', icon: Building2   },
-  { value: '214,000', label: 'Sqft expansion space',  icon: TrendingUp  },
-  { value: '18+',     label: 'Years in EMS',          icon: ShieldCheck },
+  { value: '2017', label: 'Established', icon: BadgeCheck },
+  { value: '25,000', label: 'Sqft current facility', icon: Building2 },
+  { value: '214,000', label: 'Sqft expansion space', icon: TrendingUp },
+  { value: '9+', label: 'Years ', icon: ShieldCheck },
 ];
 
 const featuredStat = {
@@ -85,7 +85,7 @@ const aboutHighlights = [
 /** Types out text character by character. Returns [displayedText, isDone]. */
 function useTypewriter(text, speed = 42) {
   const [typed, setTyped] = useState('');
-  const [done, setDone]   = useState(false);
+  const [done, setDone] = useState(false);
   useEffect(() => {
     setTyped('');
     setDone(false);
@@ -133,7 +133,7 @@ function Reveal({ children, delay = 0, y = 26, className = '', style = {} }) {
 
 /** Counts a numeric string (e.g. '25,000', '18+') up from zero when scrolled into view. */
 function AnimatedNumber({ value, className = '', style = {} }) {
-  const ref     = useRef(null);
+  const ref = useRef(null);
   const started = useRef(false);
   const [display, setDisplay] = useState(value);
 
@@ -145,14 +145,14 @@ function AnimatedNumber({ value, className = '', style = {} }) {
     // Skip values containing '/' (e.g. '4.9/5')
     if (String(value).includes('/')) { setDisplay(value); return; }
 
-    const raw      = String(value).replace(/[^0-9.]/g, '');
-    const num      = parseFloat(raw);
+    const raw = String(value).replace(/[^0-9.]/g, '');
+    const num = parseFloat(raw);
     if (isNaN(num)) { setDisplay(value); return; }
 
-    const suffix     = String(value).replace(/^[\d,. ]+/, '');
-    const hasComma   = String(value).includes(',');
+    const suffix = String(value).replace(/^[\d,. ]+/, '');
+    const hasComma = String(value).includes(',');
     const hasDecimal = String(value).replace(suffix, '').includes('.');
-    const decimals   = hasDecimal ? (String(value).replace(suffix, '').split('.')[1]?.length ?? 1) : 0;
+    const decimals = hasDecimal ? (String(value).replace(suffix, '').split('.')[1]?.length ?? 1) : 0;
 
     const obs = new IntersectionObserver(([e]) => {
       if (e.isIntersecting && !started.current) {
@@ -162,14 +162,14 @@ function AnimatedNumber({ value, className = '', style = {} }) {
         const dur = 2000;
         const tick = (ts) => {
           if (!t0) t0 = ts;
-          const p     = Math.min((ts - t0) / dur, 1);
+          const p = Math.min((ts - t0) / dur, 1);
           const eased = 1 - (1 - p) ** 3;
-          const cur   = eased * num;
-          const fmt   = hasDecimal
+          const cur = eased * num;
+          const fmt = hasDecimal
             ? cur.toFixed(decimals)
             : hasComma
-            ? Math.floor(cur).toLocaleString()
-            : Math.floor(cur).toString();
+              ? Math.floor(cur).toLocaleString()
+              : Math.floor(cur).toString();
           setDisplay(fmt + suffix);
           if (p < 1) requestAnimationFrame(tick);
         };

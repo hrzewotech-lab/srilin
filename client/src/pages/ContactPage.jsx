@@ -7,7 +7,7 @@ import { Mail, MapPin, Phone, Send, MessageSquare } from 'lucide-react';
 
 function useTypewriter(text, speed = 40) {
   const [typed, setTyped] = useState('');
-  const [done, setDone]   = useState(false);
+  const [done, setDone] = useState(false);
   useEffect(() => {
     setTyped(''); setDone(false);
     if (!text) return;
@@ -81,7 +81,7 @@ export default function ContactPage() {
     {
       icon: Mail,
       title: 'Email',
-      value: 'info@srilinelectronics.com',
+      value: 'sales@srilinelectronics.com',
       sub: 'We reply within one business day',
     },
     {
@@ -92,7 +92,7 @@ export default function ContactPage() {
     },
   ];
 
-  const heroText              = 'Talk to SriLin. Start Building.';
+  const heroText = 'Talk to SriLin. Start Building.';
   const [typedHero, heroDone] = useTypewriter(heroText, 40);
 
   return (
@@ -134,7 +134,7 @@ export default function ContactPage() {
               style={{ minHeight: '2.4em' }}
             >
               {(() => {
-                const plain  = 'Talk to SriLin. ';
+                const plain = 'Talk to SriLin. ';
                 const accent = 'Start Building.';
                 if (typedHero.length <= plain.length) {
                   return (
@@ -248,10 +248,10 @@ export default function ContactPage() {
               <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
                   {[
-                    { id: 'name',    label: 'Full Name',     type: 'text',  placeholder: 'Your name' },
-                    { id: 'email',   label: 'Email Address', type: 'email', placeholder: 'Your email' },
-                    { id: 'phone',   label: 'Phone Number',  type: 'tel',   placeholder: 'Your phone number' },
-                    { id: 'subject', label: 'Subject',       type: 'text',  placeholder: 'e.g. PCB Assembly Inquiry' },
+                    { id: 'name', label: 'Full Name', type: 'text', placeholder: 'Your name' },
+                    { id: 'email', label: 'Email Address', type: 'email', placeholder: 'Your email' },
+                    { id: 'phone', label: 'Phone Number', type: 'tel', placeholder: 'Your phone number' },
+                    { id: 'subject', label: 'Subject', type: 'text', placeholder: 'e.g. PCB Assembly Inquiry' },
                   ].map(({ id, label, type, placeholder }, i) => (
                     <Reveal key={id} delay={i * 60} y={14} className="flex flex-col gap-2">
                       <label

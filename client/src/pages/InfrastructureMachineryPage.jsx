@@ -10,6 +10,12 @@ import {
   CheckCircle2,
   ArrowRight,
   Wrench,
+  RefreshCw,
+  Droplet,
+  Activity,
+  Tag,
+  Power,
+  Binary,
 } from 'lucide-react';
 
 /* ════════════════════════════════════════════════════════════════
@@ -18,7 +24,7 @@ import {
 
 function useTypewriter(text, speed = 40) {
   const [typed, setTyped] = useState('');
-  const [done, setDone]   = useState(false);
+  const [done, setDone] = useState(false);
   useEffect(() => {
     setTyped(''); setDone(false);
     if (!text) return;
@@ -58,20 +64,20 @@ function Reveal({ children, delay = 0, y = 26, className = '', style = {} }) {
 }
 
 function AnimatedNumber({ value, className = '', style = {} }) {
-  const ref     = useRef(null);
+  const ref = useRef(null);
   const started = useRef(false);
   const [display, setDisplay] = useState(value);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     if (!/^\d/.test(String(value))) { setDisplay(value); return; }
-    const raw      = String(value).replace(/[^0-9.]/g, '');
-    const num      = parseFloat(raw);
+    const raw = String(value).replace(/[^0-9.]/g, '');
+    const num = parseFloat(raw);
     if (isNaN(num)) { setDisplay(value); return; }
-    const suffix     = String(value).replace(/^[\d,. ]+/, '');
-    const hasComma   = String(value).includes(',');
+    const suffix = String(value).replace(/^[\d,. ]+/, '');
+    const hasComma = String(value).includes(',');
     const hasDecimal = String(value).replace(suffix, '').includes('.');
-    const decimals   = hasDecimal ? (String(value).replace(suffix,'').split('.')[1]?.length ?? 1) : 0;
+    const decimals = hasDecimal ? (String(value).replace(suffix, '').split('.')[1]?.length ?? 1) : 0;
     const obs = new IntersectionObserver(([e]) => {
       if (e.isIntersecting && !started.current) {
         started.current = true; obs.unobserve(el);
@@ -100,7 +106,7 @@ const capabilityStats = [
   { value: '1,95,500+', label: 'Combined pick & place CPH capacity' },
   { value: '01005', label: 'Fine-pitch component support' },
   { value: '10-Zone', label: 'Nitrogen-ready reflow oven' },
-  { value: '3D SPI + AOI', label: 'Closed-loop inspection coverage' },
+  { value: '3D SPI + 3D AOI', label: 'Closed-loop inspection coverage' },
 ];
 
 const processFlow = [
@@ -116,80 +122,199 @@ const equipment = [
   {
     title: 'Solder Paste Printer',
     eyebrow: 'Fuji GPX-CII',
-    image: '/machinery-img1.png',
+    image: '/machinery-img6.png',
     icon: Layers,
-    tag: 'Paste Printing',
-    summary: 'Automated solder paste and glue printing for repeatable SMT production with closed-loop SPI feedback.',
-    specs: ['48×48 mm to 610×610 mm', '±0.010 mm accuracy', '6.0s cycle time'],
-    details: ['Auto paste dispenser', 'Dry + wet + vacuum stencil cleaning', 'SPI closed-loop feedback'],
+    category: 'Printing Stage',
+    tag: 'Solder Paste Printer - Printed circuit board manufacturing India',
+    summary: 'Fuji - GPX-CII Automated Solder Paste/Glue Printer designed for printed circuit board manufacturing in India.',
+    specs: ['48×48 mm to 610×610 mm', 'Alignment: ±0.010 mm, 6σ [CpK≥2.0]', 'Wet Accuracy: ±0.018 mm, 6σ [CpK≥2.0]'],
+    details: [
+      'Printer Cycle time: 6.0 seconds (including panel loading, unloading, mark reading, mask alignment)',
+      'Auto Paste Dispenser JAR type with Solder Roll Dia Check function',
+      'Stencil Cleaning: Dry + Wet + Vacuum',
+      'SPI Closed loop function',
+      'Local Verifier - with Handy Barcode Scanner',
+      'Automatic width adjustment',
+    ],
   },
   {
     title: '3D Solder Paste Inspection',
     eyebrow: 'Koh Young KY8080-L',
-    image: '/machinery-img2.png',
+    image: '/machinery-img5.png',
     icon: ScanLine,
-    tag: '3D Inspection',
-    summary: 'Inline 3D SPI with real-time printer feedback loop and full statistical process control integration.',
-    specs: ['50×50 mm to 510×510 mm', '15 µm X/Y resolution', '<1% measurement accuracy'],
-    details: ['Shadow-free multi-angle inspection', '4M B/W digital camera array', 'KSMART LINK integration'],
+    category: 'Verification Stage',
+    tag: '3D Solder Paste Inspection - EMS company India',
+    summary: 'Koh Young inline 3D SPI– KY8080-L. Inline 3D SPI with real-time printer feedback loop and full statistical process control integration.',
+    specs: ['50×50 mm to 510×510 mm', '15 µm X/Y Resolution', '0.37 µm Z Resolution'],
+    details: [
+      'Printer Closed Loop Feedback & KSMART LINK Software',
+      'PCB Warp Compensation: Z Tracking & Camera Barcode reader',
+      'Detects Insufficient, Excessive, Missing Paste, Bridging, Shape Deformity, Displacement, Volume, Height, XY Position, Area',
+      'Koh Young proprietary light projection unit for shadow free effect',
+      '4M B/W Digital Camera, 15um X/Y-resolution (20/25um factory configurable)',
+      'SPC Plus software (Statistical Process Control)',
+      'No PCB color sensitivity. Min. Paste deposit: 3.94 mils',
+      'Measurement Accuracy: <1% on Calibration Target, <3% on PCB',
+      'Measurement repeatability: < 10% on 01005 deposits @ 6 sigma [with 50% tolerance]',
+    ],
   },
   {
     title: 'Pick and Place Machine',
     eyebrow: 'Fuji AIMEX IIIc',
-    image: '/machinery-img3.png',
+    image: '/machinery-img1.png',
     icon: Cpu,
-    tag: 'High-Speed SMT',
-    summary: 'Dual-robot, dual-module platform engineered for maximum throughput on high-mix production lines.',
-    specs: ['1,03,000 CPH output', '48×48 mm to 508×400 mm', '0.025 mm placement accuracy'],
-    details: ['01005 / 0201 support', 'Intelligent smart feeders', 'Built-in auto calibration'],
+    category: 'Placement Stage',
+    tag: 'Pick and Place Machines - PCB Assembly services India',
+    summary: 'Fuji- AIMEX IIIc – 2 Robot x 2 Modules with a capacity of 1,03,000 CPH for advanced PCB assembly services.',
+    specs: ['1,03,000 CPH capacity', '48×48 mm to 508×400 mm', 'Accuracy: 0.025 mm, Cpk ≥ 1.00 (3σ)'],
+    details: [
+      'PBGA, FBGA, Micro-BGA, CSP, Ultra-fine pitch QFP & QFN mounting capability',
+      'Supports Fine pitch components (01005 & 0201)',
+      'Intelligent smart feeders (4mm to 72mm & 3 vibratory stick feeders)',
+      'Fuji- AIMEX IIIc with Tray unit for chip & IC/BGA/other components mounting',
+      'Built-in Auto Calibration and Hybrid calibration ensures best placement accuracy',
+      'Image processing is through CCD camera',
+      'FUJI Intelligent Feeders: Variable pitch, electrically driven, common for parts from 0402 mm (01005”) to 3225mm (1210”)',
+      'Three Extra feeder carts for quick change over',
+      'Board level Traceability & Free Feeder Allocation',
+    ],
   },
   {
     title: 'Pick and Place Machine',
     eyebrow: 'Panasonic NPM-D3A',
     image: '/machinery-img4.png',
-    icon: Gauge,
-    tag: 'Fine-Pitch SMT',
-    summary: 'High-capacity mounting system with advanced CCD vision for precision fine-pitch component placement.',
-    specs: ['92,500 CPH output', '50×50 mm to 510×590 mm', '0.025 mm placement accuracy'],
-    details: ['01005 chip support', 'Smart feeder compatibility', 'CCD camera image processing'],
+    icon: Cpu,
+    category: 'Placement Stage',
+    tag: 'Pick and Place Machine - SMT circuit board assembly',
+    summary: 'Panasonic NPM-D3A Pick and Place Machine with 92500 CPH for SMT circuit board assembly.',
+    specs: ['92,500 CPH capacity', '50×50 mm to 510×590 mm', 'Accuracy: 0.025 mm, Cpk ≥ 1.00 (3σ)'],
+    details: [
+      'Supports Fine pitch components (01005 & 0201)',
+      'Intelligent smart feeders (4mm to 32mm)',
+      'Two Extra feeder carts for quick change over',
+      'Built-in Auto Calibration and Hybrid calibration ensures best placement accuracy',
+      'Image processing is through CCD camera',
+      'Board level Traceability & Free Feeder Allocation',
+    ],
   },
   {
     title: 'Reflow Oven',
     eyebrow: 'JTR-1000N',
-    image: '/machinery-img5.png',
+    image: '/machinery-img3.png',
     icon: Zap,
-    tag: 'Nitrogen Reflow',
-    summary: 'Nitrogen-atmosphere reflow oven with precision thermal profiling for lead-free and mixed-alloy assemblies.',
-    specs: ['10 top/bottom heating zones', '3 active cooling zones', 'KIC-X5 9-channel profiler'],
-    details: ['Automatic lubrication system', 'Board count sensor', 'Camera barcode traceability'],
+    category: 'Soldering Stage',
+    tag: 'Reflow Oven - PCB design and manufacturing service',
+    summary: 'JTR-1000N Reflow Oven with Nitrogen Ready configuration for lead-free SMT assemblies.',
+    specs: ['10 Top/Bottom heating zones', '3 Top/Bottom cooling zones', 'Nitrogen Ready'],
+    details: [
+      'In-built Thermal Profiler & Reflow Profiler KIC-X5 9 channel with Carrier',
+      'Both Mesh & Chain Conveyors inbuilt',
+      'Automatic Lubrication System (including automatic chain oilers)',
+      'Board Drop / Board Count Sensor with Animation',
+      'Camera Barcode Reader',
+    ],
+  },
+  {
+    title: '3D Automated Optical Inspection (AOI)',
+    eyebrow: 'Koh Young ZENITH ALPHA HS+',
+    image: '/machinery-img2.png',
+    icon: ScanLine,
+    category: 'Inspection Stage',
+    tag: '3D Automated Optical Inspection AOI - Electronic product assembly India',
+    summary: 'Koh Young Inline 3D Automated Optical Inspection (AOI) ZENITH ALPHA HS+ for electronic product assembly.',
+    specs: ['8M Pixel 3D Camera', 'Up to 490 x 510mm PCB capacity', '25mm 3D Height Inspection'],
+    details: [
+      '3D Inspection: Missing, Offset, Billboarding, Tombstone, Coplanarity, Solder Joint, Lifted Leads, Bridging, "No-Pops" Polarity',
+      '2D Inspection: "Wrong Part" using Optical Character Verification (OCV/R), Polarity',
+      'Camera Barcode Reader',
+      '5 Way 3D Projector Lighting System',
+      'Auto Programming option & Offline programming software',
+      'KSMART LINK Software - Closed loop feedback from AOI to SPI',
+    ],
+  },
+];
+
+const auxiliaryEquipment = [
+  {
+    name: 'Solder Paste Mixer',
+    tag: 'Solder Paste Mixer',
+    description: 'Ensures homogeneous paste viscosity and temperature stabilization prior to printing.',
+    image: '/solder-paste-mixture.png',
+    icon: RefreshCw,
+  },
+  {
+    name: 'Stencil Cleaner',
+    tag: 'Stencil Cleaner',
+    description: 'High-performance cleaner utilizing dry, wet, and vacuum filtration to ensure residue-free stencils.',
+    image: '/stencil-cleaner.png',
+    icon: Droplet,
+  },
+  {
+    name: '6 1/2 Digital Multimeter',
+    tag: '6 1/2 Digital Multimeter',
+    description: 'High-precision electrical measurement for engineering verification and Quality Assurance testing.',
+    image: '/digital-multimeter.png',
+    icon: Binary,
+  },
+  {
+    name: 'Ultrasonic Welding Machine',
+    tag: 'Ultrasonic Welding Machine',
+    description: 'Precision ultrasonic welding system for enclosures and connectors.',
+    image: '/ultrasonic-welding-machine.png',
+    icon: Wrench,
+  },
+  {
+    name: 'Oscilloscope',
+    tag: 'Oscilloscope',
+    description: 'High-bandwidth digital storage oscilloscope for signal integrity checks and troubleshooting.',
+    image: '/oscilloscope.png',
+    icon: Activity,
+  },
+  {
+    name: 'Laser Marking',
+    tag: 'Laser marking',
+    description: 'Automated laser engraving for permanent PCB serial numbers and tracking codes.',
+    image: '/laser-marking.png',
+    icon: Tag,
+  },
+  {
+    name: 'Power Supply',
+    tag: 'Power Supply',
+    description: 'Programmable DC power sources for comprehensive functional testing.',
+    image: '/power-supply.png',
+    icon: Power,
   },
 ];
 
 const benchmarkRows = [
   {
-    metric: 'Placement Accuracy',
-    values: ['±0.025 mm (Fuji)', '±0.025 mm (Panasonic)', '±0.010 mm (Printer)'],
+    metric: 'Placement/Alignment Accuracy',
+    values: ['±0.025 mm (Cpk ≥ 1.00)', '±0.025 mm (Cpk ≥ 1.00)', '±15 µm XY / 0.37 µm Z', '±0.010 mm Alignment'],
   },
   {
     metric: 'Throughput CPH',
-    values: ['1,03,000 (AIMEX IIIc)', '92,500 (NPM-D3A)', '1,95,500+ Combined'],
+    values: ['1,03,000 CPH', '92,500 CPH', 'N/A (Inline Inspection)', '6.0s Cycle Time'],
   },
   {
     metric: 'Inspection Type',
-    values: ['3D Shadow-Free AOI', '3D SPI Inline', 'Closed-Loop SPC'],
+    values: ['CCD Vision Auto-Calibration', 'CCD Vision Auto-Calibration', '3D Shadow-Free AOI', '3D SPI / Closed-Loop Feedback'],
   },
   {
-    metric: 'Smallest Component',
-    values: ['01005 Imperial', '0201 Metric', '±15 µm Resolution'],
+    metric: 'Smallest Component & Limits',
+    values: ['01005 / 0201 support', '01005 / 0201 support', '25mm 3D Height Inspection', '3.94 mils Paste deposit'],
   },
 ];
 
 export default function InfrastructureMachineryPage() {
-  const heroText              = 'Precision Hardware. Zero Compromise.';
+  useEffect(() => {
+    document.title = 'Infrastructure & Machinery - PCB Manufacturing Facilities | SriLin Electronics';
+  }, []);
+
+  const heroText = 'Precision Hardware. Zero Compromise.';
   const [typedHero, heroDone] = useTypewriter(heroText, 40);
 
   return (
-    <div className="bg-[#f7f9fb] font-['Inter'] min-h-screen">
+    <div className="bg-[#f7f9fb] font-['Inter'] min-h-screen text-slate-800">
 
       {/* ── HERO ── */}
       <section
@@ -223,7 +348,7 @@ export default function InfrastructureMachineryPage() {
               className="text-[#c29f5d] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4"
               style={{ animation: 'imHeroIn 0.6s 0.05s ease both' }}
             >
-              Infrastructure &amp; Machinery
+              Infrastructure &amp; Machinery - PCB Manufacturing Facilities
             </p>
 
             {/* Typewriter heading — "Precision Hardware." plain, "Zero Compromise." cyan */}
@@ -256,8 +381,9 @@ export default function InfrastructureMachineryPage() {
               className="text-white/75 text-sm sm:text-base leading-relaxed mb-5 md:mb-6 max-w-lg"
               style={{ opacity: heroDone ? 1 : 0, transform: heroDone ? 'none' : 'translateY(8px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}
             >
-              SriLin's SMT line in Hyderabad combines automated printing, inline 3D inspection,
-              and high-speed assembly — engineered for Class 3 reliability from the ground up.
+              Electronics manufacturing services Hyderabad India - PCB manufacturing facility.
+              SriLin's SMT line combines automated printing, inline 3D inspection,
+              and high-speed assembly — engineered for Class 3 reliability.
             </p>
             <div
               className="flex flex-wrap gap-2.5 sm:gap-3"
@@ -283,7 +409,7 @@ export default function InfrastructureMachineryPage() {
       <div className="bg-[#0F172A] border-t border-white/10">
         <div className="max-w-6xl mx-auto px-6 md:px-12 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <p className="text-white/50 text-[10px] sm:text-[11px] tracking-wide text-center sm:text-left">
-            Fuji AIMEX IIIc &nbsp;•&nbsp; Panasonic NPM-D3A &nbsp;•&nbsp; Koh Young KY8080-L &nbsp;•&nbsp; JTR-1000N
+            Fuji AIMEX IIIc &nbsp;•&nbsp; Panasonic NPM-D3A &nbsp;•&nbsp; Koh Young KY8080-L &nbsp;•&nbsp; Koh Young Zenith Alpha HS+ &nbsp;•&nbsp; JTR-1000N
           </p>
           <p className="text-[#c29f5d] font-['JetBrains_Mono'] text-xs tracking-widest text-center sm:text-right">
             SRILIN_SMT_HYD_V2
@@ -301,7 +427,7 @@ export default function InfrastructureMachineryPage() {
               <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#c29f5d] pl-4">
                 Line Capabilities
               </h2>
-              <p className="text-[#44474d] mt-3">
+              <p className="text-[#44474d] mt-3 text-sm">
                 Key performance metrics across SriLin's fully-integrated SMT production floor.
               </p>
             </div>
@@ -374,90 +500,163 @@ export default function InfrastructureMachineryPage() {
               <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#c29f5d] pl-4">
                 Machinery on the Floor
               </h2>
-              <p className="text-[#44474d] mt-3 max-w-2xl">
+              <p className="text-[#44474d] mt-3 max-w-2xl text-sm">
                 Every machine in SriLin's SMT line is selected for precision, throughput, and long-term
                 reliability across high-mix and high-volume production environments.
               </p>
             </div>
           </Reveal>
 
-          <div className="space-y-6">
-            {equipment.map(({ title, eyebrow, image, icon: Icon, tag, summary, specs, details }, index) => {
+          <div className="space-y-8">
+            {equipment.map(({ title, eyebrow, image, icon: Icon, category, tag, summary, specs, details }, index) => {
               const isEven = index % 2 === 0;
               return (
                 <Reveal key={title + eyebrow} delay={index * 80}>
                   <div
-                    className="group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#c29f5d] hover:shadow-lg transition-all duration-300 grid grid-cols-1 lg:grid-cols-12"
+                    className="group bg-white border border-slate-200/80 hover:border-[#c29f5d] shadow-sm hover:shadow-xl transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 rounded-lg overflow-hidden"
                   >
-                    {/* Image */}
+                    {/* Image Container with corrected column-span ratio & containment */}
                     <div
-                      className={`lg:col-span-4 h-52 lg:h-auto bg-[#0F172A] overflow-hidden ${
-                        isEven ? 'lg:order-1' : 'lg:order-2'
-                      }`}
+                      className={`lg:col-span-5 bg-slate-50 flex items-center justify-center p-8 border-b lg:border-b-0 ${isEven ? 'lg:border-r lg:order-1' : 'lg:border-l lg:order-2'
+                        } border-slate-100`}
                     >
-                      <img
-                        src={image}
-                        alt={title}
-                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
-                      />
+                      <div className="relative w-full h-full min-h-[220px] sm:min-h-[260px] lg:min-h-[320px] flex items-center justify-center">
+                        <img
+                          src={image}
+                          alt={title}
+                          className="max-w-full max-h-[240px] sm:max-h-[280px] lg:max-h-[320px] object-contain opacity-95 group-hover:opacity-100 group-hover:scale-102 transition-all duration-300"
+                        />
+                      </div>
                     </div>
 
-                    {/* Content */}
+                    {/* Content Container with modified ratio and padding */}
                     <div
-                      className={`lg:col-span-8 p-7 md:p-10 flex flex-col gap-5 ${
-                        isEven ? 'lg:order-2' : 'lg:order-1'
-                      }`}
+                      className={`lg:col-span-7 p-6 sm:p-8 md:p-10 flex flex-col justify-between gap-6 ${isEven ? 'lg:order-2' : 'lg:order-1'
+                        }`}
                     >
-                      {/* Header */}
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <p className="text-[#9a7a3e] text-[10px] font-semibold uppercase tracking-widest mb-1">
+                      {/* Card Header (metadata at the top) */}
+                      <div className="flex flex-col gap-1.5">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <span className="text-[#9a7a3e] text-xs font-bold uppercase tracking-widest">
                             {eyebrow}
-                          </p>
-                          <h3 className="font-['JetBrains_Mono'] font-bold text-xl md:text-2xl text-[#0F172A] leading-snug">
-                            {title}
-                          </h3>
+                          </span>
+                          <span className="bg-slate-100 text-slate-700 text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded">
+                            {category}
+                          </span>
                         </div>
-                        <div className="w-10 h-10 shrink-0 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#c29f5d]/10 group-hover:text-[#9a7a3e] transition-colors">
-                          <Icon size={20} strokeWidth={1.8} />
-                        </div>
+
+                        <h3 className="font-['JetBrains_Mono'] font-bold text-xl sm:text-2xl text-slate-900 leading-tight">
+                          {title}
+                        </h3>
+
+                        <p className="text-[10px] text-slate-500/80 font-medium tracking-wide uppercase mt-0.5">
+                          {tag}
+                        </p>
                       </div>
 
-                      <p className="text-sm text-[#44474d] leading-relaxed">{summary}</p>
+                      {/* Summary */}
+                      <p className="text-sm text-slate-600 leading-relaxed -mt-2">
+                        {summary}
+                      </p>
 
-                      {/* Specs */}
+                      {/* Key Specs */}
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         {specs.map((spec) => (
                           <div
                             key={spec}
-                            className="bg-[#f7f9fb] border border-[#E2E8F0] px-3 py-2.5"
+                            className="bg-slate-50 border border-slate-200/60 p-3 rounded-md flex flex-col justify-center transition-colors hover:border-[#c29f5d]/30"
                           >
-                            <p className="font-['JetBrains_Mono'] text-xs font-semibold text-[#0F172A]">
+                            <span className="text-[9px] text-[#9a7a3e] uppercase tracking-wider font-semibold mb-0.5">
+                              Specification
+                            </span>
+                            <p className="font-['JetBrains_Mono'] text-[11px] sm:text-xs font-semibold text-slate-800 leading-snug">
                               {spec}
                             </p>
                           </div>
                         ))}
                       </div>
 
-                      {/* Details + Tag */}
-                      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 pt-1 border-t border-[#E2E8F0]">
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
+                      {/* Technical Details (Full Width beneath specs, 2-column grid layout) */}
+                      <div className="border-t border-slate-100 pt-5">
+                        <h4 className="text-[10px] font-bold text-slate-900 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                          <Wrench size={12} className="text-[#9a7a3e]" strokeWidth={2.2} /> Technical Features &amp; Capabilities
+                        </h4>
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5">
                           {details.map((detail) => (
-                            <li key={detail} className="flex items-center gap-2 text-sm text-[#44474d]">
-                              <CheckCircle2 size={13} className="text-[#9a7a3e] shrink-0" />
-                              {detail}
+                            <li key={detail} className="flex items-start gap-2 text-xs text-slate-600 leading-normal">
+                              <CheckCircle2 size={13} className="text-[#9a7a3e] shrink-0 mt-0.5" strokeWidth={2.2} />
+                              <span>{detail}</span>
                             </li>
                           ))}
                         </ul>
-                        <span className="inline-block bg-[#0F172A] text-[#c29f5d] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 shrink-0">
-                          {tag}
-                        </span>
                       </div>
+
                     </div>
                   </div>
                 </Reveal>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── AUXILIARY & LAB EQUIPMENT ── */}
+      <section className="bg-white py-16 md:py-20 border-t border-[#E2E8F0] border-b border-[#E2E8F0]">
+        <div className="max-w-6xl mx-auto px-6 md:px-12">
+          <Reveal>
+            <div className="mb-10 text-center md:text-left">
+              <p className="text-[#9a7a3e] text-xs font-semibold uppercase tracking-widest mb-2">
+                Factory Support Systems
+              </p>
+              <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-0 md:border-l-4 md:border-[#c29f5d] md:pl-4">
+                Auxiliary &amp; Lab Infrastructure
+              </h2>
+              <p className="text-[#44474d] mt-3 max-w-2xl text-sm">
+                A robust line-up of support tools, diagnostic instrumentation, and quality systems
+                ensuring every manufactured board matches SriLin's high standards of quality.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {auxiliaryEquipment.map(({ name, tag, description, image, icon: Icon }, index) => (
+              <Reveal key={name} delay={index * 50} y={15}>
+                <div className="group bg-white border border-[#E2E8F0] hover:border-[#c29f5d] shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-full rounded-lg overflow-hidden">
+
+                  {image ? (
+                    <div className="h-48 bg-slate-50 flex items-center justify-center p-6 border-b border-slate-100 overflow-hidden relative">
+                      <img
+                        src={image}
+                        alt={name}
+                        className="max-w-full max-h-full object-contain opacity-95 group-hover:opacity-100 group-hover:scale-103 transition-all duration-300"
+                      />
+                    </div>
+                  ) : null}
+
+                  <div className="p-6 flex-1 flex flex-col justify-between gap-4">
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[#9a7a3e] text-[9px] font-bold uppercase tracking-wider bg-slate-100 px-2 py-0.5 rounded">
+                          {tag}
+                        </span>
+                        <div className="text-slate-400 group-hover:text-[#9a7a3e] transition-colors">
+                          <Icon size={16} strokeWidth={2} />
+                        </div>
+                      </div>
+
+                      <h4 className="font-['JetBrains_Mono'] font-bold text-sm text-slate-800 mb-2 leading-tight">
+                        {name}
+                      </h4>
+
+                      <p className="text-xs text-slate-500 leading-relaxed">
+                        {description}
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -476,14 +675,15 @@ export default function InfrastructureMachineryPage() {
         </Reveal>
 
         <Reveal delay={120}>
-          <div className="overflow-x-auto bg-white border border-[#E2E8F0]">
-            <table className="w-full text-left text-sm min-w-[600px]">
+          <div className="overflow-x-auto bg-white border border-[#E2E8F0] rounded-lg">
+            <table className="w-full text-left text-sm min-w-[800px]">
               <thead>
                 <tr className="bg-[#0F172A] text-white uppercase text-xs">
                   <th className="p-4 font-semibold">Metric</th>
                   <th className="p-4 font-semibold">Fuji AIMEX IIIc</th>
                   <th className="p-4 font-semibold">Panasonic NPM-D3A</th>
-                  <th className="p-4 font-semibold">Koh Young / Fuji Printer</th>
+                  <th className="p-4 font-semibold">Koh Young 3D AOI</th>
+                  <th className="p-4 font-semibold">Fuji Printer / Koh Young SPI</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#E2E8F0]">

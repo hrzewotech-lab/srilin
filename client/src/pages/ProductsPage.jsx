@@ -53,6 +53,7 @@ function AnimatedNumber({ value, className = '', style = {} }) {
   const started = useRef(false);
   const [display, setDisplay] = useState(value);
   useEffect(() => {
+    started.current = false;
     const el = ref.current;
     if (!el) return;
     if (!/^\d/.test(String(value))) { setDisplay(value); return; }

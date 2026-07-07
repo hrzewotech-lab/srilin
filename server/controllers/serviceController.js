@@ -57,7 +57,18 @@ const getServiceById = asyncHandler(async (req, res) => {
       .replace(/-+$/, '');
 
     const services = await Service.find({});
-    service = services.find(s => slugify(s.title) === req.params.id);
+    service = services.find(s => {
+      const slug = slugify(s.title);
+      if (slug === req.params.id) return true;
+
+      // Legacy slug aliases compatibility:
+      if (req.params.id === 'x-ray-inspection' && slug === 'x-ray-inspection-services') return true;
+      if (req.params.id === 'box-build-integration' && slug === 'turn-key-box-build-integration') return true;
+      if (req.params.id === 'embedded-design' && slug === 'embedded-design-services') return true;
+      if (req.params.id === 'ecad-layout' && slug === 'ecad-layout-services') return true;
+
+      return false;
+    });
   }
 
   if (!service) {

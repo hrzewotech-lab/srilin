@@ -79,7 +79,7 @@ export default function Footer() {
           )}
           {services.length === 0 && (
             <>
-              <Link to="/services/embedded-design">Embedded Design</Link>
+              <Link to="/services/embedded-design-services">Embedded Design</Link>
               <Link to="/services/pcba-capabilities">PCBA Capabilities</Link>
               <Link to="/services/testing-services">Testing Services</Link>
             </>

@@ -64,6 +64,7 @@ function AnimatedNumber({ value, className = '', style = {} }) {
   const [display, setDisplay] = useState(value);
 
   useEffect(() => {
+    started.current = false;
     const el = ref.current;
     if (!el) return;
     if (!/^\d/.test(String(value))) { setDisplay(value); return; }
@@ -308,17 +309,15 @@ export default function ServicesPage() {
                         {/* Image */}
                         <div className="h-36 sm:h-40 md:h-44 overflow-hidden relative bg-[#eceef0]">
                           {/* Index badge */}
-                          <div className="absolute top-3 left-3 z-10 font-['JetBrains_Mono'] text-[10px] font-bold text-white/50">
+                          <div className="absolute top-3 left-3 z-10 font-['JetBrains_Mono'] text-[10px] font-bold text-white/70 bg-[#0F172A]/60 px-2 py-0.5 rounded backdrop-blur-sm">
                             {String(index + 1).padStart(2, '0')}
                           </div>
-                          <div className="flex h-full w-full items-center justify-center p-3 sm:p-4">
-                            <img
-                              src={service.image?.url || '/image.png'}
-                              alt={service.title || 'Service'}
-                              onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/image.png'; }}
-                              className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
-                            />
-                          </div>
+                          <img
+                            src={service.image?.url || '/image.png'}
+                            alt={service.title || 'Service'}
+                            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/image.png'; }}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
                           {/* Teal top-border reveal on hover */}
                           <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#f0c27b] scale-x-0 group-hover:scale-x-100 transition-transform duration-400 origin-left" />
                         </div>

@@ -53,6 +53,7 @@ function AnimatedNumber({ value }) {
   const started = useRef(false);
   const [display, setDisplay] = useState(value);
   useEffect(() => {
+    started.current = false;
     const el  = ref.current;
     const num = Number(value);
     if (!el || isNaN(num)) { setDisplay(value); return; }

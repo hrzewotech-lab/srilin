@@ -82,8 +82,7 @@ export default function CertificateCarousel() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
 
-        {/* ── Heading row ── */}
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 md:mb-14">
+        <div className="mb-10 md:mb-14">
           <div>
             <div className="flex items-center gap-3 mb-3">
               <span className="text-xs font-bold uppercase tracking-widest text-[#9a7a3e]">Quality Certifications</span>
@@ -96,15 +95,6 @@ export default function CertificateCarousel() {
             <p className="mt-2 text-sm leading-relaxed text-[#64748b]" style={{ maxWidth: 440 }}>
               Certifications that support our commitment to consistent quality and production discipline.
             </p>
-          </div>
-
-          {/* count badge */}
-          <div className="shrink-0 border border-[#E2E8F0] bg-[#f7f9fb] px-5 py-4 flex items-center gap-3 self-start sm:self-auto">
-            <Award size={20} className="text-[#9a7a3e]" />
-            <div>
-              <strong className="block font-['JetBrains_Mono'] text-[#0F172A] font-bold text-lg leading-none">{total}</strong>
-              <span className="text-xs mt-0.5 block text-[#64748b]">Active certifications</span>
-            </div>
           </div>
         </div>
 

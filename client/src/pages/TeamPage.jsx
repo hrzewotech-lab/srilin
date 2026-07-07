@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Award, BriefcaseBusiness, CheckCircle2, Factory, ShieldCheck, Users, X } from 'lucide-react';
+import { Award, BriefcaseBusiness, CheckCircle2, Factory, ShieldCheck, Star, Users, X } from 'lucide-react';
 import api from '../api/axios';
 
 /* ════════════════════════════════════════════════════════════════
@@ -200,6 +200,124 @@ const leadershipPillars = [
 ];
 
 /* ════════════════════════════════════════════════════════════════
+   FEATURED LEADERSHIP CARD  (CEO / COO / CFO style)
+   ════════════════════════════════════════════════════════════════ */
+function FeaturedCard({ member, index, onClick }) {
+  return (
+    <Reveal delay={index * 100} className="h-full">
+      <article
+        role="button"
+        tabIndex={0}
+        onClick={() => onClick(member)}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(member); } }}
+        className="h-full flex flex-col cursor-pointer rounded-[28px] border border-[#E2E8F0] bg-white shadow-sm hover:border-[#c29f5d] hover:-translate-y-2 hover:shadow-xl transition-all duration-300 overflow-hidden"
+      >
+        {/* Gold accent top bar */}
+        <div className="h-1 w-full bg-gradient-to-r from-[#c29f5d] via-[#f0c27b] to-[#c29f5d]" />
+
+        <div className="flex flex-col flex-1 p-6">
+          {/* Circular avatar */}
+          <div className="flex justify-center mb-5">
+            <div className="relative">
+              <div className="h-32 w-32 rounded-full overflow-hidden border-4 border-[#E2E8F0] bg-[#eceef0] shadow-md">
+                <img
+                  src={member.image?.url}
+                  alt={member.name}
+                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              <span className="absolute -bottom-1 -right-1 inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#c29f5d] shadow-md">
+                <Star size={13} className="text-white fill-white" aria-hidden="true" />
+              </span>
+            </div>
+          </div>
+
+          {/* Name + designation */}
+          <div className="text-center mb-4">
+            <h3 className="font-['JetBrains_Mono'] text-xl font-bold text-[#0F172A] mb-1">
+              {member.name}
+            </h3>
+            <span className="inline-block px-3 py-1 rounded-full bg-[#ecfeff] text-[#0F766E] text-xs font-semibold tracking-wide">
+              {member.designation}
+            </span>
+          </div>
+
+          {/* Message excerpt */}
+          {member.message ? (
+            <p className="text-sm text-[#475569] leading-relaxed text-center line-clamp-3 mb-4 flex-1">
+              {member.message}
+            </p>
+          ) : <div className="flex-1" />}
+
+          {/* Honors */}
+          {member.honors?.length ? (
+            <div className="border-t border-[#E2E8F0] pt-4 mt-auto">
+              <ul className="grid gap-1.5">
+                {member.honors.slice(0, 3).map((honor) => (
+                  <li key={honor} className="flex items-center gap-2 text-xs text-[#475569]">
+                    <Award size={13} className="text-[#c29f5d] shrink-0" aria-hidden="true" />
+                    <span className="line-clamp-1">{honor}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+
+          {/* Focus tags */}
+          <div className="flex flex-wrap justify-center gap-2 mt-4">
+            <span className="inline-flex items-center gap-1 rounded-xl bg-[#f7f9fb] border border-[#E2E8F0] px-2.5 py-1 text-xs text-[#0F172A]">
+              <CheckCircle2 size={11} aria-hidden="true" /> Strategy
+            </span>
+            <span className="inline-flex items-center gap-1 rounded-xl bg-[#f7f9fb] border border-[#E2E8F0] px-2.5 py-1 text-xs text-[#0F172A]">
+              <CheckCircle2 size={11} aria-hidden="true" /> Operations
+            </span>
+          </div>
+        </div>
+      </article>
+    </Reveal>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════
+   BROADER LEADERSHIP ROW CARD  (Dept Heads / Regional Managers)
+   ════════════════════════════════════════════════════════════════ */
+function BroaderCard({ member, index, onClick }) {
+  return (
+    <Reveal delay={index * 50}>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => onClick(member)}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(member); } }}
+        className="cursor-pointer flex items-center gap-4 rounded-2xl border border-[#E2E8F0] bg-white px-5 py-4 shadow-sm hover:border-[#c29f5d] hover:-translate-y-0.5 hover:shadow-md transition-all duration-250 group"
+      >
+        <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-2xl bg-[#eceef0] border border-[#E2E8F0]">
+          <img
+            src={member.image?.url}
+            alt={member.name}
+            className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-base font-semibold text-[#0F172A] truncate">{member.name}</h3>
+          <p className="text-xs text-[#0F766E] font-medium mt-0.5 truncate">{member.designation}</p>
+          {member.message ? (
+            <p className="mt-1 text-xs text-[#64748b] leading-relaxed line-clamp-1">{member.message}</p>
+          ) : null}
+        </div>
+        <svg
+          className="w-4 h-4 text-[#94A3B8] group-hover:text-[#c29f5d] group-hover:translate-x-0.5 transition-all duration-200 shrink-0"
+          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+          aria-hidden="true"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
+    </Reveal>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════
    PAGE COMPONENT
    ════════════════════════════════════════════════════════════════ */
 export default function TeamPage() {
@@ -236,31 +354,23 @@ export default function TeamPage() {
     };
   }, []);
 
-  const { chairman, remainingFeatured, leadershipMembers } = useMemo(() => {
-    const orderOne = members.find((member) => Number(member.order) === 1);
-    const fallbackFeatured = members.filter((member) => member.isFeatured);
-    const defaultChairman = fallbackFeatured.length ? fallbackFeatured[0] : members[0];
-    const chair = orderOne || defaultChairman;
-    const remaining = members.filter(
-      (member) => member.isFeatured && member._id !== chair?._id
-    );
-    const leadership = members.filter((member) => member._id !== chair?._id);
-
+  /* ── Data split:
+       featuredMembers  → isFeatured = true  (CEO, COO, CFO …)
+       broaderMembers   → isFeatured = false (Dept Heads, Regional Mgrs …)
+  ─────────────────────────────────────────────────────────── */
+  const { featuredMembers, broaderMembers } = useMemo(() => {
+    const sorted = [...members].sort((a, b) => (Number(a.order) || 999) - (Number(b.order) || 999));
     return {
-      chairman: chair,
-      remainingFeatured: remaining,
-      leadershipMembers: leadership,
+      featuredMembers: sorted.filter((m) => m.isFeatured),
+      broaderMembers: sorted.filter((m) => !m.isFeatured),
     };
   }, [members]);
 
-  const stats = useMemo(
-    () => ({
-      total: members.length,
-      active: members.filter((member) => member.isActive).length,
-      featured: members.filter((member) => member.isFeatured).length,
-    }),
-    [members]
-  );
+  const stats = useMemo(() => ({
+    total: members.length,
+    featured: members.filter((m) => m.isFeatured).length,
+    broader: members.filter((m) => !m.isFeatured).length,
+  }), [members]);
 
   /* Typewriter for the hero h1 — plain text only (no JSX span inside) */
   const heroText = 'Leadership That Builds Trust';
@@ -336,15 +446,15 @@ export default function TeamPage() {
               style={{ opacity: heroDone ? 1 : 0, transition: 'opacity 0.5s 0.2s ease' }}
             >
               <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#c29f5d]/30 text-[#ffe8cc] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
-                <Users size={13} />
+                <Star size={13} />
                 {loading ? 'Loading…' : (
-                  <><AnimatedNumber value={String(stats.total)} /> team profiles</>
+                  <><AnimatedNumber value={String(stats.featured)} /> featured leaders</>
                 )}
               </span>
               <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#c29f5d]/30 text-[#ffe8cc] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
-                <ShieldCheck size={13} />
+                <Users size={13} />
                 {loading ? 'Loading…' : (
-                  <><AnimatedNumber value={String(stats.featured)} /> featured leaders</>
+                  <><AnimatedNumber value={String(stats.total)} /> team profiles</>
                 )}
               </span>
             </div>
@@ -391,19 +501,19 @@ export default function TeamPage() {
                   <p className="text-3xl font-['JetBrains_Mono'] text-[#0F172A]">
                     <AnimatedNumber value={String(stats.total)} />
                   </p>
-                  <p className="text-xs uppercase tracking-[0.24em] text-[#94A3B8] mt-2">Total profiles</p>
+                  <p className="text-xs uppercase tracking-[0.24em] text-[#94A3B8] mt-2">Total</p>
                 </div>
                 <div className="rounded-2xl bg-[#f7f9fb] p-4 text-center">
-                  <p className="text-3xl font-['JetBrains_Mono'] text-[#0F172A]">
-                    <AnimatedNumber value={String(stats.active)} />
-                  </p>
-                  <p className="text-xs uppercase tracking-[0.24em] text-[#94A3B8] mt-2">Active team</p>
-                </div>
-                <div className="rounded-2xl bg-[#f7f9fb] p-4 text-center">
-                  <p className="text-3xl font-['JetBrains_Mono'] text-[#0F172A]">
+                  <p className="text-3xl font-['JetBrains_Mono'] text-[#c29f5d]">
                     <AnimatedNumber value={String(stats.featured)} />
                   </p>
-                  <p className="text-xs uppercase tracking-[0.24em] text-[#94A3B8] mt-2">Featured leaders</p>
+                  <p className="text-xs uppercase tracking-[0.24em] text-[#94A3B8] mt-2">Featured</p>
+                </div>
+                <div className="rounded-2xl bg-[#f7f9fb] p-4 text-center">
+                  <p className="text-3xl font-['JetBrains_Mono'] text-[#0F766E]">
+                    <AnimatedNumber value={String(stats.broader)} />
+                  </p>
+                  <p className="text-xs uppercase tracking-[0.24em] text-[#94A3B8] mt-2">Leaders</p>
                 </div>
               </div>
             </aside>
@@ -430,146 +540,102 @@ export default function TeamPage() {
           </Reveal>
         ) : (
           <>
-            {chairman ? (
-              <Reveal>
-                <article
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => setSelectedMember(chairman)}
-                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedMember(chairman); } }}
-                  className="cursor-pointer rounded-[28px] border border-[#E2E8F0] bg-white p-6 shadow-sm mb-10 hover:border-[#c29f5d] hover:shadow-lg transition-all duration-300"
-                >
-                  <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-                    <div className="rounded-3xl overflow-hidden bg-[#eceef0]">
-                      <img src={chairman.image.url} alt={chairman.name} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
-                    </div>
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.26em] text-[#94A3B8] mb-3">Chairman</p>
-                      <h2 className="font-['JetBrains_Mono'] text-3xl text-[#0F172A] mb-3">{chairman.name}</h2>
-                      <p className="text-sm font-semibold text-[#0F172A] mb-4">{chairman.designation}</p>
-                      {chairman.message ? <p className="text-[#475569] leading-relaxed mb-4">{chairman.message}</p> : null}
-                      {chairman.honors?.length ? (
-                        <ul className="grid gap-2 text-sm text-[#475569] mb-4">
-                          {chairman.honors.map((honor) => (
-                            <li key={honor} className="flex items-center gap-2">
-                              <Award size={16} className="text-[#0F766E]" aria-hidden="true" />
-                              {honor}
-                            </li>
-                          ))}
-                        </ul>
-                      ) : null}
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm text-[#0F172A]">
-                        <span className="inline-flex items-center gap-2 rounded-2xl bg-[#ecfeff] px-3 py-2">
-                          <CheckCircle2 size={15} aria-hidden="true" /> Strategy
-                        </span>
-                        <span className="inline-flex items-center gap-2 rounded-2xl bg-[#ecfeff] px-3 py-2">
-                          <CheckCircle2 size={15} aria-hidden="true" /> Operations
-                        </span>
-                        <span className="inline-flex items-center gap-2 rounded-2xl bg-[#ecfeff] px-3 py-2">
-                          <CheckCircle2 size={15} aria-hidden="true" /> Quality
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </Reveal>
-            ) : null}
-
-            <Reveal delay={100}>
-              <aside className="rounded-[28px] border border-[#E2E8F0] bg-white p-6 shadow-sm mb-10">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.26em] text-[#94A3B8] mb-2">Leadership roster</p>
-                    <h2 className="text-2xl font-semibold text-[#0F172A]">Broader leadership team</h2>
-                  </div>
-                  <span className="inline-flex items-center rounded-full bg-[#ecfeff] px-4 py-2 text-sm font-semibold text-[#0F766E]">
-                    Team excellence
-                  </span>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {leadershipMembers.map((member, i) => (
-                    <Reveal key={member._id} delay={i * 50}>
-                      <div
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => setSelectedMember(member)}
-                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedMember(member); } }}
-                        className="cursor-pointer rounded-[28px] border border-[#E2E8F0] bg-[#f7f9fb] p-5 shadow-sm hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-md transition-all duration-300"
-                      >
-                        <div className="flex items-start gap-4">
-                          <div className="h-16 w-16 overflow-hidden rounded-3xl bg-[#eceef0]">
-                            <img src={member.image.url} alt={member.name} className="h-full w-full object-cover" />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
-                              <div>
-                                <h3 className="text-lg font-semibold text-[#0F172A]">{member.name}</h3>
-                                <p className="text-sm text-[#64748b]">{member.designation}</p>
-                              </div>
-                            </div>
-                            {member.message ? (
-                              <p className="mt-3 text-sm text-[#475569] leading-relaxed line-clamp-2">{member.message}</p>
-                            ) : null}
-                          </div>
-                        </div>
-                      </div>
-                    </Reveal>
-                  ))}
-                </div>
-              </aside>
-            </Reveal>
-
-            {remainingFeatured.length ? (
-              <section className="mb-10">
+            {/* ══════════════════════════════════════════════════════
+                SECTION 1 — FEATURED LEADERSHIP  (CEO / COO / CFO)
+                ══════════════════════════════════════════════════════ */}
+            {featuredMembers.length > 0 && (
+              <section className="mb-16" aria-labelledby="featured-leadership-heading">
                 <Reveal>
-                  <div className="mb-6 flex flex-wrap items-center gap-3">
-                    <Users size={20} className="text-[#0F172A]" aria-hidden="true" />
-                    <h2 className="text-2xl font-semibold text-[#0F172A]">Featured leadership</h2>
-                  </div>
-                </Reveal>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-                  {remainingFeatured.map((member, i) => (
-                    <Reveal key={member._id} delay={i * 80} className="h-full">
-                      <article
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => setSelectedMember(member)}
-                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedMember(member); } }}
-                        className="h-full flex flex-col cursor-pointer rounded-[28px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+                  <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-8">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.26em] text-[#c29f5d] font-semibold mb-1.5">
+                        Executive team
+                      </p>
+                      <h2
+                        id="featured-leadership-heading"
+                        className="font-['JetBrains_Mono'] text-2xl md:text-3xl font-bold text-[#0F172A] flex items-center gap-2"
                       >
-                        <div className="flex flex-col gap-5 lg:flex-row lg:items-center">
-                          <div className="h-28 w-28 flex-shrink-0 overflow-hidden rounded-3xl bg-[#eceef0]">
-                            <img src={member.image.url} alt={member.name} className="h-full w-full object-cover transition-transform duration-500 hover:scale-105" />
-                          </div>
-                          <div>
-                            <h3 className="text-2xl font-semibold text-[#0F172A]">{member.name}</h3>
-                            <p className="text-sm font-semibold text-[#0F172A] mb-3">{member.designation}</p>
-                            {member.message ? (
-                              <p className="text-sm text-[#475569] leading-relaxed line-clamp-3">{member.message}</p>
-                            ) : null}
-                          </div>
-                        </div>
-                        {member.honors?.length ? (
-                          <div className="mt-6 pt-4 border-t border-[#E2E8F0] mt-auto">
-                            <p className="text-xs uppercase tracking-[0.26em] text-[#94A3B8] mb-2">Honors</p>
-                            <ul className="grid gap-2 text-sm text-[#475569]">
-                              {member.honors.slice(0, 3).map((honor) => (
-                                <li key={honor} className="flex items-center gap-2">
-                                  <Award size={16} className="text-[#0F766E] shrink-0" aria-hidden="true" />
-                                  <span className="line-clamp-1">{honor}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ) : (
-                          <div className="mt-auto" />
-                        )}
-                      </article>
-                    </Reveal>
+                        <Star size={22} className="text-[#c29f5d]" aria-hidden="true" />
+                        Featured Leadership
+                      </h2>
+                      <p className="text-sm text-[#64748b] mt-1.5 max-w-lg">
+                        Our executive leaders — CEO, COO, CFO and senior directors — setting strategy, vision, and direction for SriLin Electronics.
+                      </p>
+                    </div>
+                    <span className="inline-flex items-center self-start sm:self-auto gap-2 rounded-full bg-[#c29f5d]/10 border border-[#c29f5d]/30 px-4 py-2 text-sm font-semibold text-[#c29f5d] whitespace-nowrap">
+                      <Star size={14} className="fill-[#c29f5d]" aria-hidden="true" />
+                      {featuredMembers.length} leader{featuredMembers.length !== 1 ? 's' : ''}
+                    </span>
+                  </div>
+                  {/* Gold divider */}
+                  <div className="h-px w-full bg-gradient-to-r from-[#c29f5d]/40 via-[#c29f5d]/10 to-transparent mb-8" />
+                </Reveal>
+
+                <div
+                  className={`grid gap-6 ${
+                    featuredMembers.length === 1
+                      ? 'grid-cols-1 max-w-sm mx-auto'
+                      : featuredMembers.length === 2
+                      ? 'grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto'
+                      : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+                  }`}
+                >
+                  {featuredMembers.map((member, i) => (
+                    <FeaturedCard
+                      key={member._id}
+                      member={member}
+                      index={i}
+                      onClick={setSelectedMember}
+                    />
                   ))}
                 </div>
               </section>
-            ) : null}
+            )}
+
+            {/* ══════════════════════════════════════════════════════
+                SECTION 2 — BROADER LEADERSHIP TEAM
+                (Dept Heads, Regional Managers, Functional Leaders)
+                ══════════════════════════════════════════════════════ */}
+            {broaderMembers.length > 0 && (
+              <section aria-labelledby="broader-leadership-heading">
+                <Reveal>
+                  <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-8">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.26em] text-[#0F766E] font-semibold mb-1.5">
+                        Leadership roster
+                      </p>
+                      <h2
+                        id="broader-leadership-heading"
+                        className="font-['JetBrains_Mono'] text-2xl md:text-3xl font-bold text-[#0F172A] flex items-center gap-2"
+                      >
+                        <Users size={22} className="text-[#0F766E]" aria-hidden="true" />
+                        Broader Leadership Team
+                      </h2>
+                      <p className="text-sm text-[#64748b] mt-1.5 max-w-lg">
+                        Department heads, regional managers, and functional leaders who drive execution, alignment, and day-to-day operations.
+                      </p>
+                    </div>
+                    <span className="inline-flex items-center self-start sm:self-auto gap-2 rounded-full bg-[#ecfeff] border border-[#0F766E]/20 px-4 py-2 text-sm font-semibold text-[#0F766E] whitespace-nowrap">
+                      <Users size={14} aria-hidden="true" />
+                      {broaderMembers.length} member{broaderMembers.length !== 1 ? 's' : ''}
+                    </span>
+                  </div>
+                  {/* Teal divider */}
+                  <div className="h-px w-full bg-gradient-to-r from-[#0F766E]/30 via-[#0F766E]/10 to-transparent mb-8" />
+                </Reveal>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {broaderMembers.map((member, i) => (
+                    <BroaderCard
+                      key={member._id}
+                      member={member}
+                      index={i}
+                      onClick={setSelectedMember}
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
           </>
         )}
       </section>

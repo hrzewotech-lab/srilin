@@ -40,7 +40,7 @@ const perks = [
 
 function useTypewriter(text, speed = 40) {
   const [typed, setTyped] = useState('');
-  const [done, setDone]   = useState(false);
+  const [done, setDone] = useState(false);
   useEffect(() => {
     setTyped(''); setDone(false);
     if (!text) return;
@@ -83,10 +83,10 @@ function Reveal({ children, delay = 0, y = 24, className = '', style = {} }) {
    PAGE COMPONENT
    ════════════════════════════════════════════════════════════════ */
 export default function CareersPage() {
-  const [form, setForm]         = useState(initialForm);
-  const [status, setStatus]     = useState({ type: '', message: '' });
+  const [form, setForm] = useState(initialForm);
+  const [status, setStatus] = useState({ type: '', message: '' });
   const [submitting, setSubmitting] = useState(false);
-  const fileInputRef            = useRef(null);
+  const fileInputRef = useRef(null);
 
   /* Two-line hero — type each line separately */
   const line1 = 'Build Your Career.';
@@ -111,19 +111,42 @@ export default function CareersPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!form.name || !form.email || !form.resume) {
+      setStatus({ type: 'error', message: 'Name, email, and resume are required.' });
+      return;
+    }
     setSubmitting(true);
     setStatus({ type: '', message: '' });
     try {
       const payload = new FormData();
-      payload.append('name',    form.name);
-      payload.append('email',   form.email);
-      payload.append('phone',   form.phone);
+      payload.append('name', form.name);
+      payload.append('email', form.email);
+      payload.append('phone', form.phone);
       payload.append('address', form.address);
-      payload.append('resume',  form.resume);
+      payload.append('resume', form.resume);
       const response = await api.post('/careers', payload);
-      setStatus({ type: 'success', message: response.data.message || 'Your application has been submitted successfully.' });
+
+      const emailTo = 'sales@srilinelectronics.com';
+      const subject = encodeURIComponent(`Job Application: ${form.name}`);
+      const body = encodeURIComponent(
+        `Hello Srilin Careers Team,\n\n` +
+        `I am writing to apply for a position at SriLin Electronics.\n\n` +
+        `My details are as follows:\n` +
+        `- Name: ${form.name}\n` +
+        `- Email: ${form.email}\n` +
+        `- Phone: ${form.phone || 'N/A'}\n` +
+        `- Address: ${form.address || 'N/A'}\n\n` +
+        `Please find my attached resume in this email.\n\n` +
+        `Regards,\n` +
+        `${form.name}`
+      );
+      const mailtoUrl = `mailto:${emailTo}?subject=${subject}&body=${body}`;
+
+      setStatus({ type: 'success', message: 'Your application has been registered! Opening your email client to send your resume to sales@srilinelectronics.com.' });
       setForm(initialForm);
       if (fileInputRef.current) fileInputRef.current.value = '';
+
+      window.location.href = mailtoUrl;
     } catch (error) {
       setStatus({ type: 'error', message: error?.response?.data?.message || 'Unable to submit your application right now.' });
     } finally {
@@ -159,8 +182,10 @@ export default function CareersPage() {
               <span style={{ display: 'block' }}>
                 {typed1}
                 {!done1 && (
-                  <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#c29f5d',
-                    marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 0.75s step-end infinite' }} />
+                  <span style={{
+                    display: 'inline-block', width: 3, height: '0.85em', background: '#c29f5d',
+                    marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 0.75s step-end infinite'
+                  }} />
                 )}
               </span>
               {/* Line 2 — only starts after line 1 done */}
@@ -168,8 +193,10 @@ export default function CareersPage() {
                 <span style={{ display: 'block' }}>
                   {typed2}
                   {!done2 && (
-                    <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#c29f5d',
-                      marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 0.75s step-end infinite' }} />
+                    <span style={{
+                      display: 'inline-block', width: 3, height: '0.85em', background: '#c29f5d',
+                      marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 0.75s step-end infinite'
+                    }} />
                   )}
                 </span>
               )}
@@ -198,7 +225,7 @@ export default function CareersPage() {
       </section>
 
       {/* ══ SPEC STRIP ════════════════════════════════════════════ */}
-      <div className="bg-[#0F172A] border-t border-white/10">
+      {/* <div className="bg-[#0F172A] border-t border-white/10">
         <div className="max-w-6xl mx-auto px-6 md:px-12 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <p className="text-white/50 text-[10px] sm:text-[11px] tracking-wide text-center sm:text-left">
             EMS &nbsp;•&nbsp; ESDM &nbsp;•&nbsp; PCB ASSEMBLY &nbsp;•&nbsp; QUALITY ASSURANCE &nbsp;•&nbsp; PRODUCTION OPS
@@ -207,7 +234,7 @@ export default function CareersPage() {
             SRILIN_CAREERS_OPEN
           </p>
         </div>
-      </div>
+      </div> */}
 
       {/* ══ WHY JOIN ══════════════════════════════════════════════ */}
       <section className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20">
@@ -224,8 +251,8 @@ export default function CareersPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {perks.map(({ icon: Icon, title, description, tag }, i) => (
             <Reveal key={title} delay={i * 80}>
-              <div className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full">
-                <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#c29f5d]/10 group-hover:text-[#9a7a3e] transition-colors">
+              <div className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full rounded-2xl">
+                <div className="w-11 h-11 flex items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] rounded-xl transition-all">
                   <Icon size={22} strokeWidth={1.8} />
                 </div>
                 <div>
@@ -235,7 +262,7 @@ export default function CareersPage() {
                   <p className="text-sm text-[#44474d] leading-relaxed">{description}</p>
                 </div>
                 <div className="mt-auto pt-4 border-t border-[#E2E8F0]">
-                  <span className="inline-block bg-[#0F172A] text-[#c29f5d] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1">
+                  <span className="inline-block text-[#c29f5d] text-[10px] font-semibold uppercase tracking-wider">
                     {tag}
                   </span>
                 </div>
@@ -246,23 +273,23 @@ export default function CareersPage() {
 
         {/* ══ APPLICATION FORM ══════════════════════════════════ */}
         <Reveal delay={100}>
-          <div className="bg-white border border-[#E2E8F0]">
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-sm">
             <div className="bg-[#0F172A] px-6 py-4 flex items-center justify-between">
               <h3 className="font-['JetBrains_Mono'] font-bold text-white text-base sm:text-lg">
                 Submit Your Application
               </h3>
-              <span className="text-[#c29f5d] font-['JetBrains_Mono'] text-xs tracking-widest hidden sm:block">
+              {/* <span className="text-[#c29f5d] font-['JetBrains_Mono'] text-xs tracking-widest hidden sm:block">
                 HR REVIEW WITHIN 5 DAYS
-              </span>
+              </span> */}
             </div>
 
             <div className="p-6 md:p-8">
               <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
                   {[
-                    { id: 'name',  label: 'Full Name',     type: 'text',  ac: 'name',  placeholder: 'Enter your full name' },
+                    { id: 'name', label: 'Full Name', type: 'text', ac: 'name', placeholder: 'Enter your full name' },
                     { id: 'email', label: 'Email Address', type: 'email', ac: 'email', placeholder: 'Enter your email address' },
-                    { id: 'phone', label: 'Phone Number',  type: 'tel',   ac: 'tel',   placeholder: 'Enter your phone number' },
+                    { id: 'phone', label: 'Phone Number', type: 'tel', ac: 'tel', placeholder: 'Enter your phone number' },
                   ].map(({ id, label, type, ac, placeholder }) => (
                     <div key={id} className="flex flex-col gap-2">
                       <label htmlFor={`career-${id}`} className="text-xs font-semibold uppercase tracking-wider text-[#0F172A]">
@@ -271,7 +298,7 @@ export default function CareersPage() {
                       <input
                         id={`career-${id}`} name={id} type={type} autoComplete={ac}
                         placeholder={placeholder} value={form[id]} onChange={handleChange} required
-                        className="w-full px-4 py-3 border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#c29f5d] focus:ring-1 focus:ring-[#c29f5d]/40 transition-colors bg-[#f7f9fb]"
+                        className="w-full px-4 py-3 border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#c29f5d] focus:ring-1 focus:ring-[#c29f5d]/40 transition-colors bg-[#f7f9fb] rounded-lg"
                       />
                     </div>
                   ))}
@@ -283,7 +310,7 @@ export default function CareersPage() {
                     <textarea
                       id="career-address" name="address" rows={4} autoComplete="street-address"
                       placeholder="Enter your current address" value={form.address} onChange={handleChange} required
-                      className="w-full px-4 py-3 border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#c29f5d] focus:ring-1 focus:ring-[#c29f5d]/40 transition-colors bg-[#f7f9fb] resize-vertical"
+                      className="w-full px-4 py-3 border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#c29f5d] focus:ring-1 focus:ring-[#c29f5d]/40 transition-colors bg-[#f7f9fb] resize-vertical rounded-lg"
                     />
                   </div>
                 </div>
@@ -294,8 +321,8 @@ export default function CareersPage() {
                     Upload Resume
                   </label>
                   <label htmlFor="career-resume"
-                    className="flex items-center gap-4 px-4 py-4 border border-dashed border-[#CBD5E1] bg-[#f7f9fb] cursor-pointer hover:border-[#c29f5d] hover:bg-[#c29f5d]/5 transition-colors group">
-                    <div className="w-10 h-10 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#c29f5d]/10 group-hover:text-[#9a7a3e] transition-colors shrink-0">
+                    className="flex items-center gap-4 px-4 py-4 border border-dashed border-[#CBD5E1] bg-[#f7f9fb] cursor-pointer hover:border-[#c29f5d] hover:bg-[#c29f5d]/5 transition-colors group rounded-lg">
+                    <div className="w-10 h-10 flex items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] rounded-lg transition-colors shrink-0">
                       <Upload size={18} strokeWidth={1.8} />
                     </div>
                     <div>
@@ -313,11 +340,10 @@ export default function CareersPage() {
                 {/* Status message */}
                 {status.message && (
                   <div role="status"
-                    className={`mb-5 px-4 py-3 text-sm font-medium border-l-4 ${
-                      status.type === 'success'
-                        ? 'bg-green-50 border-green-500 text-green-800'
-                        : 'bg-red-50 border-red-500 text-red-800'
-                    }`}>
+                    className={`mb-5 px-4 py-3 text-sm font-medium border-l-4 ${status.type === 'success'
+                      ? 'bg-green-50 border-green-500 text-green-800'
+                      : 'bg-red-50 border-red-500 text-red-800'
+                      }`}>
                     {status.message}
                   </div>
                 )}
@@ -327,7 +353,7 @@ export default function CareersPage() {
                     Our HR team reviews all applications within 5 business days.
                   </p>
                   <button type="submit" disabled={submitting}
-                    className="inline-flex items-center gap-2.5 bg-[#0F172A] hover:bg-[#1e293b] disabled:opacity-60 text-white px-6 py-3 text-sm font-bold transition-colors">
+                    className="inline-flex items-center gap-2.5 bg-[#0F172A] hover:bg-[#1e293b] disabled:opacity-60 text-white px-6 py-3 text-sm font-bold transition-colors rounded-lg">
                     <Send size={15} />
                     {submitting ? 'Submitting…' : 'Submit Application'}
                   </button>
@@ -341,7 +367,7 @@ export default function CareersPage() {
                   Send your resume directly to our HR team at{' '}
                   <a href="mailto:hr@srilinelectronics.com"
                     className="inline-flex items-center gap-1.5 text-[#0F172A] font-semibold hover:text-[#9a7a3e] transition-colors">
-                    <Mail size={14} /> hr@srilinelectronics.com
+                    <Mail size={14} /> sales@srilinelectronics.com
                   </a>
                 </p>
               </div>
@@ -351,7 +377,7 @@ export default function CareersPage() {
       </section>
 
       {/* ══ CTA ══════════════════════════════════════════════════ */}
-      <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
+      {/* <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
         <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#c29f5d]/40 to-transparent hidden md:block" />
         <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#c29f5d]/20 to-transparent hidden md:block" />
 
@@ -378,7 +404,7 @@ export default function CareersPage() {
             </div>
           </div>
         </Reveal>
-      </section>
+      </section> */}
 
       <style>{`
         @keyframes careersHeroIn { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }

@@ -3,6 +3,17 @@ import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Settings, Sparkles, Share2, Mail } from 'lucide-react';
 import api from '../api/axios';
 
+const parseBoldText = (text) => {
+  if (!text) return '';
+  const parts = text.split('**');
+  return parts.map((part, index) => {
+    if (index % 2 === 1) {
+      return <strong key={index} className="font-bold text-[#0F172A]">{part}</strong>;
+    }
+    return part;
+  });
+};
+
 /* ════════════════════════════════════════════════════════════════
    ANIMATION UTILITIES
    ════════════════════════════════════════════════════════════════ */
@@ -10,7 +21,7 @@ import api from '../api/axios';
 /** Types out text one character at a time. Restarts when `text` changes. */
 function useTypewriter(text, speed = 38) {
   const [typed, setTyped] = useState('');
-  const [done, setDone]   = useState(false);
+  const [done, setDone] = useState(false);
   useEffect(() => {
     setTyped(''); setDone(false);
     if (!text) return;
@@ -57,7 +68,7 @@ export default function ServiceDetailPage() {
   const { id } = useParams();
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     let isMounted = true;
@@ -130,7 +141,7 @@ export default function ServiceDetailPage() {
           <div className="flex items-center gap-3 mb-5" style={{ animation: 'detailFadeIn 0.5s 0.1s ease both' }}>
             <span className="w-8 h-[2px] bg-[#f0c27b]" />
             <span className="font-['JetBrains_Mono'] text-[#f0c27b] text-xs font-bold uppercase tracking-[0.15em]">
-              Srilin Electronics — Service
+              Srilin Electronics — Services
             </span>
           </div>
 
@@ -139,13 +150,15 @@ export default function ServiceDetailPage() {
             style={{ minHeight: '1.1em' }}>
             {typedTitle}
             {!titleDone && (
-              <span style={{ display: 'inline-block', width: 3, height: '0.85em', background: '#f0c27b',
-                marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 0.75s step-end infinite' }} />
+              <span style={{
+                display: 'inline-block', width: 3, height: '0.85em', background: '#f0c27b',
+                marginLeft: 4, verticalAlign: 'middle', animation: 'cursorBlink 0.75s step-end infinite'
+              }} />
             )}
           </h1>
 
           {/* Badges — fade after typing */}
-          <div className="flex flex-wrap gap-2"
+          {/* <div className="flex flex-wrap gap-2"
             style={{ opacity: titleDone ? 1 : 0, transform: titleDone ? 'none' : 'translateY(8px)', transition: 'opacity 0.5s ease, transform 0.5s ease' }}>
             <span className="px-3 py-1 bg-[#c29f5d]/20 text-[#f0c27b] text-xs font-['JetBrains_Mono'] font-bold uppercase tracking-widest border border-[#f0c27b]/30">
               Srilin Service
@@ -153,7 +166,7 @@ export default function ServiceDetailPage() {
             <span className="px-3 py-1 bg-white/10 text-white/70 text-xs font-['JetBrains_Mono'] font-bold uppercase tracking-widest border border-white/20">
               Engineering Support
             </span>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -166,50 +179,10 @@ export default function ServiceDetailPage() {
 
             {/* Image */}
             <Reveal delay={0}>
-              <div className="relative w-full overflow-hidden border border-[#E2E8F0] shadow-sm group"
-                style={{ paddingBottom: '75%' }}>
+              <div className="relative w-full overflow-hidden border border-[#E2E8F0] shadow-sm group rounded-2xl bg-white">
                 <img src={service.image?.url || '/image.png'} alt={service.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  className="w-full h-auto max-h-[500px] object-contain p-4 bg-[#eceef0] transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute top-0 left-0 w-1 h-full bg-[#9a7a3e]" />
-              </div>
-            </Reveal>
-
-            {/* Team card */}
-            <Reveal delay={80}>
-              <div className="bg-white border border-[#E2E8F0] shadow-sm px-6 py-5">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full bg-[#334155] flex items-center justify-center text-white font-bold text-sm shrink-0">
-                    SE
-                  </div>
-                  <div>
-                    <p className="font-semibold text-[#0F172A] text-sm">Srilin Engineering Team</p>
-                    <p className="text-[#44474d] text-xs">Quality Assurance</p>
-                  </div>
-                </div>
-                <div className="flex gap-3 pt-3 border-t border-[#E2E8F0]">
-                  <Share2 size={16} className="text-[#9a7a3e] cursor-pointer hover:text-[#0F172A] transition-colors" />
-                  <Mail size={16} className="text-[#9a7a3e] cursor-pointer hover:text-[#0F172A] transition-colors" />
-                </div>
-              </div>
-            </Reveal>
-
-            {/* CTA card */}
-            <Reveal delay={160}>
-              <div className="bg-[#0F172A] text-white px-6 py-6 space-y-3 shadow-sm">
-                <p className="font-['JetBrains_Mono'] font-semibold text-lg">Need this service?</p>
-                <p className="text-sm text-white/70 leading-relaxed">
-                  Talk to our engineering team about your specific requirements and get a tailored quote.
-                </p>
-                <div className="flex flex-wrap gap-3 pt-1">
-                  <Link to="/contact-us"
-                    className="inline-block bg-[#c29f5d] text-[#0F172A] px-6 py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity">
-                    Discuss your requirement
-                  </Link>
-                  <Link to="/services"
-                    className="inline-block border border-white/30 text-white px-6 py-2.5 text-sm font-semibold hover:bg-white/10 transition-colors">
-                    Explore other services
-                  </Link>
-                </div>
               </div>
             </Reveal>
           </div>
@@ -219,7 +192,7 @@ export default function ServiceDetailPage() {
 
             {/* Overview card */}
             <Reveal delay={60}>
-              <div className="bg-white border border-[#E2E8F0] shadow-sm hover:border-[#9a7a3e]/30 transition-colors">
+              <div className="bg-white border border-[#E2E8F0] shadow-sm hover:border-[#9a7a3e]/30 transition-colors rounded-2xl overflow-hidden">
                 <div className="flex items-center gap-2 px-6 py-4 border-b border-[#E2E8F0]">
                   <Settings size={16} className="text-[#9a7a3e]" />
                   <span className="text-xs font-semibold uppercase tracking-wider text-[#9a7a3e]">
@@ -228,7 +201,7 @@ export default function ServiceDetailPage() {
                 </div>
                 <div className="px-6 py-5">
                   <p className="text-base md:text-[17px] leading-relaxed text-[#334155] whitespace-pre-line">
-                    {service.description}
+                    {parseBoldText(service.description)}
                   </p>
                 </div>
               </div>
@@ -237,7 +210,7 @@ export default function ServiceDetailPage() {
             {/* Highlights card */}
             {service.bullets?.length > 0 && (
               <Reveal delay={140}>
-                <div className="bg-white border border-[#E2E8F0] shadow-sm">
+                <div className="bg-white border border-[#E2E8F0] shadow-sm rounded-2xl overflow-hidden">
                   <div className="flex items-center gap-2 px-6 py-4 border-b border-[#E2E8F0]">
                     <Sparkles size={16} className="text-[#9a7a3e]" />
                     <span className="text-xs font-semibold uppercase tracking-wider text-[#9a7a3e]">
@@ -247,11 +220,11 @@ export default function ServiceDetailPage() {
                   <ul className="px-6 py-5 space-y-3">
                     {service.bullets.map((bullet, i) => (
                       <Reveal key={bullet} delay={i * 60}>
-                        <li className="flex items-start gap-3 p-3 border border-[#E2E8F0] hover:border-[#9a7a3e] hover:bg-[#f7f9fb] transition-colors">
+                        <li className="flex items-start gap-3 p-3 border border-[#E2E8F0] hover:border-[#9a7a3e] hover:bg-[#f7f9fb] transition-colors rounded-xl">
                           <span className="mt-0.5 w-5 h-5 rounded-full bg-[#c29f5d]/20 flex items-center justify-center shrink-0">
                             <Sparkles size={11} className="text-[#9a7a3e]" />
                           </span>
-                          <span className="text-[#334155] text-sm leading-relaxed">{bullet}</span>
+                          <span className="text-[#334155] text-sm leading-relaxed">{parseBoldText(bullet)}</span>
                         </li>
                       </Reveal>
                     ))}

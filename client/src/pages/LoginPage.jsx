@@ -42,16 +42,19 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const storedUser = getStoredUser();
+  const token = localStorage.getItem('token');
+  const userId = storedUser?._id || storedUser?.id;
+  const userRole = storedUser?.role;
 
   useEffect(() => {
-    if (!storedUser) return;
+    if (!token || !userId) return;
 
-    if (storedUser.role === 'admin' || storedUser.role === 'superadmin') {
+    if (userRole === 'admin' || userRole === 'superadmin') {
       navigate(from, { replace: true });
     } else {
       navigate('/', { replace: true });
     }
-  }, [storedUser, from, navigate]);
+  }, [token, userId, userRole, from, navigate]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });

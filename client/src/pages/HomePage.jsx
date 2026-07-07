@@ -163,8 +163,6 @@ function TestimonialCarouselSection() {
   return (
     <section
       className="relative py-16 md:py-24 overflow-hidden bg-[#f0f4f8] border-t border-[#E2E8F0]"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
     >
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 md:px-12 text-center">
         <Reveal>
@@ -177,16 +175,25 @@ function TestimonialCarouselSection() {
           </h2>
         </Reveal>
 
-        {/* Testimonial Cards */}
-        <Reveal>
+        {/* Testimonial Cards & Controls */}
+        <Reveal className="relative px-10 sm:px-14">
+          <button
+            type="button"
+            onClick={handlePrev}
+            aria-label="Previous testimonial"
+            className="absolute left-0 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-10 h-10 border border-[#E2E8F0] bg-white text-[#334155] hover:border-[#c29f5d] hover:text-[#9a7a3e] rounded-full transition-all shadow-sm z-10"
+          >
+            <ChevronLeft size={20} />
+          </button>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
             {[current, testimonials[(currentIndex + 1) % testimonials.length]].map((item, idx) => (
               <div
                 key={idx}
-                className={`relative border border-[#E2E8F0] bg-white p-6 sm:p-8 hover:shadow-xl transition-all duration-300 min-h-[260px] flex flex-col justify-between ${idx === 1 ? 'hidden md:flex' : 'flex'
+                className={`relative border border-[#E2E8F0] bg-white p-6 sm:p-8 hover:shadow-xl transition-all duration-300 min-h-[260px] flex flex-col justify-between rounded-2xl ${idx === 1 ? 'hidden md:flex' : 'flex'
                   }`}
               >
-                <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'linear-gradient(90deg,#c29f5d,#9a7a3e,transparent)' }} />
+                <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={{ background: 'linear-gradient(90deg,#c29f5d,#9a7a3e,transparent)' }} />
 
                 <div>
                   <div className="font-['JetBrains_Mono'] font-bold leading-none select-none text-left"
@@ -206,7 +213,7 @@ function TestimonialCarouselSection() {
                 </div>
 
                 <div className="flex items-center gap-3 pt-4 border-t border-[#E2E8F0] w-full">
-                  <div className="flex items-center justify-center w-10 h-10 font-bold text-sm text-white font-['JetBrains_Mono'] shrink-0"
+                  <div className="flex items-center justify-center w-10 h-10 font-bold text-sm text-white font-['JetBrains_Mono'] shrink-0 rounded-lg"
                     style={{ background: 'linear-gradient(135deg,#9a7a3e,#0F172A)' }}>
                     {item.name[0]}
                   </div>
@@ -218,49 +225,38 @@ function TestimonialCarouselSection() {
               </div>
             ))}
           </div>
-        </Reveal>
-
-        {/* Carousel Controls */}
-        <div className="flex items-center justify-between mt-8 max-w-md mx-auto">
-          <button
-            type="button"
-            onClick={handlePrev}
-            aria-label="Previous testimonial"
-            className="inline-flex items-center justify-center w-10 h-10 border border-[#E2E8F0] bg-white text-[#334155] hover:border-[#c29f5d] hover:text-[#9a7a3e] transition-all"
-          >
-            <ChevronLeft size={20} />
-          </button>
-
-          <div className="flex gap-2">
-            {testimonials.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setCurrentIndex(i)}
-                aria-label={`Testimonial ${i + 1}`}
-                aria-current={i === currentIndex ? 'true' : undefined}
-                style={{
-                  width: i === currentIndex ? 24 : 8,
-                  height: 6,
-                  borderRadius: 3,
-                  border: 'none',
-                  padding: 0,
-                  cursor: 'pointer',
-                  background: i === currentIndex ? '#c29f5d' : 'rgba(194,159,93,0.25)',
-                  transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)',
-                }}
-              />
-            ))}
-          </div>
 
           <button
             type="button"
             onClick={handleNext}
             aria-label="Next testimonial"
-            className="inline-flex items-center justify-center w-10 h-10 border border-[#E2E8F0] bg-white text-[#334155] hover:border-[#c29f5d] hover:text-[#9a7a3e] transition-all"
+            className="absolute right-0 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-10 h-10 border border-[#E2E8F0] bg-white text-[#334155] hover:border-[#c29f5d] hover:text-[#9a7a3e] rounded-full transition-all shadow-sm z-10"
           >
             <ChevronRight size={20} />
           </button>
+        </Reveal>
+
+        {/* Carousel Dots Indicator */}
+        <div className="flex justify-center gap-2 mt-8">
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setCurrentIndex(i)}
+              aria-label={`Testimonial ${i + 1}`}
+              aria-current={i === currentIndex ? 'true' : undefined}
+              style={{
+                width: i === currentIndex ? 24 : 8,
+                height: 6,
+                borderRadius: 3,
+                border: 'none',
+                padding: 0,
+                cursor: 'pointer',
+                background: i === currentIndex ? '#c29f5d' : 'rgba(194,159,93,0.25)',
+                transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)',
+              }}
+            />
+          ))}
         </div>
       </div>
     </section>
@@ -295,12 +291,23 @@ export default function HomePage() {
     loadServices();
   }, []);
 
-  /* ── original marquee data — unchanged ── */
+  /* ── marquee data split into disjoint sets to avoid duplicate showing ── */
   const logoClients = clients.filter((c) => c?.logo?.url).length
     ? clients.filter((c) => c?.logo?.url)
     : defaultClientNames.map((companyName) => ({ companyName, logo: { url: '/image.png' } }));
-  const rowA = [...logoClients, ...logoClients];
-  const rowB = [...logoClients.slice().reverse(), ...logoClients.slice().reverse()];
+
+  let rowA = [];
+  let rowB = [];
+  if (logoClients.length >= 4) {
+    const halfLen = Math.ceil(logoClients.length / 2);
+    const partA = logoClients.slice(0, halfLen);
+    const partB = logoClients.slice(halfLen);
+    rowA = [...partA, ...partA];
+    rowB = [...partB, ...partB];
+  } else {
+    rowA = [...logoClients, ...logoClients];
+    rowB = [...logoClients.slice().reverse(), ...logoClients.slice().reverse()];
+  }
 
   return (
     <div className="bg-[#f7f9fb] font-['Inter'] min-h-screen overflow-x-hidden pb-16" style={{ fontFamily: 'Inter,system-ui,sans-serif' }}>
@@ -360,36 +367,50 @@ export default function HomePage() {
           {/* Image */}
           <Reveal delay={100}>
             <div className="relative group">
-              <div className="relative overflow-hidden border border-[#E2E8F0] bg-[#0F172A] aspect-[4/3]">
+              <div className="relative overflow-hidden border border-[#E2E8F0] bg-[#0F172A] aspect-[4/3] rounded-2xl">
                 <img src="/about-us2.png" alt="SriLin electronics manufacturing facility"
                   onError={(e) => { e.currentTarget.style.display = 'none'; }}
                   className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   style={{ background: 'linear-gradient(to top,rgba(194, 159, 93,0.08),transparent)' }} />
-                <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 bg-[#0F172A]/90 text-white text-xs font-['JetBrains_Mono'] px-3 py-2 border border-white/10">
+                <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 bg-[#0F172A]/90 text-white text-xs font-['JetBrains_Mono'] px-3 py-2 border border-white/10 rounded-md">
                   <Building2 size={14} style={{ color: '#c29f5d' }} /> E-City EMC, Hyderabad
                 </div>
-                <div className="absolute top-4 right-4 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider font-['JetBrains_Mono']"
+                <div className="absolute top-4 right-4 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider font-['JetBrains_Mono'] rounded-md"
                   style={{ background: 'rgba(194, 159, 93,0.1)', color: '#c29f5d', border: '1px solid rgba(194, 159, 93,0.3)' }}>
                   AS9100D Certified
                 </div>
               </div>
-              <div className="absolute -bottom-3 -right-3 w-full h-full border border-[#c29f5d]/15 pointer-events-none" />
+              <div className="absolute -bottom-3 -right-3 w-full h-full border border-[#c29f5d]/15 pointer-events-none rounded-2xl" />
+            </div>
+
+            {/* Stat grid — counting numbers placed below the image */}
+            <div className="grid grid-cols-3 gap-3 mt-8">
+              {aboutStats.map((stat) => (
+                <article key={stat.label} className="relative group border border-[#E2E8F0] bg-white p-3 text-center overflow-hidden hover:border-[#c29f5d]/40 transition-all duration-300 rounded-2xl">
+                  <div className="absolute top-0 left-0 w-full h-0.5 bg-[#c29f5d] scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                  <strong className="block font-['JetBrains_Mono'] text-base sm:text-lg text-[#0F172A]">
+                    <AnimatedNumber value={stat.value} />
+                  </strong>
+                  <span className="mt-1 block text-[10px] uppercase tracking-wider text-[#64748b] leading-tight">{stat.label}</span>
+                </article>
+              ))}
             </div>
           </Reveal>
 
           {/* Text */}
           <Reveal delay={200}>
             <div className="flex flex-col gap-5">
-              <h2 className="font-['JetBrains_Mono'] font-bold text-[#0F172A] leading-tight"
+              <h2 className="font-['JetBrains_Mono'] font-bold text-[#c29f5d] leading-tight"
                 style={{ fontSize: 'clamp(1.5rem,3.5vw,2.5rem)' }}>
                 Srilin Electronics<br />Private Limited
               </h2>
               <p className="text-[#334155] text-base sm:text-lg leading-relaxed">
-                Srilin Electronics Pvt Ltd is an ISO9001:2015, AS9100D, ANSI ESD S20.20 2021 &amp; IEC 61340 5.1
-                certified premier electronics system design and manufacturing services company located in
-                E-City EMC, Hyderabad. Our one-stop electronics manufacturing services factory integrates
-                quick prototyping, mid-range production, and high-volume manufacturing with disciplined execution.
+                Srilin Electronics Pvt Ltd is an ISO9001:2015, AS9100D, ANSI ESD S20.20 2021 &amp;
+                IEC 61340 5.1 certified Premier Electronics System Design &amp; Manufacturing Services
+                (ESDM/EMS) company located in E-city EMC (Formerly Fabcity), Hyderabad, India.
+                Established in 2017, we support quick prototyping, mid-volume production, and
+                high-volume manufacturing.
               </p>
               <p className="text-[#334155] text-base leading-relaxed">
                 We provide embedded design, SMT mounting, product integration, testing, box build, and
@@ -403,37 +424,22 @@ export default function HomePage() {
                 ))}
               </ul>
               <div className="flex flex-wrap gap-3 mt-2">
-                <Link to="/about-company" className="inline-flex items-center gap-2 bg-[#0F172A] text-white px-5 sm:px-6 py-3 text-sm font-semibold hover:opacity-90 hover:gap-3 transition-all">
-                  Discover SriLin <ArrowRight size={16} />
+                <Link to="/about-us/company" className="inline-flex items-center gap-2 bg-[#0f172a] text-white px-5 sm:px-6 py-3 text-sm font-semibold hover:bg-[#c29f5d] hover:text-[#0f172a] hover:gap-3 transition-all rounded-lg">
+                  Discover Srilin <ArrowRight size={16} />
                 </Link>
-                <Link to="/contact-us" className="inline-flex items-center gap-2 border border-[#75777e] text-[#0F172A] px-5 sm:px-6 py-3 text-sm font-semibold hover:bg-[#eceef0] transition-colors">
+                <Link to="/contact-us" className="inline-flex items-center gap-2 border border-[#75777e] text-[#0F172A] px-5 sm:px-6 py-3 text-sm font-semibold hover:bg-[#c29f5d]/10 hover:border-[#c29f5d] transition-colors rounded-lg">
                   Talk to our team
                 </Link>
               </div>
               <div className="flex flex-wrap gap-2 mt-1">
                 {certificationBadges.map((cert) => (
-                  <span key={cert} className="inline-flex items-center gap-1.5 border border-[#E2E8F0] bg-white px-3 py-1.5 text-xs font-medium text-[#334155] hover:border-[#9a7a3e]/40 transition-colors">
+                  <span key={cert} className="inline-flex items-center gap-1.5 border border-[#E2E8F0] bg-white px-3 py-1.5 text-xs font-medium text-[#334155] hover:border-[#9a7a3e]/40 transition-colors rounded-lg">
                     <ShieldCheck size={12} style={{ color: '#9a7a3e' }} /> {cert}
                   </span>
                 ))}
               </div>
             </div>
           </Reveal>
-        </div>
-
-        {/* Stat grid — counting numbers */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-12 md:mt-16">
-          {aboutStats.map((stat, i) => (
-            <Reveal key={stat.label} delay={i * 90}>
-              <article className="relative group border border-[#E2E8F0] bg-white p-4 sm:p-6 overflow-hidden hover:border-[#c29f5d]/40 hover:-translate-y-0.5 transition-all duration-300">
-                <div className="absolute top-0 left-0 w-0.5 h-full bg-[#c29f5d] scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top" />
-                <strong className="block font-['JetBrains_Mono'] text-xl sm:text-2xl text-[#0F172A]">
-                  <AnimatedNumber value={stat.value} />
-                </strong>
-                <span className="mt-1 block text-xs sm:text-sm text-[#64748b]">{stat.label}</span>
-              </article>
-            </Reveal>
-          ))}
         </div>
 
 
@@ -460,14 +466,14 @@ export default function HomePage() {
           </Reveal>
 
           {services.length ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {services.map((service, idx) => {
                 if (!service) return null;
                 return (
                   <Reveal key={service._id} delay={idx * 60}>
                     <Link to={`/services/${slugify(service.title)}`} className="block h-full">
-                      <article className="group border border-[#E2E8F0] bg-white overflow-hidden hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 h-full flex flex-col justify-between">
-                        <div className="relative overflow-hidden bg-[#eceef0] aspect-[4/3] w-full flex items-center justify-center p-6">
+                      <article className="group border border-[#E2E8F0] bg-white overflow-hidden hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 h-full flex flex-col justify-between rounded-2xl">
+                        <div className="relative overflow-hidden bg-[#eceef0] aspect-[4/3] w-full flex items-center justify-center p-6 rounded-t-2xl">
                           <img src={service.image?.url || '/image.png'} alt={service.title || 'Service'}
                             onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/image.png'; }}
                             className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105" />
@@ -485,11 +491,11 @@ export default function HomePage() {
               })}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {coreServices.map((svc, idx) => (
                 <Reveal key={svc} delay={idx * 60}>
                   <Link to={`/services/${slugify(svc)}`} className="block h-full">
-                    <article className="group flex items-center gap-5 border border-[#E2E8F0] bg-white p-8 sm:p-10 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                    <article className="group flex items-center gap-5 border border-[#E2E8F0] bg-white p-8 sm:p-10 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 rounded-2xl">
                       <span className="font-['JetBrains_Mono'] font-bold text-lg text-[#0F172A]">{svc}</span>
                       <ArrowRight size={18} className="ml-auto shrink-0 text-[#E2E8F0] group-hover:text-[#9a7a3e] group-hover:translate-x-1 transition-all" />
                     </article>
@@ -519,14 +525,9 @@ export default function HomePage() {
                   <span className="flex-1 h-px bg-[#E2E8F0] max-w-[60px]" />
                 </div>
                 <h2 className="font-['JetBrains_Mono'] font-bold text-[#0F172A] leading-tight"
-                  style={{ fontSize: 'clamp(1.4rem,3vw,2rem)', maxWidth: 480 }}>
+                  style={{ fontSize: 'clamp(1.4rem,3vw,2rem)' }}>
                   Flexible electronics capability for modern industrial and product ecosystems.
                 </h2>
-              </div>
-              <div className="shrink-0 border border-[#E2E8F0] bg-[#f7f9fb] px-6 py-5 flex flex-col gap-1 min-w-[180px]">
-                <strong className="font-['JetBrains_Mono'] font-bold text-3xl text-[#0F172A]">8</strong>
-                <span className="text-xs text-[#64748b]">Industry verticals</span>
-                <span className="text-xs mt-1 text-[#9a7a3e]">Aerospace to Medical</span>
               </div>
             </div>
           </Reveal>
@@ -534,8 +535,8 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {industries.map(([industry, Icon], i) => (
               <Reveal key={industry} delay={i * 60}>
-                <article className="group flex flex-col items-center justify-center text-center gap-4 border border-[#E2E8F0] bg-[#f7f9fb] p-6 sm:p-8 hover:border-[#c29f5d]/50 hover:bg-white hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-default h-full">
-                  <span className="inline-flex h-14 w-14 items-center justify-center bg-[#eceef0] group-hover:bg-[#c29f5d]/10 transition-colors rounded text-[#9a7a3e]">
+                <article className="group flex flex-col items-center justify-center text-center gap-4 border border-[#E2E8F0] bg-[#f7f9fb] p-6 sm:p-8 hover:border-[#c29f5d]/50 hover:bg-white hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-default h-full rounded-2xl">
+                  <span className="inline-flex h-14 w-14 items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] transition-colors rounded-xl shrink-0">
                     <Icon size={28} />
                   </span>
                   <span className="text-[#0F172A] text-sm md:text-base font-semibold leading-snug">{industry}</span>
@@ -557,7 +558,7 @@ export default function HomePage() {
               style={{ fontSize: 'clamp(1.4rem,3vw,2rem)', maxWidth: 520 }}>
               Built for electronics teams that need precision, speed, and accountability.
             </h2>
-            <Link to="/about-company" className="inline-flex items-center gap-2 text-[#9a7a3e] font-semibold text-sm shrink-0 hover:gap-3 transition-all">
+            <Link to="/about-us/company" className="inline-flex items-center gap-2 text-[#9a7a3e] font-semibold text-sm shrink-0 hover:gap-3 transition-all">
               About us <ArrowRight size={14} />
             </Link>
           </div>
@@ -565,18 +566,15 @@ export default function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {whyChoose.map(({ icon: Icon, title, text }, idx) => (
             <Reveal key={title} delay={idx * 100}>
-              <article className="group relative border border-[#E2E8F0] bg-white p-6 sm:p-8 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 overflow-hidden h-full">
+              <article className="group relative border border-[#E2E8F0] bg-white p-6 sm:p-8 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 overflow-hidden h-full rounded-2xl">
                 <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c29f5d] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 <div className="flex items-start justify-between mb-5">
-                  <span className="inline-flex h-11 w-11 items-center justify-center bg-[#eceef0] group-hover:bg-teal-50 text-[#0F172A] transition-colors">
+                  <span className="inline-flex h-11 w-11 items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] rounded-xl transition-colors shrink-0 animate-pulse-subtle">
                     <Icon size={22} />
                   </span>
                 </div>
                 <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] mb-3">{title}</h3>
                 <p className="text-sm leading-relaxed text-[#334155]">{text}</p>
-                <div className="mt-5 flex items-center gap-1.5 text-xs font-semibold text-[#9a7a3e] opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-300">
-                  Learn more <ArrowRight size={12} />
-                </div>
               </article>
             </Reveal>
           ))}
@@ -640,7 +638,7 @@ export default function HomePage() {
                   <Link to="/contact-us"
                     className="inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-bold hover:opacity-90 hover:gap-3 transition-all"
                     style={{ background: '#c29f5d', color: '#0F172A' }}>
-                    Contact SriLin <ArrowRight size={16} />
+                    Contact Srilin <ArrowRight size={16} />
                   </Link>
                   <Link to="/services"
                     className="inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-semibold text-white border border-white/20 hover:bg-white/10 transition-colors">

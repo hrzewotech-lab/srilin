@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Factory,
-  MapPin,
+  Car,
+  Plane,
   Cpu,
-  Sparkles,
-  Zap,
-  Building2,
-  Layers3,
-  ShieldCheck,
+  Wifi,
+  BatteryCharging,
+  Train,
+  Bot,
+  Activity,
   ArrowRight,
   CheckCircle2,
 } from 'lucide-react';
@@ -16,14 +16,14 @@ import {
 const industries = [
   {
     name: 'Automotive',
-    icon: Factory,
+    icon: Car,
     description:
       'EV battery management, ADAS sensor suites, and infotainment assembly. Compliant with IATF 16949 quality management standards.',
     tag: 'Zero-Defect Goal',
   },
   {
     name: 'Aviation, Space & Defence',
-    icon: MapPin,
+    icon: Plane,
     description:
       'High-reliability PCBA for avionics, flight control systems, and engine management. Strict adherence to AS9100D and vibration-resistance specs.',
     tag: 'NADCAP Accredited',
@@ -37,35 +37,35 @@ const industries = [
   },
   {
     name: 'Telecom',
-    icon: Sparkles,
+    icon: Wifi,
     description:
       'Next-gen 5G infrastructure, satellite comms, and base station assemblies. Specialized in high-frequency RF substrate handling.',
     tag: 'RF Optimization',
   },
   {
     name: 'Electric Vehicles',
-    icon: Zap,
+    icon: BatteryCharging,
     description:
       'Battery pack electronics, charging infrastructure, and power control modules engineered for thermal stress and high-current reliability.',
     tag: 'Thermal-Rated',
   },
   {
     name: 'Railways',
-    icon: Building2,
+    icon: Train,
     description:
       'Signaling systems, onboard control units, and rolling stock electronics built to meet long-lifecycle and harsh-environment standards.',
     tag: 'EN 50155 Aligned',
   },
   {
     name: 'AI, IoT & Automation',
-    icon: Layers3,
+    icon: Bot,
     description:
       'Rapid prototyping for edge computing nodes, AI accelerators, and industrial IoT sensors with complex chip-on-board requirements.',
     tag: 'Rapid Scale-Up',
   },
   {
     name: 'Medical Devices',
-    icon: ShieldCheck,
+    icon: Activity,
     description:
       'Life-saving diagnostic equipment and surgical robotics. Clean-room SMT lines certified to ISO 13485 with full traceability.',
     tag: 'Traceability V4.0',
@@ -251,7 +251,7 @@ export default function IndustriesPage() {
       </section>
 
       {/* SPEC STRIP */}
-      <div className="bg-[#0F172A] border-t border-white/10">
+      {/* <div className="bg-[#0F172A] border-t border-white/10">
         <div className="max-w-6xl mx-auto px-6 md:px-12 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <p className="text-white/50 text-[10px] sm:text-[11px] tracking-wide text-center sm:text-left">
             ISO 13485:2016 &nbsp;•&nbsp; IPC-A-610 CLASS 3 &nbsp;•&nbsp; MIL-PRF-31032 &nbsp;•&nbsp; ESD S20.20
@@ -260,10 +260,10 @@ export default function IndustriesPage() {
             SRILIN_SPEC_99.9
           </p>
         </div>
-      </div>
+      </div> */}
 
       {/* INDUSTRY CARDS */}
-      <section className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20">
+      <section className="max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-20">
         <Reveal delay={80} className="mb-10">
           <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#c29f5d] pl-4">
             Specialized EMS Solutions
@@ -274,11 +274,11 @@ export default function IndustriesPage() {
           </p>
         </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {industries.map(({ name, icon: Icon, description, tag }, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {industries.map(({ name, icon: Icon, description }, index) => (
             <Reveal key={name} delay={index * 70}>
-              <div className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full">
-                <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#c29f5d]/10 group-hover:text-[#9a7a3e] transition-colors">
+              <div className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full rounded-2xl">
+                <div className="w-11 h-11 flex items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] rounded-xl transition-all">
                   <Icon size={22} strokeWidth={1.8} />
                 </div>
                 <div>
@@ -286,11 +286,6 @@ export default function IndustriesPage() {
                     {name}
                   </h3>
                   <p className="text-sm text-[#44474d] leading-relaxed">{description}</p>
-                </div>
-                <div className="mt-auto pt-4 border-t border-[#E2E8F0]">
-                  <span className="inline-block bg-[#0F172A] text-[#c29f5d] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1">
-                    {tag}
-                  </span>
                 </div>
               </div>
             </Reveal>
@@ -340,7 +335,7 @@ export default function IndustriesPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
+      {/* <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
         <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#c29f5d]/40 to-transparent hidden md:block" />
         <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#c29f5d]/20 to-transparent hidden md:block" />
 
@@ -369,7 +364,7 @@ export default function IndustriesPage() {
             </Link>
           </div>
         </Reveal>
-      </section>
+      </section> */}
     </div>
   );
 }

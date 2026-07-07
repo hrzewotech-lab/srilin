@@ -54,15 +54,14 @@ function useTypewriter(text, speed = 38) {
 export default function HeroCarousel() {
   const [slides]                    = useState(fallbackSlides);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused]       = useState(false);
 
   useEffect(() => {
-    if (slides.length < 2 || isPaused) return;
+    if (slides.length < 2) return;
     const timer = window.setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % slides.length);
     }, 5500);
     return () => window.clearInterval(timer);
-  }, [slides.length, isPaused]);
+  }, [slides.length]);
 
   const activeSlide            = slides[activeIndex] || slides[0];
   const slideLabel             = `${String(activeIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
@@ -71,10 +70,6 @@ export default function HeroCarousel() {
   return (
     <section
       aria-label="Featured images"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onFocusCapture={() => setIsPaused(true)}
-      onBlurCapture={() => setIsPaused(false)}
       className="relative w-full overflow-hidden rounded-t-[20px] sm:rounded-t-[28px] border border-white/10"
       style={{ height: 'min(75vh, 580px)', minHeight: 450, background: '#0a1224' }}
     >
@@ -142,7 +137,7 @@ export default function HeroCarousel() {
 
           {/* Typewriter title */}
           <h1 className="text-white font-bold leading-[1.08] mb-5 font-['JetBrains_Mono']"
-            style={{ fontSize: 'clamp(1.9rem, 5.5vw, 3.8rem)', textShadow: '0 2px 48px rgba(0,0,0,0.5)', minHeight: '1.08em' }}>
+            style={{ fontSize: 'clamp(1.5rem, 4vw, 2.4rem)', textShadow: '0 2px 48px rgba(0,0,0,0.5)', minHeight: '1.08em' }}>
             {typedTitle}
             {/* Blinking cursor while typing */}
             {!typeDone && (
@@ -186,26 +181,11 @@ export default function HeroCarousel() {
         </div>
       </div>
 
-      {/* ── Right stats panel (xl+) ── */}
-      <div className="hidden xl:flex flex-col gap-2 absolute right-10 bottom-24" style={{ zIndex: 10 }}>
-        {heroStats.map(({ value, label }, i) => (
-          <div key={label}
-            className="flex items-center gap-4 px-5 py-3 border border-white/10"
-            style={{
-              background: 'rgba(15,23,42,0.72)', backdropFilter: 'blur(10px)',
-              animation: `heroStatIn 0.5s ${0.4 + i * 0.12}s ease both`,
-            }}>
-            <strong className="font-['JetBrains_Mono'] font-bold text-xl text-white leading-none">{value}</strong>
-            <span className="text-xs leading-tight" style={{ color: 'rgba(255,255,255,0.45)' }}>{label}</span>
-          </div>
-        ))}
-      </div>
-
       {/* ── Progress bar ── */}
       <div className="absolute bottom-0 left-0 right-0 h-0.5" style={{ zIndex: 10, background: 'rgba(255,255,255,0.07)' }}>
         <div key={`p-${activeIndex}`} className="h-full"
           style={{ background: 'linear-gradient(90deg,#9a7a3e,#d4b26f)',
-            animation: isPaused ? 'none' : 'progressFill 5.5s linear forwards' }} />
+            animation: 'progressFill 5.5s linear forwards' }} />
       </div>
 
       {/* ── Slide counter ── */}

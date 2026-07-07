@@ -11,7 +11,7 @@ import { slugify } from '../utils/slugify';
 /** Types out text one character at a time. Returns [displayedText, isDone]. */
 function useTypewriter(text, speed = 40) {
   const [typed, setTyped] = useState('');
-  const [done, setDone]   = useState(false);
+  const [done, setDone] = useState(false);
   useEffect(() => {
     setTyped('');
     setDone(false);
@@ -59,7 +59,7 @@ function Reveal({ children, delay = 0, y = 26, className = '', style = {} }) {
 
 /** Counts a numeric string up from zero when scrolled into view. */
 function AnimatedNumber({ value, className = '', style = {} }) {
-  const ref     = useRef(null);
+  const ref = useRef(null);
   const started = useRef(false);
   const [display, setDisplay] = useState(value);
 
@@ -70,14 +70,14 @@ function AnimatedNumber({ value, className = '', style = {} }) {
     if (!/^\d/.test(String(value))) { setDisplay(value); return; }
     if (String(value).includes('/')) { setDisplay(value); return; }
 
-    const raw      = String(value).replace(/[^0-9.]/g, '');
-    const num      = parseFloat(raw);
+    const raw = String(value).replace(/[^0-9.]/g, '');
+    const num = parseFloat(raw);
     if (isNaN(num)) { setDisplay(value); return; }
 
-    const suffix     = String(value).replace(/^[\d,. ]+/, '');
-    const hasComma   = String(value).includes(',');
+    const suffix = String(value).replace(/^[\d,. ]+/, '');
+    const hasComma = String(value).includes(',');
     const hasDecimal = String(value).replace(suffix, '').includes('.');
-    const decimals   = hasDecimal ? (String(value).replace(suffix, '').split('.')[1]?.length ?? 1) : 0;
+    const decimals = hasDecimal ? (String(value).replace(suffix, '').split('.')[1]?.length ?? 1) : 0;
 
     const obs = new IntersectionObserver(([e]) => {
       if (e.isIntersecting && !started.current) {
@@ -87,12 +87,12 @@ function AnimatedNumber({ value, className = '', style = {} }) {
         const dur = 1800;
         const tick = (ts) => {
           if (!t0) t0 = ts;
-          const p     = Math.min((ts - t0) / dur, 1);
+          const p = Math.min((ts - t0) / dur, 1);
           const eased = 1 - (1 - p) ** 3;
-          const cur   = eased * num;
-          const fmt   = hasDecimal ? cur.toFixed(decimals)
+          const cur = eased * num;
+          const fmt = hasDecimal ? cur.toFixed(decimals)
             : hasComma ? Math.floor(cur).toLocaleString()
-            : Math.floor(cur).toString();
+              : Math.floor(cur).toString();
           setDisplay(fmt + suffix);
           if (p < 1) requestAnimationFrame(tick);
         };
@@ -111,8 +111,8 @@ function AnimatedNumber({ value, className = '', style = {} }) {
    ════════════════════════════════════════════════════════════════ */
 export default function ServicesPage() {
   const [services, setServices] = useState([]);
-  const [loading, setLoading]   = useState(true);
-  const [error, setError]       = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [activeId, setActiveId] = useState(null);
 
   useEffect(() => {
@@ -120,8 +120,8 @@ export default function ServicesPage() {
     const loadServices = async () => {
       try {
         const response = await api.get('/services');
-        const rawList  = response?.data?.services;
-        const list     = Array.isArray(rawList)
+        const rawList = response?.data?.services;
+        const list = Array.isArray(rawList)
           ? rawList.filter((service) => service && service.isActive !== false)
           : [];
         if (isMounted) {
@@ -141,8 +141,8 @@ export default function ServicesPage() {
   }, []);
 
   /* Typewriter for the hero h1 — plain text only (no JSX span inside) */
-  const heroText                  = 'Advanced EMS Solutions';
-  const [typedHero, heroDone]     = useTypewriter(heroText, 45);
+  const heroText = 'Advanced EMS Solutions';
+  const [typedHero, heroDone] = useTypewriter(heroText, 45);
 
   return (
     <div className="bg-[#f7f9fb] font-['Inter'] min-h-screen">
@@ -256,11 +256,10 @@ export default function ServicesPage() {
                           <a
                             href={`#service-${service._id}`}
                             onClick={() => setActiveId(service._id)}
-                            className={`group flex items-center justify-between gap-2 px-3 lg:p-4 py-2 border-l-4 font-['JetBrains_Mono'] text-xs md:text-sm transition-all ${
-                              activeId === service._id
+                            className={`group flex items-center justify-between gap-2 px-3 lg:p-4 py-2 border-l-4 font-['JetBrains_Mono'] text-xs md:text-sm transition-all ${activeId === service._id
                                 ? 'bg-white border-[#9a7a3e] text-[#9a7a3e]'
                                 : 'bg-white lg:bg-transparent border-[#E2E8F0] lg:border-transparent text-[#334155] hover:border-[#9a7a3e]/40 hover:bg-[#eceef0]'
-                            }`}
+                              }`}
                           >
                             <span className="truncate pr-1 max-w-[160px] lg:max-w-none">
                               {service.title || 'Untitled service'}
@@ -273,7 +272,7 @@ export default function ServicesPage() {
                   </div>
 
                   <Reveal delay={services.length * 40 + 80}>
-                    <div className="mt-6 lg:mt-10 p-5 md:p-6 bg-[#0F172A] text-white">
+                    <div className="mt-6 lg:mt-10 p-5 md:p-6 bg-[#0F172A] text-white rounded-2xl shadow-sm">
                       <h4 className="font-['JetBrains_Mono'] font-semibold text-base md:text-lg mb-2 md:mb-3">
                         Technical Help?
                       </h4>
@@ -282,9 +281,9 @@ export default function ServicesPage() {
                       </p>
                       <Link
                         to="/contact-us"
-                        className="flex items-center justify-center gap-2 w-full py-2.5 md:py-3 border border-[#f0c27b] text-[#f0c27b] text-xs md:text-sm font-['JetBrains_Mono'] font-semibold hover:bg-[#f0c27b] hover:text-[#0F172A] transition-all"
+                        className="flex items-center justify-center gap-2 w-full py-2.5 md:py-3 border border-[#f0c27b] text-[#f0c27b] text-xs md:text-sm font-['JetBrains_Mono'] font-semibold hover:bg-[#f0c27b] hover:text-[#0F172A] transition-all rounded-lg"
                       >
-                        <Mail size={14} /> Contact Engineering
+                        <Mail size={14} /> Contact Us
                       </Link>
                     </div>
                   </Reveal>
@@ -297,26 +296,22 @@ export default function ServicesPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 {services.map((service, index) => {
                   if (!service) return null;
-                  const key     = service._id || `service-${index}`;
+                  const key = service._id || `service-${index}`;
                   const bullets = Array.isArray(service.bullets) ? service.bullets : [];
 
                   return (
                     <Reveal key={key} delay={index * 60}>
                       <article
                         id={`service-${service._id || index}`}
-                        className="group flex flex-col bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full"
+                        className="group flex flex-col bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full rounded-2xl"
                       >
                         {/* Image */}
                         <div className="h-36 sm:h-40 md:h-44 overflow-hidden relative bg-[#eceef0]">
-                          {/* Index badge */}
-                          <div className="absolute top-3 left-3 z-10 font-['JetBrains_Mono'] text-[10px] font-bold text-white/70 bg-[#0F172A]/60 px-2 py-0.5 rounded backdrop-blur-sm">
-                            {String(index + 1).padStart(2, '0')}
-                          </div>
                           <img
                             src={service.image?.url || '/image.png'}
                             alt={service.title || 'Service'}
                             onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/image.png'; }}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="w-full h-full object-contain p-4 bg-[#eceef0] transition-transform duration-500 group-hover:scale-105"
                           />
                           {/* Teal top-border reveal on hover */}
                           <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#f0c27b] scale-x-0 group-hover:scale-x-100 transition-transform duration-400 origin-left" />

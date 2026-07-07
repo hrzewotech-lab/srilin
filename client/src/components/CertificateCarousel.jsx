@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, Award, ShieldCheck } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Award, ShieldCheck, X } from 'lucide-react';
 import api from '../api/axios';
 
 /* ── Fallback certificates with real local images ── */
@@ -15,6 +15,7 @@ export default function CertificateCarousel() {
   const [activeIndex, setActiveIndex]   = useState(0);
   const [isPaused, setIsPaused]         = useState(false);
   const [cardsToShow, setCardsToShow]   = useState(1);
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
   const trackRef = useRef(null);
 
   /* ── Load from API ── */
@@ -74,8 +75,6 @@ export default function CertificateCarousel() {
     <section
       className="relative bg-white py-16 md:py-24 overflow-hidden border-y border-[#E2E8F0]"
       aria-label="Quality certifications"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
     >
       {/* subtle gold grid */}
       <div className="absolute inset-0 pointer-events-none"
@@ -110,60 +109,75 @@ export default function CertificateCarousel() {
         </div>
 
         {/* ── Slider track (overflow hidden window) ── */}
-        <div className="relative overflow-hidden" ref={trackRef}>
-          {/* sliding rail */}
-          <div
-            className="flex transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] gap-4 md:gap-6"
-            style={{ transform: `translateX(calc(-${activeIndex * (100 / cardsToShow)}% - ${activeIndex * (16 / cardsToShow)}px))` }}
-          >
-            {certificates.map((cert, i) => (
-              <div
-                key={cert._id || i}
-                className="shrink-0"
-                style={{ width: `calc(${100 / cardsToShow}% - ${(16 * (cardsToShow - 1)) / cardsToShow}px)` }}
-                aria-hidden={i < activeIndex || i >= activeIndex + cardsToShow}
-              >
-                {/* ── Card ── */}
-                <div className="border border-[#E2E8F0] bg-white overflow-hidden hover:border-[#c29f5d]/50 hover:shadow-xl transition-all duration-300 group h-full flex flex-col justify-between">
+        <div className="relative px-10 sm:px-14" ref={trackRef}>
+          {/* prev button */}
+          <button type="button" onClick={() => goTo(activeIndex - 1)} aria-label="Previous certificate"
+            className="absolute left-0 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-10 h-10 border border-[#E2E8F0] bg-white text-[#334155] hover:border-[#c29f5d] hover:text-[#9a7a3e] rounded-full transition-all shadow-sm z-10">
+            <ChevronLeft size={20} />
+          </button>
 
-                  {/* full certificate image */}
-                  <div className="relative bg-[#f8fafc] flex items-center justify-center flex-1"
-                    style={{ minHeight: 280, maxHeight: 380 }}>
-                    {cert.image?.url ? (
-                      <img
-                        src={cert.image.url}
-                        alt={cert.name}
-                        className="w-full h-full object-contain"
-                        style={{ maxHeight: 340, padding: '1.5rem', display: 'block' }}
-                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                      />
-                    ) : (
-                      <div className="flex flex-col items-center justify-center py-16 gap-4">
-                        <div className="inline-flex h-16 w-16 items-center justify-center border border-[#c29f5d]/30 bg-[#c29f5d]/05">
-                          <ShieldCheck size={32} className="text-[#c29f5d]" />
+          <div className="overflow-hidden">
+            {/* sliding rail */}
+            <div
+              className="flex transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] gap-4 md:gap-6"
+              style={{ transform: `translateX(calc(-${activeIndex * (100 / cardsToShow)}% - ${activeIndex * (16 / cardsToShow)}px))` }}
+            >
+              {certificates.map((cert, i) => (
+                <div
+                  key={cert._id || i}
+                  className="shrink-0 cursor-pointer"
+                  style={{ width: `calc(${100 / cardsToShow}% - ${(16 * (cardsToShow - 1)) / cardsToShow}px)` }}
+                  aria-hidden={i < activeIndex || i >= activeIndex + cardsToShow}
+                  onClick={() => setSelectedCertificate(cert)}
+                >
+                  {/* ── Card ── */}
+                  <div className="border border-[#E2E8F0] bg-white overflow-hidden hover:border-[#c29f5d]/50 hover:shadow-xl transition-all duration-300 group h-full flex flex-col justify-between rounded-2xl">
+
+                    {/* full certificate image */}
+                    <div className="relative bg-[#f8fafc] flex items-center justify-center flex-1 rounded-t-2xl"
+                      style={{ minHeight: 280, maxHeight: 380 }}>
+                      {cert.image?.url ? (
+                        <img
+                          src={cert.image.url}
+                          alt={cert.name}
+                          className="w-full h-full object-contain rounded-t-2xl"
+                          style={{ maxHeight: 340, padding: '1.5rem', display: 'block' }}
+                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                        />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center py-16 gap-4">
+                          <div className="inline-flex h-16 w-16 items-center justify-center border border-[#c29f5d]/30 bg-[#c29f5d]/05 rounded-xl">
+                            <ShieldCheck size={32} className="text-[#c29f5d]" />
+                          </div>
+                          <span className="font-['JetBrains_Mono'] font-bold text-[#0F172A] text-xl">{cert.name}</span>
                         </div>
-                        <span className="font-['JetBrains_Mono'] font-bold text-[#0F172A] text-xl">{cert.name}</span>
-                      </div>
-                    )}
-                    {/* gold top accent */}
-                    <div className="absolute top-0 left-0 right-0 h-1"
-                      style={{ background: 'linear-gradient(90deg,#c29f5d,#9a7a3e,transparent)' }} />
-                  </div>
-
-                  {/* name / subtitle label */}
-                  <div className="flex items-center gap-3 px-5 py-4 border-t border-[#E2E8F0] bg-white">
-                    <ShieldCheck size={16} className="text-[#9a7a3e] shrink-0" />
-                    <div className="flex flex-col">
-                      <span className="font-['JetBrains_Mono'] font-bold text-[#0F172A] text-xs md:text-sm leading-tight">{cert.name}</span>
-                      {cert.subtitle && (
-                        <span className="text-[10px] md:text-xs text-[#64748b] mt-0.5">{cert.subtitle}</span>
                       )}
+                      {/* gold top accent */}
+                      <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl"
+                        style={{ background: 'linear-gradient(90deg,#c29f5d,#9a7a3e,transparent)' }} />
+                    </div>
+
+                    {/* name / subtitle label */}
+                    <div className="flex items-center gap-3 px-5 py-4 border-t border-[#E2E8F0] bg-white rounded-b-2xl">
+                      <ShieldCheck size={16} className="text-[#9a7a3e] shrink-0" />
+                      <div className="flex flex-col">
+                        <span className="font-['JetBrains_Mono'] font-bold text-[#0F172A] text-xs md:text-sm leading-tight">{cert.name}</span>
+                        {cert.subtitle && (
+                          <span className="text-[10px] md:text-xs text-[#64748b] mt-0.5">{cert.subtitle}</span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+
+          {/* next button */}
+          <button type="button" onClick={() => goTo(activeIndex + 1)} aria-label="Next certificate"
+            className="absolute right-0 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-10 h-10 border border-[#E2E8F0] bg-white text-[#334155] hover:border-[#c29f5d] hover:text-[#9a7a3e] rounded-full transition-all shadow-sm z-10">
+            <ChevronRight size={20} />
+          </button>
         </div>
 
         {/* ── Progress bar ── */}
@@ -178,16 +192,9 @@ export default function CertificateCarousel() {
           />
         </div>
 
-        {/* ── Controls row ── */}
+        {/* ── Controls Indicator Dots ── */}
         {maxIndex > 0 && (
-          <div className="flex items-center justify-between mt-6">
-            {/* prev button */}
-            <button type="button" onClick={() => goTo(activeIndex - 1)} aria-label="Previous certificate"
-              className="inline-flex items-center justify-center w-10 h-10 border border-[#E2E8F0] bg-white text-[#334155] hover:border-[#c29f5d] hover:text-[#9a7a3e] transition-all">
-              <ChevronLeft size={20} />
-            </button>
-
-            {/* dot indicators */}
+          <div className="flex items-center justify-center mt-6">
             <div className="flex items-center gap-2">
               {[...Array(maxIndex + 1)].map((_, i) => (
                 <button
@@ -209,19 +216,71 @@ export default function CertificateCarousel() {
                 />
               ))}
             </div>
-
-            {/* next button */}
-            <button type="button" onClick={() => goTo(activeIndex + 1)} aria-label="Next certificate"
-              className="inline-flex items-center justify-center w-10 h-10 border border-[#E2E8F0] bg-white text-[#334155] hover:border-[#c29f5d] hover:text-[#9a7a3e] transition-all">
-              <ChevronRight size={20} />
-            </button>
           </div>
         )}
       </div>
 
+      <CertificateModal certificate={selectedCertificate} onClose={() => setSelectedCertificate(null)} />
+
       <style>{`
         @keyframes certProgress { from { width:0%; } to { width:100%; } }
+        @keyframes cOverlayIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes cPanelIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
       `}</style>
     </section>
+  );
+}
+
+/* ── Modal Lightbox Component ── */
+function CertificateModal({ certificate, onClose }) {
+  useEffect(() => {
+    const handleKeyDown = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  if (!certificate) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center p-4 bg-[#0F172A]/90 backdrop-blur-md cursor-zoom-out pt-20"
+      onClick={onClose}
+      style={{ animation: 'cOverlayIn 0.2s ease both' }}
+    >
+      {/* Lightbox Image Container */}
+      <div 
+        className="relative max-w-4xl w-full flex flex-col items-center justify-center p-2 rounded-2xl"
+        onClick={(e) => e.stopPropagation()}
+        style={{ animation: 'cPanelIn 0.25s cubic-bezier(0.16,1,0.3,1) both' }}
+      >
+        {/* Visible solid white close button */}
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close viewer"
+          className="absolute -top-3 -right-3 sm:-top-5 sm:-right-5 z-50 inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white text-[#0F172A] hover:bg-[#eceef0] hover:text-[#9a7a3e] transition-colors shadow-2xl border border-[#CBD5E1]"
+        >
+          <X size={20} />
+        </button>
+
+        <img
+          src={certificate.image?.url}
+          alt={certificate.name}
+          className="max-w-full max-h-[70vh] object-contain shadow-2xl rounded-xl"
+        />
+        
+        {/* Caption */}
+        <div className="text-center mt-6">
+          <h3 className="font-['JetBrains_Mono'] font-bold text-lg md:text-xl text-[#c29f5d] leading-none mb-2">{certificate.name}</h3>
+          {certificate.subtitle && (
+            <p className="text-xs md:text-sm text-white/60">{certificate.subtitle}</p>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }

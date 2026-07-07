@@ -130,46 +130,53 @@ function MemberModal({ member, onClose }) {
         aria-modal="true"
         aria-label={member.name}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-[28px] bg-white shadow-2xl"
+        className="relative w-full max-w-3xl overflow-hidden rounded-3xl bg-white shadow-2xl flex flex-col md:flex-row animate-scaleIn"
         style={{ animation: 'modalPanelIn 0.3s cubic-bezier(0.16,1,0.3,1) both' }}
       >
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#0F172A] shadow-md hover:bg-[#ecfeff] hover:text-[#0F766E] transition-colors"
+          className="absolute top-4 right-4 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#0F172A] shadow-md hover:bg-[#eceef0] hover:text-[#9a7a3e] transition-colors"
         >
           <X size={18} />
         </button>
 
-        <div className="h-56 sm:h-64 w-full overflow-hidden bg-[#eceef0]">
-          <div className="flex h-full w-full items-center justify-center p-3 sm:p-4">
-            <img src={member.image?.url} alt={member.name} className="h-full w-full object-contain" />
-          </div>
+        {/* Left: Image Container */}
+        <div className="w-full md:w-2/5 min-h-[240px] md:min-h-0 bg-[#f8fafc] flex items-center justify-center p-6 border-b md:border-b-0 md:border-r border-[#E2E8F0] shrink-0">
+          <img
+            src={member.image?.url}
+            alt={member.name}
+            className="w-full h-full max-h-[280px] object-contain rounded-2xl"
+          />
         </div>
 
-        <div className="p-6 sm:p-8">
+        {/* Right: Content details */}
+        <div className="flex-1 p-6 md:p-8 flex flex-col justify-center">
           {member.designation ? (
-            <p className="text-xs uppercase tracking-[0.26em] text-[#94A3B8] mb-2">
+            <p className="text-xs uppercase tracking-[0.26em] text-[#9a7a3e] font-semibold mb-2">
               {member.designation}
             </p>
           ) : null}
-          <h2 className="font-['JetBrains_Mono'] text-2xl sm:text-3xl text-[#0F172A] mb-4">
+          
+          <h2 className="font-['JetBrains_Mono'] text-xl md:text-2xl font-bold text-[#0F172A] mb-4">
             {member.name}
           </h2>
+
           {member.message ? (
-            <p className="text-[#475569] leading-relaxed mb-5 whitespace-pre-line">
+            <p className="text-sm text-[#475569] leading-relaxed mb-6 whitespace-pre-line">
               {member.message}
             </p>
           ) : null}
+
           {member.honors?.length ? (
             <div className="pt-4 border-t border-[#E2E8F0]">
               <p className="text-xs uppercase tracking-[0.26em] text-[#94A3B8] mb-3">Honors</p>
-              <ul className="grid gap-2 text-sm text-[#475569]">
+              <ul className="grid gap-2 text-xs md:text-sm text-[#475569]">
                 {member.honors.map((honor) => (
                   <li key={honor} className="flex items-start gap-2">
-                    <Award size={16} className="text-[#0F766E] mt-0.5 shrink-0" aria-hidden="true" />
-                    {honor}
+                    <Award size={15} className="text-[#c29f5d] mt-0.5 shrink-0" aria-hidden="true" />
+                    <span>{honor}</span>
                   </li>
                 ))}
               </ul>
@@ -263,15 +270,6 @@ function FeaturedCard({ member, index, onClick }) {
             </div>
           ) : null}
 
-          {/* Focus tags */}
-          <div className="flex flex-wrap justify-center gap-2 mt-4">
-            <span className="inline-flex items-center gap-1 rounded-xl bg-[#f7f9fb] border border-[#E2E8F0] px-2.5 py-1 text-xs text-[#0F172A]">
-              <CheckCircle2 size={11} aria-hidden="true" /> Strategy
-            </span>
-            <span className="inline-flex items-center gap-1 rounded-xl bg-[#f7f9fb] border border-[#E2E8F0] px-2.5 py-1 text-xs text-[#0F172A]">
-              <CheckCircle2 size={11} aria-hidden="true" /> Operations
-            </span>
-          </div>
         </div>
       </article>
     </Reveal>
@@ -466,7 +464,7 @@ export default function TeamPage() {
 
       {/* ══ MAIN LAYOUT ═══════════════════════════════════════════ */}
       <section className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.7fr_1fr] gap-8 items-start mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[2.2fr_0.8fr] gap-8 items-start mb-12">
           <Reveal>
             <div>
               <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#c29f5d] pl-4">
@@ -475,11 +473,11 @@ export default function TeamPage() {
               <p className="text-[#44474d] mt-4 leading-relaxed">
                 SriLin is led by engineers and operators who understand both product design and scalable manufacturing. Our team bridges the gap between concept, quality, and delivery.
               </p>
-              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {leadershipPillars.map(({ icon: Icon, title, text }, i) => (
                   <Reveal key={title} delay={i * 80}>
                     <article className="rounded-2xl border border-[#E2E8F0] bg-white p-5 shadow-sm hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-                      <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#ecfeff] text-[#0F766E]">
+                      <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#c29f5d]/10 text-[#c29f5d]">
                         <Icon size={20} aria-hidden="true" />
                       </div>
                       <h3 className="font-semibold text-base text-[#0F172A] mb-2">{title}</h3>
@@ -492,28 +490,28 @@ export default function TeamPage() {
           </Reveal>
 
           <Reveal delay={150}>
-            <aside className="rounded-3xl border border-[#E2E8F0] bg-white p-6 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-widest text-[#94A3B8] mb-3">
+            <aside className="rounded-3xl border border-[#E2E8F0] bg-white p-4 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-widest text-[#94A3B8] mb-3 text-center lg:text-left">
                 Team snapshot
               </p>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="rounded-2xl bg-[#f7f9fb] p-4 text-center">
-                  <p className="text-3xl font-['JetBrains_Mono'] text-[#0F172A]">
+              <div className="grid grid-cols-3 gap-2">
+                <div className="rounded-2xl bg-[#f7f9fb] p-2.5 text-center">
+                  <p className="text-xl md:text-2xl font-['JetBrains_Mono'] text-[#0F172A] font-bold">
                     <AnimatedNumber value={String(stats.total)} />
                   </p>
-                  <p className="text-xs uppercase tracking-[0.24em] text-[#94A3B8] mt-2">Total</p>
+                  <p className="text-[9px] uppercase tracking-wider text-[#94A3B8] mt-1.5">Total</p>
                 </div>
-                <div className="rounded-2xl bg-[#f7f9fb] p-4 text-center">
-                  <p className="text-3xl font-['JetBrains_Mono'] text-[#c29f5d]">
+                <div className="rounded-2xl bg-[#f7f9fb] p-2.5 text-center">
+                  <p className="text-xl md:text-2xl font-['JetBrains_Mono'] text-[#c29f5d] font-bold">
                     <AnimatedNumber value={String(stats.featured)} />
                   </p>
-                  <p className="text-xs uppercase tracking-[0.24em] text-[#94A3B8] mt-2">Featured</p>
+                  <p className="text-[9px] uppercase tracking-wider text-[#94A3B8] mt-1.5">Featured</p>
                 </div>
-                <div className="rounded-2xl bg-[#f7f9fb] p-4 text-center">
-                  <p className="text-3xl font-['JetBrains_Mono'] text-[#0F766E]">
+                <div className="rounded-2xl bg-[#f7f9fb] p-2.5 text-center">
+                  <p className="text-xl md:text-2xl font-['JetBrains_Mono'] text-[#c29f5d] font-bold">
                     <AnimatedNumber value={String(stats.broader)} />
                   </p>
-                  <p className="text-xs uppercase tracking-[0.24em] text-[#94A3B8] mt-2">Leaders</p>
+                  <p className="text-[9px] uppercase tracking-wider text-[#94A3B8] mt-1.5">Leaders</p>
                 </div>
               </div>
             </aside>

@@ -77,18 +77,21 @@ export default function ContactPage() {
       title: 'Phone',
       value: '+91 73850 69999',
       sub: 'Mon – Sat, 9 AM – 6 PM IST',
+      href: 'tel:+917385069999',
     },
     {
       icon: Mail,
       title: 'Email',
       value: 'sales@srilinelectronics.com',
       sub: 'We reply within one business day',
+      href: 'mailto:sales@srilinelectronics.com',
     },
     {
       icon: MapPin,
       title: 'Address',
       value: 'PLOT: S-1/P/D, E-City EMC',
       sub: 'Raviryala, Maheshwaram, Ranga Reddy, Telangana – 501359',
+      href: 'https://www.google.com/maps/search/?api=1&query=SRILIN+ELECTRONICS+PRIVATE+LIMITED',
     },
   ];
 
@@ -134,7 +137,7 @@ export default function ContactPage() {
               style={{ minHeight: '2.4em' }}
             >
               {(() => {
-                const plain = 'Talk to SriLin. ';
+                const plain = 'Talk to Srilin. ';
                 const accent = 'Start Building.';
                 if (typedHero.length <= plain.length) {
                   return (
@@ -166,12 +169,7 @@ export default function ContactPage() {
               className="flex flex-wrap gap-2.5 sm:gap-3"
               style={{ opacity: heroDone ? 1 : 0, transition: 'opacity 0.5s 0.15s ease' }}
             >
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#c29f5d]/30 text-[#ffd199] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
-                <MessageSquare size={13} /> WhatsApp Enabled
-              </span>
-              <span className="inline-flex items-center gap-1.5 bg-white/5 border border-[#c29f5d]/30 text-[#ffd199] text-xs font-semibold px-3 py-1.5 backdrop-blur-sm">
-                <Mail size={13} /> Direct Email Support
-              </span>
+
             </div>
           </div>
         </div>
@@ -179,17 +177,7 @@ export default function ContactPage() {
         <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#c29f5d]/60 via-[#c29f5d]/10 to-transparent" />
       </section>
 
-      {/* ── SPEC STRIP ── */}
-      <div className="bg-[#0F172A] border-t border-white/10">
-        <div className="max-w-6xl mx-auto px-6 md:px-12 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-          <p className="text-white/50 text-[10px] sm:text-[11px] tracking-wide text-center sm:text-left">
-            ISO 13485:2016 &nbsp;•&nbsp; IPC-A-610 CLASS 3 &nbsp;•&nbsp; AS9100D &nbsp;•&nbsp; IATF 16949
-          </p>
-          <p className="text-[#c29f5d] font-['JetBrains_Mono'] text-xs tracking-widest text-center sm:text-right">
-            SRILIN_CONTACT_24×7
-          </p>
-        </div>
-      </div>
+
 
       {/* ── CONTACT CARDS ── */}
       <section className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20">
@@ -206,12 +194,15 @@ export default function ContactPage() {
         </Reveal>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-14">
-          {contactCards.map(({ icon: Icon, title, value, sub }, i) => (
+          {contactCards.map(({ icon: Icon, title, value, sub, href }, i) => (
             <Reveal key={title} delay={i * 100}>
-              <div
-                className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full"
+              <a
+                href={href}
+                target={title === 'Address' ? '_blank' : undefined}
+                rel={title === 'Address' ? 'noopener noreferrer' : undefined}
+                className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full rounded-2xl text-left no-underline block"
               >
-                <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#c29f5d]/10 group-hover:text-[#9a7a3e] transition-colors">
+                <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#c29f5d]/10 group-hover:text-[#9a7a3e] transition-colors rounded-xl">
                   <Icon size={22} strokeWidth={1.8} />
                 </div>
                 <div>
@@ -222,18 +213,18 @@ export default function ContactPage() {
                   <p className="text-xs text-[#64748b] leading-relaxed">{sub}</p>
                 </div>
                 <div className="mt-auto pt-4 border-t border-[#E2E8F0]">
-                  <span className="inline-block bg-[#0F172A] text-[#c29f5d] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1">
+                  <span className="inline-block bg-[#ffffff] text-[#c29f5d] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md group-hover:bg-[#c29f5d] group-hover:text-white transition-colors">
                     {title === 'Phone' ? 'Call Direct' : title === 'Email' ? 'Write to Us' : 'Visit Us'}
                   </span>
                 </div>
-              </div>
+              </a>
             </Reveal>
           ))}
         </div>
 
         {/* ── CONTACT FORM ── */}
         <Reveal delay={150}>
-          <div className="bg-white border border-[#E2E8F0]">
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl shadow-sm overflow-hidden">
             {/* Form header bar */}
             <div className="bg-[#0F172A] px-6 py-4 flex items-center justify-between">
               <h3 className="font-['JetBrains_Mono'] font-bold text-white text-base sm:text-lg">
@@ -314,6 +305,27 @@ export default function ContactPage() {
             </div>
           </div>
         </Reveal>
+
+        {/* ── GOOGLE MAP ── */}
+        <Reveal delay={200}>
+          <div className="mt-14 bg-white border border-[#E2E8F0] p-4 rounded-2xl shadow-sm">
+            <h3 className="font-['JetBrains_Mono'] font-bold text-[#0F172A] text-lg mb-4 pl-2 border-l-4 border-[#c29f5d]">
+              Our Location
+            </h3>
+            <div className="w-full h-[400px] sm:h-[450px] rounded-xl overflow-hidden relative border border-[#E2E8F0]">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1951390.4510336884!2d76.05560302734375!3d17.203769821917533!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcba5aa089189cd%3A0x446e4978ad7eea49!2sSRILIN%20ELECTRONICS%20PRIVATE%20LIMITED!5e0!3m2!1sen!2sin!4v1783442292637!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
+                title="Srilin Electronics Private Limited Location Map"
+              />
+            </div>
+          </div>
+        </Reveal>
       </section>
 
       {/* ── CTA ── */}
@@ -336,7 +348,7 @@ export default function ContactPage() {
               href="mailto:info@srilinelectronics.com"
               className="inline-flex items-center justify-center gap-2 bg-[#c29f5d] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
             >
-              <Mail size={15} /> Email Our Team
+              <Mail size={15} /> Email Us
             </a>
             <a
               href={`https://wa.me/917385069999`}

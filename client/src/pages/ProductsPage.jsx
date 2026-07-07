@@ -9,7 +9,7 @@ import api from '../api/axios';
 
 function useTypewriter(text, speed = 40) {
   const [typed, setTyped] = useState('');
-  const [done, setDone]   = useState(false);
+  const [done, setDone] = useState(false);
   useEffect(() => {
     setTyped(''); setDone(false);
     if (!text) return;
@@ -49,7 +49,7 @@ function Reveal({ children, delay = 0, y = 26, className = '', style = {} }) {
 }
 
 function AnimatedNumber({ value, className = '', style = {} }) {
-  const ref     = useRef(null);
+  const ref = useRef(null);
   const started = useRef(false);
   const [display, setDisplay] = useState(value);
   useEffect(() => {
@@ -58,13 +58,13 @@ function AnimatedNumber({ value, className = '', style = {} }) {
     if (!el) return;
     if (!/^\d/.test(String(value))) { setDisplay(value); return; }
     if (String(value).includes('/')) { setDisplay(value); return; }
-    const raw      = String(value).replace(/[^0-9.]/g, '');
-    const num      = parseFloat(raw);
+    const raw = String(value).replace(/[^0-9.]/g, '');
+    const num = parseFloat(raw);
     if (isNaN(num)) { setDisplay(value); return; }
-    const suffix     = String(value).replace(/^[\d,. ]+/, '');
-    const hasComma   = String(value).includes(',');
+    const suffix = String(value).replace(/^[\d,. ]+/, '');
+    const hasComma = String(value).includes(',');
     const hasDecimal = String(value).replace(suffix, '').includes('.');
-    const decimals   = hasDecimal ? (String(value).replace(suffix,'').split('.')[1]?.length ?? 1) : 0;
+    const decimals = hasDecimal ? (String(value).replace(suffix, '').split('.')[1]?.length ?? 1) : 0;
     const obs = new IntersectionObserver(([e]) => {
       if (e.isIntersecting && !started.current) {
         started.current = true; obs.unobserve(el);
@@ -93,15 +93,15 @@ function AnimatedNumber({ value, className = '', style = {} }) {
    ════════════════════════════════════════════════════════════════ */
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading]   = useState(true);
-  const [error, setError]       = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [activeId, setActiveId] = useState(null);
 
   useEffect(() => {
     const loadProducts = async () => {
       try {
         setLoading(true);
-        const res  = await api.get('/products');
+        const res = await api.get('/products');
         const list = (res.data.products || []).filter((item) => item.isActive !== false);
         setProducts(list);
         if (list.length) setActiveId(list[0]._id);
@@ -114,7 +114,7 @@ export default function ProductsPage() {
     loadProducts();
   }, []);
 
-  const heroText              = 'Reliable Product Solutions';
+  const heroText = 'Reliable Product Solutions';
   const [typedHero, heroDone] = useTypewriter(heroText, 45);
 
   return (
@@ -145,7 +145,7 @@ export default function ProductsPage() {
             <h1 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-5xl text-white leading-tight mb-3 md:mb-5"
               style={{ minHeight: '1.15em' }}>
               {(() => {
-                const plain  = 'Reliable ';
+                const plain = 'Reliable ';
                 const accent = 'Product Solutions';
                 if (typedHero.length <= plain.length) {
                   return (
@@ -171,13 +171,13 @@ export default function ProductsPage() {
               presentation for customers and partners.
             </p>
 
-            <div className="inline-flex items-center gap-2 bg-white text-[#0F172A] px-3 md:px-4 py-1.5 md:py-2 text-xs md:text-sm font-['JetBrains_Mono'] font-bold"
+            {/* <div className="inline-flex items-center gap-2 bg-white text-[#0F172A] px-3 md:px-4 py-1.5 md:py-2 text-xs md:text-sm font-['JetBrains_Mono'] font-bold"
               style={{ opacity: heroDone ? 1 : 0, transition: 'opacity 0.5s 0.2s ease' }}>
               <Boxes size={14} />
               {loading ? 'Loading…' : (
                 <><AnimatedNumber value={String(products.length)} /> active products</>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -220,11 +220,10 @@ export default function ProductsPage() {
                           <a
                             href={`#product-${product._id}`}
                             onClick={() => setActiveId(product._id)}
-                            className={`group flex items-center justify-between gap-2 px-3 lg:p-4 py-2 border-l-4 font-['JetBrains_Mono'] text-xs md:text-sm transition-all ${
-                              activeId === product._id
-                                ? 'bg-white border-[#9a7a3e] text-[#9a7a3e]'
-                                : 'bg-white lg:bg-transparent border-[#E2E8F0] lg:border-transparent text-[#334155] hover:border-[#9a7a3e]/40 hover:bg-[#eceef0]'
-                            }`}
+                            className={`group flex items-center justify-between gap-2 px-3 lg:p-4 py-2 border-l-4 font-['JetBrains_Mono'] text-xs md:text-sm transition-all ${activeId === product._id
+                              ? 'bg-white border-[#9a7a3e] text-[#9a7a3e]'
+                              : 'bg-white lg:bg-transparent border-[#E2E8F0] lg:border-transparent text-[#334155] hover:border-[#9a7a3e]/40 hover:bg-[#eceef0]'
+                              }`}
                           >
                             <span className="truncate pr-1 max-w-[160px] lg:max-w-none">
                               {product.name || 'Untitled product'}
@@ -237,7 +236,7 @@ export default function ProductsPage() {
                   </div>
 
                   <Reveal delay={products.length * 40 + 80}>
-                    <div className="mt-6 lg:mt-10 p-5 md:p-6 bg-[#0F172A] text-white">
+                    <div className="mt-6 lg:mt-10 p-5 md:p-6 bg-[#0F172A] text-white rounded-2xl shadow-sm">
                       <h4 className="font-['JetBrains_Mono'] font-semibold text-base md:text-lg mb-2 md:mb-3">
                         Need a custom solution?
                       </h4>
@@ -246,9 +245,9 @@ export default function ProductsPage() {
                       </p>
                       <Link
                         to="/contact-us"
-                        className="flex items-center justify-center gap-2 w-full py-2.5 md:py-3 border border-[#f0c27b] text-[#f0c27b] text-xs md:text-sm font-['JetBrains_Mono'] font-semibold hover:bg-[#f0c27b] hover:text-[#0F172A] transition-all"
+                        className="flex items-center justify-center gap-2 w-full py-2.5 md:py-3 border border-[#f0c27b] text-[#f0c27b] text-xs md:text-sm font-['JetBrains_Mono'] font-semibold hover:bg-[#f0c27b] hover:text-[#0F172A] transition-all rounded-lg"
                       >
-                        <Mail size={14} /> Contact Engineering
+                        <Mail size={14} /> Contact Us
                       </Link>
                     </div>
                   </Reveal>
@@ -261,14 +260,14 @@ export default function ProductsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 {products.map((product, index) => {
                   if (!product) return null;
-                  const key   = product._id || `product-${index}`;
+                  const key = product._id || `product-${index}`;
                   const specs = Array.isArray(product.specifications) ? product.specifications : [];
 
                   return (
                     <Reveal key={key} delay={index * 60}>
                       <article
                         id={`product-${product._id || index}`}
-                        className="group flex flex-col bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full"
+                        className="group flex flex-col bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full rounded-2xl"
                       >
                         {/* Image */}
                         <div className="h-36 sm:h-40 md:h-44 overflow-hidden relative bg-[#eceef0]">

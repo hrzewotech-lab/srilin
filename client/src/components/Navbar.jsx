@@ -55,6 +55,7 @@ export default function Navbar() {
   const [services, setServices] = useState([]);
   const [activeLang, setActiveLang] = useState('en');
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [hoveredItem, setHoveredItem] = useState(null);
 
   useEffect(() => {
     const getActiveLang = () => {
@@ -123,6 +124,7 @@ export default function Navbar() {
   useEffect(() => {
     setIsOpen(false);
     setExpandedMenu(null);
+    setHoveredItem(null);
   }, [location.pathname]);
 
   const handleToggle = () => {
@@ -135,6 +137,14 @@ export default function Navbar() {
   const closeMenu = () => {
     setIsOpen(false);
     setExpandedMenu(null);
+    setHoveredItem(null);
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  };
+
+  const handleDropdownClick = () => {
+    closeMenu();
   };
 
   const toggleSubmenu = (path) => {
@@ -164,8 +174,13 @@ export default function Navbar() {
             const hasChildren = Array.isArray(item.children) && item.children.length > 0;
             const isExpanded = expandedMenu === item.path;
 
-            return (
-              <div className={`site-nav-item ${hasChildren ? 'has-children' : ''}`} key={item.path}>
+             return (
+              <div 
+                className={`site-nav-item ${hasChildren ? 'has-children' : ''}`} 
+                key={item.path}
+                onMouseEnter={() => setHoveredItem(item.path)}
+                onMouseLeave={() => setHoveredItem(null)}
+              >
                 <NavLink
                   to={item.path}
                   className={({ isActive }) => `site-nav-link ${isActive ? 'active' : ''}`}
@@ -192,7 +207,7 @@ export default function Navbar() {
                     </button>
                     <div
                       id={itemId}
-                      className={`site-dropdown ${isExpanded ? 'open' : ''}`}
+                      className={`site-dropdown ${isExpanded ? 'open' : ''} ${hoveredItem === item.path ? 'desktop-open' : ''}`}
                       aria-label={`${item.label} submenu`}
                     >
                       {item.children.map((child) => (
@@ -200,7 +215,7 @@ export default function Navbar() {
                           key={child.path}
                           to={child.path}
                           className={({ isActive }) => `site-dropdown-link ${isActive ? 'active' : ''}`}
-                          onClick={closeMenu}
+                          onClick={handleDropdownClick}
                         >
                           {child.label}
                         </NavLink>

@@ -3,6 +3,17 @@ import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Boxes, Sparkles, Share2, Mail } from 'lucide-react';
 import api from '../api/axios';
 
+const parseBoldText = (text) => {
+  if (!text) return '';
+  const parts = text.split('**');
+  return parts.map((part, index) => {
+    if (index % 2 === 1) {
+      return <strong key={index} className="font-bold text-[#0F172A]">{part}</strong>;
+    }
+    return part;
+  });
+};
+
 /* ════════════════════════════════════════════════════════════════
    ANIMATION UTILITIES
    ════════════════════════════════════════════════════════════════ */
@@ -161,51 +172,11 @@ export default function ProductDetailPage() {
 
             {/* Image */}
             <Reveal delay={0}>
-              <div className="relative w-full overflow-hidden border border-[#E2E8F0] shadow-sm group"
-                style={{ paddingBottom: '75%' }}>
+              <div className="relative w-full overflow-hidden border border-[#E2E8F0] shadow-sm group rounded-2xl bg-white">
                 <img src={product.image?.url || '/image.png'} alt={product.name}
                   onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/image.png'; }}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  className="w-full h-auto max-h-[500px] object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute top-0 left-0 w-1 h-full bg-[#9a7a3e]" />
-              </div>
-            </Reveal>
-
-            {/* Team card */}
-            <Reveal delay={80}>
-              <div className="bg-white border border-[#E2E8F0] shadow-sm px-6 py-5">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full bg-[#334155] flex items-center justify-center text-white font-bold text-sm shrink-0">
-                    SE
-                  </div>
-                  <div>
-                    <p className="font-semibold text-[#0F172A] text-sm">Srilin Engineering Team</p>
-                    <p className="text-[#44474d] text-xs">Product Development</p>
-                  </div>
-                </div>
-                <div className="flex gap-3 pt-3 border-t border-[#E2E8F0]">
-                  <Share2 size={16} className="text-[#9a7a3e] cursor-pointer hover:text-[#0F172A] transition-colors" />
-                  <Mail size={16} className="text-[#9a7a3e] cursor-pointer hover:text-[#0F172A] transition-colors" />
-                </div>
-              </div>
-            </Reveal>
-
-            {/* CTA card */}
-            <Reveal delay={160}>
-              <div className="bg-[#0F172A] text-white px-6 py-6 space-y-3 shadow-sm">
-                <p className="font-['JetBrains_Mono'] font-semibold text-lg">Interested in this product?</p>
-                <p className="text-sm text-white/70 leading-relaxed">
-                  Talk to our engineering team about your specific requirements and get a tailored quote.
-                </p>
-                <div className="flex flex-wrap gap-3 pt-1">
-                  <Link to="/contact-us"
-                    className="inline-block bg-[#c29f5d] text-[#0F172A] px-6 py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity">
-                    Request this solution
-                  </Link>
-                  <Link to="/products"
-                    className="inline-block border border-white/30 text-white px-6 py-2.5 text-sm font-semibold hover:bg-white/10 transition-colors">
-                    Explore more products
-                  </Link>
-                </div>
               </div>
             </Reveal>
           </div>
@@ -215,25 +186,25 @@ export default function ProductDetailPage() {
 
             {/* Overview card */}
             <Reveal delay={60}>
-              <div className="bg-white border border-[#E2E8F0] shadow-sm hover:border-[#9a7a3e]/30 transition-colors">
+              <div className="bg-white border border-[#E2E8F0] shadow-sm hover:border-[#9a7a3e]/30 transition-colors rounded-2xl overflow-hidden">
                 <div className="flex items-center gap-2 px-6 py-4 border-b border-[#E2E8F0]">
                   <Boxes size={16} className="text-[#9a7a3e]" />
                   <span className="text-xs font-semibold uppercase tracking-wider text-[#9a7a3e]">
                     Product Overview
                   </span>
                 </div>
-                <div className="px-6 py-5">
-                  <p className="text-base md:text-[17px] leading-relaxed text-[#334155] whitespace-pre-line">
-                    {product.description}
-                  </p>
-                </div>
+                 <div className="px-6 py-5">
+                   <p className="text-base md:text-[17px] leading-relaxed text-[#334155] whitespace-pre-line">
+                     {parseBoldText(product.description)}
+                   </p>
+                 </div>
               </div>
             </Reveal>
 
             {/* Specifications card */}
             {Array.isArray(product.specifications) && product.specifications.length > 0 && (
               <Reveal delay={140}>
-                <div className="bg-white border border-[#E2E8F0] shadow-sm">
+                <div className="bg-white border border-[#E2E8F0] shadow-sm rounded-2xl overflow-hidden">
                   <div className="flex items-center gap-2 px-6 py-4 border-b border-[#E2E8F0]">
                     <Sparkles size={16} className="text-[#9a7a3e]" />
                     <span className="text-xs font-semibold uppercase tracking-wider text-[#9a7a3e]">
@@ -243,11 +214,11 @@ export default function ProductDetailPage() {
                   <ul className="px-6 py-5 space-y-3">
                     {product.specifications.map((spec, i) => (
                       <Reveal key={spec} delay={i * 60}>
-                        <li className="flex items-start gap-3 p-3 border border-[#E2E8F0] hover:border-[#9a7a3e] hover:bg-[#f7f9fb] transition-colors">
+                        <li className="flex items-start gap-3 p-3 border border-[#E2E8F0] hover:border-[#9a7a3e] hover:bg-[#f7f9fb] transition-colors rounded-xl">
                           <span className="mt-0.5 w-5 h-5 rounded-full bg-[#c29f5d]/20 flex items-center justify-center shrink-0">
                             <Sparkles size={11} className="text-[#9a7a3e]" />
                           </span>
-                          <span className="text-[#334155] text-sm leading-relaxed">{spec}</span>
+                           <span className="text-[#334155] text-sm leading-relaxed">{parseBoldText(spec)}</span>
                         </li>
                       </Reveal>
                     ))}

@@ -405,17 +405,7 @@ export default function InfrastructureMachineryPage() {
         <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#c29f5d]/60 via-[#c29f5d]/10 to-transparent" />
       </section>
 
-      {/* ── SPEC STRIP ── */}
-      <div className="bg-[#0F172A] border-t border-white/10">
-        <div className="max-w-6xl mx-auto px-6 md:px-12 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-          <p className="text-white/50 text-[10px] sm:text-[11px] tracking-wide text-center sm:text-left">
-            Fuji AIMEX IIIc &nbsp;•&nbsp; Panasonic NPM-D3A &nbsp;•&nbsp; Koh Young KY8080-L &nbsp;•&nbsp; Koh Young Zenith Alpha HS+ &nbsp;•&nbsp; JTR-1000N
-          </p>
-          <p className="text-[#c29f5d] font-['JetBrains_Mono'] text-xs tracking-widest text-center sm:text-right">
-            SRILIN_SMT_HYD_V2
-          </p>
-        </div>
-      </div>
+
 
       {/* ── STATS + SMT FLOW ── */}
       <section className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20">
@@ -635,16 +625,16 @@ export default function InfrastructureMachineryPage() {
 
                   <div className="p-6 flex-1 flex flex-col justify-between gap-4">
                     <div>
-                      <div className="flex items-center justify-between mb-3">
+                      {/* <div className="flex items-center justify-between mb-3">
                         <span className="text-[#9a7a3e] text-[9px] font-bold uppercase tracking-wider bg-slate-100 px-2 py-0.5 rounded">
                           {tag}
                         </span>
                         <div className="text-slate-400 group-hover:text-[#9a7a3e] transition-colors">
                           <Icon size={16} strokeWidth={2} />
                         </div>
-                      </div>
+                      </div> */}
 
-                      <h4 className="font-['JetBrains_Mono'] font-bold text-sm text-slate-800 mb-2 leading-tight">
+                      <h4 className="text-[#9a7a3e] text-[14px] font-bold uppercase tracking-wider bg-slate-100 px-2 py-0.5 rounded">
                         {name}
                       </h4>
 
@@ -709,7 +699,7 @@ export default function InfrastructureMachineryPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
+      {/* <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
         <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#c29f5d]/40 to-transparent hidden md:block" />
         <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#c29f5d]/20 to-transparent hidden md:block" />
 
@@ -738,7 +728,7 @@ export default function InfrastructureMachineryPage() {
             </Link>
           </Reveal>
         </div>
-      </section>
+      </section> */}
 
       <style>{`
         @keyframes imHeroIn     { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }

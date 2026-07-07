@@ -18,7 +18,7 @@ import {
 
 function useTypewriter(text, speed = 40) {
   const [typed, setTyped] = useState('');
-  const [done, setDone]   = useState(false);
+  const [done, setDone] = useState(false);
   useEffect(() => {
     setTyped(''); setDone(false);
     if (!text) return;
@@ -58,20 +58,20 @@ function Reveal({ children, delay = 0, y = 26, className = '', style = {} }) {
 }
 
 function AnimatedNumber({ value, className = '', style = {} }) {
-  const ref     = useRef(null);
+  const ref = useRef(null);
   const started = useRef(false);
   const [display, setDisplay] = useState(value);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     if (!/^\d/.test(String(value))) { setDisplay(value); return; }
-    const raw      = String(value).replace(/[^0-9.]/g, '');
-    const num      = parseFloat(raw);
+    const raw = String(value).replace(/[^0-9.]/g, '');
+    const num = parseFloat(raw);
     if (isNaN(num)) { setDisplay(value); return; }
-    const suffix     = String(value).replace(/^[\d,. ]+/, '');
-    const hasComma   = String(value).includes(',');
+    const suffix = String(value).replace(/^[\d,. ]+/, '');
+    const hasComma = String(value).includes(',');
     const hasDecimal = String(value).replace(suffix, '').includes('.');
-    const decimals   = hasDecimal ? (String(value).replace(suffix,'').split('.')[1]?.length ?? 1) : 0;
+    const decimals = hasDecimal ? (String(value).replace(suffix, '').split('.')[1]?.length ?? 1) : 0;
     const obs = new IntersectionObserver(([e]) => {
       if (e.isIntersecting && !started.current) {
         started.current = true; obs.unobserve(el);
@@ -125,8 +125,6 @@ const sections = [
     eyebrow: 'System-Level Validation',
     icon: FlaskConical,
     tag: 'End-to-End QA',
-    image: '/embedded-software.jpg',
-    alt: 'Embedded software and functional testing',
     body: 'Functional testing validates the complete hardware system against real-world operating conditions and required specifications. Our process covers I/O operations, system responses, communication protocols, and overall system behaviour — confirming reliability, stability, and compliance before the product reaches deployment.',
   },
   {
@@ -134,6 +132,8 @@ const sections = [
     eyebrow: 'Software Division',
     icon: MonitorDot,
     tag: 'Firmware & SW',
+    image: '/embedded-software.jpg',
+    alt: 'Embedded software and functional testing',
     body: 'Srilin provides advanced embedded software services that complement hardware design and manufacturing. We develop reliable, scalable, and high-performance firmware for aerospace, defence, space, AI/IoT, industrial automation, medical, railways, IT hardware, consumer electronics, automotive, EV, and telecom electronics. A key pillar is LabVIEW-based test software and custom test application development.',
   },
   {
@@ -166,7 +166,7 @@ const sections = [
 ];
 
 export default function DesignEngineeringPage() {
-  const heroText              = 'Embedded Systems. Built to Last.';
+  const heroText = 'Embedded Systems. Built to Last.';
   const [typedHero, heroDone] = useTypewriter(heroText, 40);
 
   return (
@@ -262,7 +262,7 @@ export default function DesignEngineeringPage() {
       </section>
 
       {/* ── SPEC STRIP ── */}
-      <div className="bg-[#0F172A] border-t border-white/10">
+      {/* <div className="bg-[#0F172A] border-t border-white/10">
         <div className="max-w-6xl mx-auto px-6 md:px-12 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <p className="text-white/50 text-[10px] sm:text-[11px] tracking-wide text-center sm:text-left">
             Schematic Design &nbsp;•&nbsp; ECAD Layout &nbsp;•&nbsp; LabVIEW Test &nbsp;•&nbsp; Firmware Development &nbsp;•&nbsp; System Validation
@@ -271,7 +271,7 @@ export default function DesignEngineeringPage() {
             SRILIN_ENG_DESIGN_V3
           </p>
         </div>
-      </div>
+      </div> */}
 
       {/* ── SECTIONS ── */}
       <div className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20 space-y-6">
@@ -283,32 +283,29 @@ export default function DesignEngineeringPage() {
           return (
             <Reveal key={title} delay={index * 80}>
               <article
-                className={`group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#c29f5d] hover:shadow-lg transition-all duration-300 ${
-                  hasImage ? 'grid grid-cols-1 lg:grid-cols-12' : 'grid grid-cols-1'
-                }`}
+                className={`group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#c29f5d] hover:shadow-lg transition-all duration-300 rounded-2xl ${hasImage ? 'grid grid-cols-1 lg:grid-cols-12' : 'grid grid-cols-1'
+                  }`}
               >
                 {/* Image panel (only for sections with images) */}
                 {hasImage && (
                   <div
-                    className={`lg:col-span-4 h-56 lg:h-auto bg-[#0F172A] overflow-hidden ${
-                      isEven ? 'lg:order-1' : 'lg:order-2'
-                    }`}
+                    className={`lg:col-span-4 h-56 lg:h-auto min-h-[220px] lg:min-h-[280px] bg-[#0F172A] flex items-center justify-center p-4 overflow-hidden ${isEven ? 'lg:order-1' : 'lg:order-2'
+                      }`}
                   >
                     <img
                       src={image}
                       alt={alt || title}
-                      className="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                      className="max-w-full max-h-full object-contain opacity-85 group-hover:opacity-100 group-hover:scale-103 transition-all duration-500"
                     />
                   </div>
                 )}
 
                 {/* Content panel */}
                 <div
-                  className={`flex flex-col gap-5 p-7 md:p-10 ${
-                    hasImage
-                      ? `lg:col-span-8 ${isEven ? 'lg:order-2' : 'lg:order-1'}`
-                      : ''
-                  }`}
+                  className={`flex flex-col gap-5 p-7 md:p-10 ${hasImage
+                    ? `lg:col-span-8 ${isEven ? 'lg:order-2' : 'lg:order-1'}`
+                    : ''
+                    }`}
                 >
                   {/* Header row */}
                   <div className="flex items-start justify-between gap-4">
@@ -324,7 +321,7 @@ export default function DesignEngineeringPage() {
                       <span className="font-['JetBrains_Mono'] text-[#E2E8F0] text-2xl font-bold select-none hidden sm:block">
                         {String(index + 1).padStart(2, '0')}
                       </span>
-                      <div className="w-10 h-10 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#c29f5d]/10 group-hover:text-[#9a7a3e] transition-colors">
+                      <div className="w-10 h-10 flex items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] rounded-lg transition-colors">
                         <Icon size={20} strokeWidth={1.8} />
                       </div>
                     </div>
@@ -353,7 +350,7 @@ export default function DesignEngineeringPage() {
 
                   {/* Tag */}
                   <div className="pt-2 border-t border-[#E2E8F0] mt-auto">
-                    <span className="inline-block bg-[#0F172A] text-[#c29f5d] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1">
+                    <span className="inline-block text-[#c29f5d] text-[10px] font-semibold uppercase tracking-wider">
                       {tag}
                     </span>
                   </div>
@@ -365,7 +362,7 @@ export default function DesignEngineeringPage() {
       </div>
 
       {/* ── CTA ── */}
-      <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
+      {/* <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
         <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#c29f5d]/40 to-transparent hidden md:block" />
         <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#c29f5d]/20 to-transparent hidden md:block" />
 
@@ -394,7 +391,7 @@ export default function DesignEngineeringPage() {
             </Link>
           </Reveal>
         </div>
-      </section>
+      </section> */}
 
       <style>{`
         @keyframes deHeroIn     { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }

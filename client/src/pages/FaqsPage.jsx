@@ -9,7 +9,7 @@ import api from '../api/axios';
 
 function useTypewriter(text, speed = 40) {
   const [typed, setTyped] = useState('');
-  const [done, setDone]   = useState(false);
+  const [done, setDone] = useState(false);
   useEffect(() => {
     setTyped(''); setDone(false);
     if (!text) return;
@@ -49,7 +49,7 @@ function Reveal({ children, delay = 0, y = 26, className = '', style = {} }) {
 }
 
 function AnimatedNumber({ value }) {
-  const ref     = useRef(null);
+  const ref = useRef(null);
   const started = useRef(false);
   const [display, setDisplay] = useState(value);
   useEffect(() => {
@@ -86,7 +86,7 @@ function FaqItem({ faq, openId, setOpenId, index, showCategory = false }) {
     <Reveal delay={index * 40}>
       <article
         id={`faq-${faq._id || index}`}
-        className="group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#c29f5d] transition-colors duration-300"
+        className="group bg-white border border-[#E2E8F0] overflow-hidden hover:border-[#c29f5d] transition-colors duration-300 rounded-2xl"
       >
         <button
           type="button"
@@ -135,14 +135,14 @@ function FaqItem({ faq, openId, setOpenId, index, showCategory = false }) {
    PAGE COMPONENT
    ════════════════════════════════════════════════════════════════ */
 export default function FaqsPage() {
-  const [faqs, setFaqs]             = useState([]);
+  const [faqs, setFaqs] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading]       = useState(true);
-  const [error, setError]           = useState('');
-  const [openId, setOpenId]         = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [openId, setOpenId] = useState(null);
   const [activeCategory, setActiveCategory] = useState('All');
 
-  const heroText              = 'Frequently Asked Questions';
+  const heroText = 'Frequently Asked Questions';
   const [typedHero, heroDone] = useTypewriter(heroText, 40);
 
   useEffect(() => {
@@ -173,27 +173,25 @@ export default function FaqsPage() {
     return () => { isMounted = false; };
   }, []);
 
-  /* Desktop: filtered list based on sidebar selection */
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 25;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeCategory]);
+
+  /* Filtered list based on active category selection */
   const desktopFaqs = useMemo(() => {
     if (activeCategory === 'All') return faqs;
     return faqs.filter((f) => f.category === activeCategory);
   }, [faqs, activeCategory]);
 
-  /* Mobile: group all faqs by category */
-  const mobileGroups = useMemo(() => {
-    const groups = [];
-    // Push categories in order
-    for (const cat of categories) {
-      const items = faqs.filter((f) => f.category === cat);
-      if (items.length) groups.push({ cat, items });
-    }
-    // Uncategorised / General fallback
-    const uncategorised = faqs.filter(
-      (f) => !f.category || f.category === 'General' || !categories.includes(f.category)
-    );
-    if (uncategorised.length) groups.push({ cat: 'General', items: uncategorised });
-    return groups;
-  }, [faqs, categories]);
+  const paginatedFaqs = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return desktopFaqs.slice(startIndex, startIndex + itemsPerPage);
+  }, [desktopFaqs, currentPage]);
+
+  const totalPages = Math.ceil(desktopFaqs.length / itemsPerPage);
 
   return (
     <div className="bg-[#f7f9fb] font-['Inter'] min-h-screen">
@@ -246,11 +244,11 @@ export default function FaqsPage() {
               customers across electronics manufacturing.
             </p>
 
-            <div className="inline-flex items-center gap-2 bg-white text-[#0F172A] px-3 md:px-4 py-1.5 md:py-2 text-xs md:text-sm font-['JetBrains_Mono'] font-bold"
+            {/* <div className="inline-flex items-center gap-2 bg-white text-[#0F172A] px-3 md:px-4 py-1.5 md:py-2 text-xs md:text-sm font-['JetBrains_Mono'] font-bold"
               style={{ opacity: heroDone ? 1 : 0, transition: 'opacity 0.5s 0.2s ease' }}>
               <HelpCircle size={14} />
               {loading ? 'Loading…' : <><AnimatedNumber value={String(faqs.length)} /> active FAQs</>}
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-[#c29f5d]/60 via-[#c29f5d]/10 to-transparent" />
@@ -277,49 +275,94 @@ export default function FaqsPage() {
                 MOBILE LAYOUT  (< lg)
                 Category as heading, questions stacked below each
                 ══════════════════════════════════════════════════════ */}
-            <div className="lg:hidden space-y-10">
-              {mobileGroups.map(({ cat, items }) => (
-                <Reveal key={cat}>
-                  <section>
-                    {/* Category heading */}
-                    <div className="flex items-center gap-3 mb-4">
-                      <span className="h-0.5 w-6 bg-[#c29f5d]" />
-                      <h2 className="font-['JetBrains_Mono'] font-bold text-sm uppercase tracking-widest text-[#9a7a3e]">
-                        {cat}
-                      </h2>
-                      <span className="ml-auto text-xs font-['JetBrains_Mono'] font-bold bg-[#eceef0] text-[#64748b] px-2 py-0.5 rounded-full">
-                        {items.length}
-                      </span>
-                    </div>
+            {/* ══════════════════════════════════════════════════════
+                MOBILE LAYOUT  (< lg)
+                Pills for category selection, questions listed below
+                ══════════════════════════════════════════════════════ */}
+            <div className="lg:hidden">
+              {/* Category selector pills scrolling horizontally */}
+              <div className="mb-6 overflow-x-auto whitespace-nowrap flex gap-2 pb-2 scrollbar-none">
+                <button
+                  type="button"
+                  onClick={() => { setActiveCategory('All'); setOpenId(faqs[0]?._id || null); }}
+                  className={`px-4 py-2 text-xs font-['JetBrains_Mono'] font-bold border transition-all rounded-full ${
+                    activeCategory === 'All'
+                      ? 'bg-[#0F172A] text-white border-[#0F172A]'
+                      : 'bg-white text-[#334155] border-[#E2E8F0]'
+                  }`}
+                >
+                  All FAQs
+                </button>
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => {
+                      setActiveCategory(cat);
+                      setOpenId(faqs.find((f) => f.category === cat)?._id || null);
+                    }}
+                    className={`px-4 py-2 text-xs font-['JetBrains_Mono'] font-bold border transition-all rounded-full ${
+                      activeCategory === cat
+                        ? 'bg-[#0F172A] text-white border-[#0F172A]'
+                        : 'bg-white text-[#334155] border-[#E2E8F0]'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
 
-                    {/* Questions under this category */}
-                    <div className="space-y-3">
-                      {items.map((faq, idx) => (
-                        <FaqItem
-                          key={faq._id || idx}
-                          faq={faq}
-                          openId={openId}
-                          setOpenId={setOpenId}
-                          index={idx}
-                        />
-                      ))}
-                    </div>
-                  </section>
-                </Reveal>
-              ))}
+              {/* Questions list */}
+              <div className="space-y-3">
+                {paginatedFaqs.map((faq, idx) => (
+                  <FaqItem
+                    key={faq._id || idx}
+                    faq={faq}
+                    openId={openId}
+                    setOpenId={setOpenId}
+                    index={idx}
+                    showCategory={activeCategory === 'All'}
+                  />
+                ))}
+              </div>
+
+              {/* Mobile Pagination */}
+              {totalPages > 1 && (
+                <div className="flex justify-center items-center gap-2 mt-8">
+                  <button
+                    type="button"
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    className="px-3 py-1.5 border border-[#E2E8F0] hover:border-[#c29f5d] text-xs disabled:opacity-50 transition-colors rounded-lg bg-white"
+                  >
+                    Prev
+                  </button>
+                  <span className="text-xs font-['JetBrains_Mono'] text-[#334155]">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <button
+                    type="button"
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    className="px-3 py-1.5 border border-[#E2E8F0] hover:border-[#c29f5d] text-xs disabled:opacity-50 transition-colors rounded-lg bg-white"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
 
               {/* Mobile CTA */}
-              <Reveal>
-                <div className="p-5 bg-[#0F172A] text-white">
+              <Reveal className="mt-8">
+                <div className="p-5 bg-[#0F172A] text-white rounded-2xl shadow-sm">
                   <h4 className="font-['JetBrains_Mono'] font-semibold text-base mb-2">Still have questions?</h4>
                   <p className="text-xs text-white/70 mb-4">
                     Our engineering team is available to help with specific technical queries.
                   </p>
                   <Link
                     to="/contact-us"
-                    className="flex items-center justify-center gap-2 w-full py-2.5 border border-[#f0c27b] text-[#f0c27b] text-xs font-['JetBrains_Mono'] font-semibold hover:bg-[#f0c27b] hover:text-[#0F172A] transition-all"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 border border-[#f0c27b] text-[#f0c27b] text-xs font-['JetBrains_Mono'] font-semibold hover:bg-[#f0c27b] hover:text-[#0F172A] transition-all rounded-lg"
                   >
-                    <Mail size={14} /> Contact Engineering
+                    <Mail size={14} /> Contact Us
                   </Link>
                 </div>
               </Reveal>
@@ -342,16 +385,12 @@ export default function FaqsPage() {
                   <button
                     type="button"
                     onClick={() => { setActiveCategory('All'); setOpenId(faqs[0]?._id || null); }}
-                    className={`group flex items-center justify-between gap-2 px-4 py-3 border-l-4 w-full font-['JetBrains_Mono'] text-xs transition-all text-left ${
-                      activeCategory === 'All'
-                        ? 'bg-white border-[#9a7a3e] text-[#9a7a3e]'
-                        : 'bg-transparent border-transparent text-[#334155] hover:border-[#9a7a3e]/40 hover:bg-[#eceef0]'
-                    }`}
+                    className={`group flex items-center justify-between gap-2 px-4 py-3 border-l-4 w-full font-['JetBrains_Mono'] text-xs transition-all text-left ${activeCategory === 'All'
+                      ? 'bg-white border-[#9a7a3e] text-[#9a7a3e]'
+                      : 'bg-transparent border-transparent text-[#334155] hover:border-[#9a7a3e]/40 hover:bg-[#eceef0]'
+                      }`}
                   >
                     <span>All FAQs</span>
-                    <span className="shrink-0 text-[10px] font-bold bg-[#eceef0] text-[#64748b] px-1.5 py-0.5 rounded-full">
-                      {faqs.length}
-                    </span>
                   </button>
 
                   {/* Category items */}
@@ -367,32 +406,28 @@ export default function FaqsPage() {
                           setActiveCategory(cat);
                           setOpenId(faqs.find((f) => f.category === cat)?._id || null);
                         }}
-                        className={`group flex items-center justify-between gap-2 px-4 py-3 border-l-4 w-full font-['JetBrains_Mono'] text-xs transition-all text-left ${
-                          isActive
-                            ? 'bg-white border-[#9a7a3e] text-[#9a7a3e]'
-                            : 'bg-transparent border-transparent text-[#334155] hover:border-[#9a7a3e]/40 hover:bg-[#eceef0]'
-                        }`}
+                        className={`group flex items-center justify-between gap-2 px-4 py-3 border-l-4 w-full font-['JetBrains_Mono'] text-xs transition-all text-left ${isActive
+                          ? 'bg-white border-[#9a7a3e] text-[#9a7a3e]'
+                          : 'bg-transparent border-transparent text-[#334155] hover:border-[#9a7a3e]/40 hover:bg-[#eceef0]'
+                          }`}
                       >
                         <span className="leading-snug">{cat}</span>
-                        <span className="shrink-0 text-[10px] font-bold bg-[#eceef0] text-[#64748b] px-1.5 py-0.5 rounded-full">
-                          {count}
-                        </span>
                       </button>
                     );
                   })}
                 </div>
 
                 {/* CTA */}
-                <div className="mt-8 p-5 bg-[#0F172A] text-white">
+                <div className="mt-8 p-5 bg-[#0F172A] text-white rounded-2xl shadow-sm">
                   <h4 className="font-['JetBrains_Mono'] font-semibold text-base mb-2">Still have questions?</h4>
                   <p className="text-xs text-white/70 mb-4">
                     Our engineering team is available to help with specific technical queries.
                   </p>
                   <Link
                     to="/contact-us"
-                    className="flex items-center justify-center gap-2 w-full py-2.5 border border-[#f0c27b] text-[#f0c27b] text-xs font-['JetBrains_Mono'] font-semibold hover:bg-[#f0c27b] hover:text-[#0F172A] transition-all"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 border border-[#f0c27b] text-[#f0c27b] text-xs font-['JetBrains_Mono'] font-semibold hover:bg-[#f0c27b] hover:text-[#0F172A] transition-all rounded-lg"
                   >
-                    <Mail size={14} /> Contact Engineering
+                    <Mail size={14} /> Contact Us
                   </Link>
                 </div>
               </aside>
@@ -407,22 +442,19 @@ export default function FaqsPage() {
                       <h2 className="font-['JetBrains_Mono'] font-bold text-sm uppercase tracking-widest text-[#9a7a3e]">
                         {activeCategory}
                       </h2>
-                      <span className="ml-2 text-xs text-[#64748b]">
-                        — {desktopFaqs.length} question{desktopFaqs.length !== 1 ? 's' : ''}
-                      </span>
                     </div>
                   </Reveal>
                 )}
 
-                {desktopFaqs.length === 0 ? (
+                {paginatedFaqs.length === 0 ? (
                   <Reveal>
-                    <div className="bg-white border border-[#E2E8F0] p-8 text-center text-[#44474d]">
+                    <div className="bg-white border border-[#E2E8F0] p-8 text-center text-[#44474d] rounded-2xl">
                       No FAQs in this category yet.
                     </div>
                   </Reveal>
                 ) : (
                   <div className="flex flex-col gap-4">
-                    {desktopFaqs.map((faq, index) => (
+                    {paginatedFaqs.map((faq, index) => (
                       <FaqItem
                         key={faq._id || index}
                         faq={faq}
@@ -432,6 +464,31 @@ export default function FaqsPage() {
                         showCategory={activeCategory === 'All'}
                       />
                     ))}
+
+                    {/* Desktop Pagination */}
+                    {totalPages > 1 && (
+                      <div className="flex justify-center items-center gap-2 mt-8">
+                        <button
+                          type="button"
+                          disabled={currentPage === 1}
+                          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                          className="px-3 py-1.5 border border-[#E2E8F0] hover:border-[#c29f5d] text-sm disabled:opacity-50 transition-colors rounded-lg bg-white cursor-pointer"
+                        >
+                          Prev
+                        </button>
+                        <span className="text-sm font-['JetBrains_Mono'] text-[#334155]">
+                          Page {currentPage} of {totalPages}
+                        </span>
+                        <button
+                          type="button"
+                          disabled={currentPage === totalPages}
+                          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                          className="px-3 py-1.5 border border-[#E2E8F0] hover:border-[#c29f5d] text-sm disabled:opacity-50 transition-colors rounded-lg bg-white cursor-pointer"
+                        >
+                          Next
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

@@ -158,7 +158,7 @@ export default function BlogsPage() {
 
         {/* ══ FEATURED FLYER/PAMPHLET ══════════════════════════════ */}
         <Reveal className="mb-16">
-          <div className="bg-white border border-[#E2E8F0] hover:border-[#c29f5d]/50 transition-colors duration-300 shadow-sm rounded-lg overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 md:p-8">
+          <div className="bg-white border border-[#E2E8F0] hover:border-[#c29f5d]/50 transition-colors duration-300 shadow-sm rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 md:p-8">
             <div className="lg:col-span-7 flex flex-col justify-center space-y-5">
               <div className="inline-flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-[#c29f5d]"></span>
@@ -176,7 +176,7 @@ export default function BlogsPage() {
               <div className="flex flex-wrap gap-4 pt-2">
                 <button 
                   onClick={() => setIsLightboxOpen(true)}
-                  className="px-5 py-2.5 bg-[#0F172A] hover:bg-[#1e293b] text-white text-sm font-semibold transition-all duration-200 rounded shadow-sm flex items-center gap-2 cursor-pointer"
+                  className="px-5 py-2.5 bg-[#0F172A] hover:bg-[#1e293b] text-white text-sm font-semibold transition-all duration-200 rounded-lg shadow-sm flex items-center gap-2 cursor-pointer"
                 >
                   <ZoomIn size={16} />
                   View Full Pamphlet
@@ -184,7 +184,7 @@ export default function BlogsPage() {
                 <a 
                   href="/blog-pamphlet.jpg" 
                   download="SriLin-6X-Growth-Pamphlet.jpg"
-                  className="px-5 py-2.5 border border-[#E2E8F0] hover:border-[#c29f5d] text-[#0F172A] hover:text-[#9a7a3e] text-sm font-semibold transition-all duration-200 rounded flex items-center gap-2"
+                  className="px-5 py-2.5 border border-[#E2E8F0] hover:border-[#c29f5d] text-[#0F172A] hover:text-[#9a7a3e] text-sm font-semibold transition-all duration-200 rounded-lg flex items-center gap-2"
                 >
                   <Download size={16} />
                   Download Image
@@ -195,7 +195,7 @@ export default function BlogsPage() {
             <div className="lg:col-span-5 flex justify-center items-center">
               <div 
                 onClick={() => setIsLightboxOpen(true)}
-                className="relative group cursor-zoom-in overflow-hidden rounded-lg border border-[#E2E8F0] hover:border-[#c29f5d]/50 shadow-md max-w-sm w-full transition-all duration-300 hover:shadow-lg"
+                className="relative group cursor-zoom-in overflow-hidden rounded-2xl border border-[#E2E8F0] hover:border-[#c29f5d]/50 shadow-md max-w-sm w-full transition-all duration-300 hover:shadow-lg"
               >
                 <img 
                   src="/blog-pamphlet.jpg" 
@@ -234,7 +234,7 @@ export default function BlogsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogs.map((blog, i) => (
               <Reveal key={blog._id} delay={i * 70}>
-                <article className="group bg-white border border-[#E2E8F0] hover:border-[#c29f5d] transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1 hover:shadow-lg h-full">
+                <article className="group bg-white border border-[#E2E8F0] hover:border-[#c29f5d] transition-all duration-300 flex flex-col overflow-hidden hover:-translate-y-1 hover:shadow-lg h-full rounded-2xl">
                   <div className="h-48 overflow-hidden bg-[#eceef0] relative">
                     <img src={blog.image?.url || '/image.png'} alt={blog.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
@@ -281,13 +281,13 @@ export default function BlogsPage() {
               <X size={24} />
             </button>
             <div 
-              className="bg-white p-2 rounded shadow-2xl overflow-y-auto max-h-[80vh] flex justify-center cursor-default"
+              className="bg-white p-2 rounded-2xl shadow-2xl overflow-y-auto max-h-[80vh] flex justify-center cursor-default"
               onClick={(e) => e.stopPropagation()}
             >
               <img 
                 src="/blog-pamphlet.jpg" 
                 alt="SriLin Growth & Capabilities Pamphlet - Full View" 
-                className="max-w-full h-auto max-h-[75vh] object-contain rounded"
+                className="max-w-full h-auto max-h-[75vh] object-contain rounded-xl"
               />
             </div>
             <div className="mt-4 text-center text-white/70 text-sm">

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Phone, Mail, MapPin } from 'lucide-react';
 import api from '../api/axios';
 import { slugify } from '../utils/slugify';
 
@@ -96,14 +97,31 @@ export default function Footer() {
 
         <div className="footer-column footer-contact">
           <h4>Contact</h4>
-          <p>+91 73850 69999</p>
-          <p>sales@srilinelectronics.com</p>
-          <p>PLOT: S-1/P/D, E-City EMC, Raviryala Village, Maheshwaram Mandal, Ranga Reddy District, Telangana - 501359</p>
+          <a href="tel:+917385069999" className="footer-contact-item">
+            <Phone size={16} className="footer-contact-icon" />
+            <span>+91 73850 69999</span>
+          </a>
+          <a href="mailto:sales@srilinelectronics.com" className="footer-contact-item">
+            <Mail size={16} className="footer-contact-icon" />
+            <span>sales@srilinelectronics.com</span>
+          </a>
+          <a 
+            href="https://maps.google.com/?q=PLOT:+S-1/P/D,+E-City+EMC,+Raviryala+Village,+Maheshwaram+Mandal,+Ranga+Reddy+District,+Telangana+-+501359" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="footer-contact-item"
+          >
+            <MapPin size={16} className="footer-contact-icon" />
+            <span>PLOT: S-1/P/D, E-City EMC, Raviryala Village, Maheshwaram Mandal, Ranga Reddy District, Telangana - 501359</span>
+          </a>
         </div>
-
-        <p>Disclaimer: Srilin Electronics Private Limited / its management holds no responsibility for any inaccuracies in this website and reserves the right to revise this website without notice and clients refers to the immediate clients or through the subcontract from our clients.</p>
       </div>
 
+      <div className="footer-disclaimer-row">
+        <p className="footer-disclaimer-text">
+          Disclaimer: Srilin Electronics Private Limited / its management holds no responsibility for any inaccuracies in this website and reserves the right to revise this website without notice and clients refers to the immediate clients or through the subcontract from our clients.
+        </p>
+      </div>
 
       <div className="footer-bottom">
         <p>© 2025 Srilin Electronics Private Limited. All rights reserved.</p>

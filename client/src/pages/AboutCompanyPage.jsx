@@ -283,8 +283,8 @@ export default function AboutCompanyPage() {
             <div className="mt-6 flex flex-wrap gap-3" aria-label="Srilin certifications">
               {certificationBadges.map((cert, i) => (
                 <Reveal key={cert} delay={i * 60} style={{ display: 'inline-block' }}>
-                  <span className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-[#E2E8F0] text-sm text-[#0F172A] shadow-sm">
-                    <ShieldCheck size={16} className="text-[#0F172A]" />
+                  <span className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-[#E2E8F0] text-sm text-[#0F172A] shadow-sm rounded-lg">
+                    <ShieldCheck size={16} className="text-[#c29f5d]" />
                     <span className="font-semibold">{cert}</span>
                   </span>
                 </Reveal>
@@ -298,7 +298,7 @@ export default function AboutCompanyPage() {
               <img src="/about-us2.png" alt="Srilin electronics manufacturing facility" className="h-48 w-full object-cover" />
               <div className="p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 flex items-center justify-center bg-[#eceef0] text-[#0F172A]">
+                  <div className="w-12 h-12 flex items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] rounded-xl shrink-0">
                     <Building2 size={20} />
                   </div>
                   <div>
@@ -337,7 +337,7 @@ export default function AboutCompanyPage() {
                             {stat.label}
                           </span>
                         </div>
-                        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#ecfeff] text-[#0F766E] shadow-sm shrink-0">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#c29f5d]/10 text-[#c29f5d] shadow-sm shrink-0">
                           <Icon size={18} strokeWidth={1.8} />
                         </div>
                       </div>
@@ -366,7 +366,7 @@ export default function AboutCompanyPage() {
                       <strong className="text-5xl font-['JetBrains_Mono'] leading-none">
                         <AnimatedNumber value={featuredStat.value} />
                       </strong>
-                      <div className="rounded-2xl bg-[#ecfeff] p-3 text-[#0F766E] shadow-sm">
+                      <div className="rounded-xl bg-[#c29f5d]/10 p-3 text-[#c29f5d] shadow-sm">
                         {(() => { const FeaturedIcon = featuredStat.icon; return <FeaturedIcon size={24} strokeWidth={1.8} />; })()}
                       </div>
                     </div>
@@ -390,8 +390,8 @@ export default function AboutCompanyPage() {
                   <div className="grid grid-cols-1 gap-2">
                     {aboutServices.map((service, i) => (
                       <Reveal key={service} delay={i * 50}>
-                        <span className="flex items-center gap-3 px-3 py-2 border border-[#E2E8F0] bg-[#f7f9fb] text-sm text-[#0F172A]">
-                          <span className="w-8 h-8 flex items-center justify-center bg-[#eceef0] text-[#0F172A] shrink-0">
+                        <span className="flex items-center gap-3 px-3 py-2 border border-[#E2E8F0] bg-[#f7f9fb] text-sm text-[#0F172A] rounded-xl">
+                          <span className="w-8 h-8 flex items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] rounded-lg shrink-0">
                             {service === 'SMT Mounting' || service === 'Embedded Design' ? (
                               <Cpu size={16} />
                             ) : (
@@ -425,9 +425,9 @@ export default function AboutCompanyPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {aboutHighlights.map(({ icon: Icon, title, meta, text }, i) => (
               <Reveal key={title} delay={i * 80}>
-                <article className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full">
+                <article className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full rounded-2xl">
                   <div className="flex items-start gap-3">
-                    <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#c29f5d]/10 group-hover:text-[#9a7a3e] transition-colors shrink-0">
+                    <div className="w-11 h-11 flex items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] rounded-xl transition-all shrink-0">
                       <Icon size={20} strokeWidth={1.8} />
                     </div>
                     <div>
@@ -444,7 +444,7 @@ export default function AboutCompanyPage() {
       </section>
 
       {/* ══ CTA ══════════════════════════════════════════════════ */}
-      <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
+      {/* <section className="bg-[#0F172A] relative overflow-hidden py-14 md:py-16">
         <div className="absolute right-10 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#c29f5d]/40 to-transparent hidden md:block" />
         <div className="absolute right-16 top-0 h-full w-px bg-gradient-to-b from-transparent via-[#c29f5d]/20 to-transparent hidden md:block" />
 
@@ -464,10 +464,10 @@ export default function AboutCompanyPage() {
                 href="mailto:info@srilinelectronics.com"
                 className="inline-flex items-center justify-center gap-2 bg-[#c29f5d] text-[#0F172A] px-6 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
               >
-                <Building2 size={15} /> Contact Sales
+                <Building2 size={15} /> Contact Us
               </a>
               <a
-                href="/careers"
+                href="/about-us/career"
                 className="inline-flex items-center justify-center gap-2 border border-white/30 text-white px-6 py-3 text-sm font-semibold hover:bg-white/10 transition-colors"
               >
                 View Careers
@@ -475,7 +475,7 @@ export default function AboutCompanyPage() {
             </div>
           </div>
         </Reveal>
-      </section>
+      </section> */}
 
       <style>{`
         @keyframes aboutHeroIn { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }

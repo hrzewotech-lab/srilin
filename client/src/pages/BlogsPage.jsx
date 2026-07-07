@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, Clock } from 'lucide-react';
+import { ArrowRight, BookOpen, Clock, Download, ZoomIn, X } from 'lucide-react';
 import api from '../api/axios';
 
 /* ════════════════════════════════════════════════════════════════
@@ -82,6 +82,7 @@ export default function BlogsPage() {
   const [blogs, setBlogs]     = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError]     = useState('');
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   useEffect(() => {
     const loadBlogs = async () => {
@@ -153,6 +154,63 @@ export default function BlogsPage() {
 
       {/* ══ CONTENT ═══════════════════════════════════════════════ */}
       <div className="max-w-6xl mx-auto px-6 md:px-12 py-12">
+
+        {/* ══ FEATURED FLYER/PAMPHLET ══════════════════════════════ */}
+        <Reveal className="mb-16">
+          <div className="bg-white border border-[#E2E8F0] hover:border-[#c29f5d]/50 transition-colors duration-300 shadow-sm rounded-lg overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 md:p-8">
+            <div className="lg:col-span-7 flex flex-col justify-center space-y-5">
+              <div className="inline-flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-[#c29f5d]"></span>
+                <span className="text-xs font-bold uppercase tracking-widest text-[#9a7a3e]">Featured Announcement</span>
+              </div>
+              <h2 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl text-[#0F172A] leading-tight">
+                Celebrating 6X Growth in FY 2025-26
+              </h2>
+              <p className="text-sm sm:text-base text-[#44474d] leading-relaxed">
+                SriLin Electronics is proud to announce an extraordinary milestone of 6X growth, expanded manufacturing capabilities, and a message of gratitude from our MD & CEO. 
+              </p>
+              <p className="text-sm text-[#44474d] leading-relaxed">
+                We have doubled our assembly capacity, integrated advanced laser marking and ultrasonic welding machinery, set up a next-gen reliability testing burn-in room, and established a state-of-the-art testing laboratory. We are also introducing our Electronics Design & Development services, covering complete concept-to-production support.
+              </p>
+              <div className="flex flex-wrap gap-4 pt-2">
+                <button 
+                  onClick={() => setIsLightboxOpen(true)}
+                  className="px-5 py-2.5 bg-[#0F172A] hover:bg-[#1e293b] text-white text-sm font-semibold transition-all duration-200 rounded shadow-sm flex items-center gap-2 cursor-pointer"
+                >
+                  <ZoomIn size={16} />
+                  View Full Pamphlet
+                </button>
+                <a 
+                  href="/blog-pamphlet.jpg" 
+                  download="SriLin-6X-Growth-Pamphlet.jpg"
+                  className="px-5 py-2.5 border border-[#E2E8F0] hover:border-[#c29f5d] text-[#0F172A] hover:text-[#9a7a3e] text-sm font-semibold transition-all duration-200 rounded flex items-center gap-2"
+                >
+                  <Download size={16} />
+                  Download Image
+                </a>
+              </div>
+            </div>
+            
+            <div className="lg:col-span-5 flex justify-center items-center">
+              <div 
+                onClick={() => setIsLightboxOpen(true)}
+                className="relative group cursor-zoom-in overflow-hidden rounded-lg border border-[#E2E8F0] hover:border-[#c29f5d]/50 shadow-md max-w-sm w-full transition-all duration-300 hover:shadow-lg"
+              >
+                <img 
+                  src="/blog-pamphlet.jpg" 
+                  alt="SriLin Growth & Capabilities Pamphlet" 
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-103" 
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#0F172A]/10 transition-colors flex items-center justify-center">
+                  <span className="opacity-0 group-hover:opacity-100 bg-[#0F172A]/90 backdrop-blur-sm text-white text-xs px-3.5 py-2 rounded-full font-semibold transition-all duration-300 shadow-md flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0">
+                    <ZoomIn size={14} /> Click to Zoom
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
         {loading ? (
           <Reveal>
             <div className="bg-white border border-[#E2E8F0] p-10 text-center text-[#44474d]">
@@ -207,9 +265,44 @@ export default function BlogsPage() {
         )}
       </div>
 
+      {/* ══ LIGHTBOX MODAL ═════════════════════════════════════════ */}
+      {isLightboxOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 cursor-zoom-out animate-fadeIn"
+          onClick={() => setIsLightboxOpen(false)}
+        >
+          <div className="relative max-w-3xl w-full max-h-[90vh] flex flex-col items-center animate-scaleIn">
+            <button 
+              className="fixed top-6 right-6 text-white/80 hover:text-white bg-black/40 hover:bg-black/60 p-2.5 rounded-full transition-colors cursor-pointer"
+              onClick={() => setIsLightboxOpen(false)}
+              aria-label="Close modal"
+            >
+              <X size={24} />
+            </button>
+            <div 
+              className="bg-white p-2 rounded shadow-2xl overflow-y-auto max-h-[80vh] flex justify-center cursor-default"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img 
+                src="/blog-pamphlet.jpg" 
+                alt="SriLin Growth & Capabilities Pamphlet - Full View" 
+                className="max-w-full h-auto max-h-[75vh] object-contain rounded"
+              />
+            </div>
+            <div className="mt-4 text-center text-white/70 text-sm">
+              SriLin Growth & Capabilities Pamphlet. Click anywhere outside to close.
+            </div>
+          </div>
+        </div>
+      )}
+
       <style>{`
         @keyframes blogsHeroIn { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
         @keyframes cursorBlink  { 0%,100%{opacity:1} 50%{opacity:0} }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+        @keyframes scaleIn { from{opacity:0.95;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+        .animate-fadeIn { animation: fadeIn 0.2s ease-out forwards; }
+        .animate-scaleIn { animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
       `}</style>
     </section>
   );

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { ChevronDown, Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X, Globe } from 'lucide-react';
 import api from '../api/axios';
 import { slugify } from '../utils/slugify';
 
@@ -238,15 +238,15 @@ export default function Navbar() {
         <div className="relative">
           {isLangOpen && (
             <ul 
-              className="absolute bottom-full right-0 mb-2 w-48 sm:w-56 max-h-60 overflow-y-auto bg-[#0F172A] border border-[#c29f5d]/30 shadow-2xl py-1 rounded text-left z-50"
-              style={{ maxHeight: '280px', overflowY: 'auto' }}
+              className="absolute bottom-full right-0 mb-3 w-48 sm:w-56 max-h-64 overflow-y-auto bg-[#0F172A] border border-[#c29f5d]/30 shadow-2xl py-2 rounded-2xl text-left z-50 divide-y divide-white/5 scrollbar-thin scrollbar-thumb-[#c29f5d]/50"
+              style={{ maxHeight: '260px', overflowY: 'auto' }}
             >
               {languages.map((lang) => (
                 <li key={lang.code}>
                   <button
                     type="button"
                     onClick={() => handleLanguageChange(lang.code)}
-                    className={`w-full text-left px-4 py-2.5 text-xs sm:text-sm font-medium transition-colors flex items-center justify-between ${
+                    className={`w-full text-left px-4 py-3 text-xs sm:text-sm font-semibold transition-colors flex items-center justify-between ${
                       activeLang === lang.code
                         ? 'text-[#c29f5d] bg-[#c29f5d]/10'
                         : 'text-white/80 hover:text-[#c29f5d] hover:bg-white/5'
@@ -254,7 +254,7 @@ export default function Navbar() {
                   >
                     <span>{lang.name}</span>
                     {activeLang === lang.code && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#c29f5d]" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#c29f5d] shadow-[0_0_8px_#c29f5d]" />
                     )}
                   </button>
                 </li>
@@ -265,12 +265,12 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setIsLangOpen(!isLangOpen)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#0F172A] text-[#c29f5d] border border-[#c29f5d]/30 shadow-lg hover:border-[#c29f5d] transition-all rounded font-mono text-xs font-bold whitespace-nowrap"
-            style={{ boxShadow: '0 4px 20px rgba(194, 159, 93, 0.25)' }}
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#0F172A] text-white border border-[#c29f5d]/50 shadow-2xl hover:border-[#c29f5d] hover:bg-[#1E293B] transition-all rounded-full font-sans text-xs font-semibold tracking-wide whitespace-nowrap"
+            style={{ boxShadow: '0 8px 30px rgba(194, 159, 93, 0.25)' }}
           >
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-            <span>LANG: {languages.find(l => l.code === activeLang)?.name.split(' ')[0] || 'English'}</span>
-            <ChevronDown size={12} className={`transform transition-transform duration-200 ${isLangOpen ? 'rotate-180' : ''}`} />
+            <Globe size={14} className="text-[#c29f5d] animate-[spin_20s_linear_infinite]" />
+            <span>{languages.find(l => l.code === activeLang)?.name.split(' ')[0] || 'English'}</span>
+            <ChevronDown size={12} className={`text-[#c29f5d] transform transition-transform duration-200 ${isLangOpen ? 'rotate-180' : ''}`} />
           </button>
         </div>
       </div>

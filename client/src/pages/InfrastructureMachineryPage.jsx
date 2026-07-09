@@ -126,15 +126,17 @@ const equipment = [
     icon: Layers,
     category: 'Printing Stage',
     tag: 'Solder Paste Printer - Printed circuit board manufacturing India',
-    summary: 'Fuji - GPX-CII Automated Solder Paste/Glue Printer designed for printed circuit board manufacturing in India.',
-    specs: ['48×48 mm to 610×610 mm', 'Alignment: ±0.010 mm, 6σ [CpK≥2.0]', 'Wet Accuracy: ±0.018 mm, 6σ [CpK≥2.0]'],
+    summary: 'Fuji - GPX-CII Automated Solder Paste/Glue Printer.',
     details: [
+      'Applicable panel size 48 x 48mm to 610 x 610mm.',
+      'Alignment Accuracy: ± 0.010mm, 6σ [CpK≥2.0]',
+      'Wet Printer Accuracy: ± 0.018mm, 6σ [CpK≥2.0]',
       'Printer Cycle time: 6.0 seconds (including panel loading, unloading, mark reading, mask alignment)',
-      'Auto Paste Dispenser JAR type with Solder Roll Dia Check function',
-      'Stencil Cleaning: Dry + Wet + Vacuum',
-      'SPI Closed loop function',
-      'Local Verifier - with Handy Barcode Scanner',
-      'Automatic width adjustment',
+      'Auto Paste Dispenser JAR type with Solder Roll Dia Check function.',
+      'Stencil Cleaning: Dry + Wet + Vacuum.',
+      'SPI Closed loop function.',
+      'Local Verifier - with Handy Barcode Scanner.',
+      'Automatic width adjustment.',
     ],
   },
   {
@@ -144,39 +146,46 @@ const equipment = [
     icon: ScanLine,
     category: 'Verification Stage',
     tag: '3D Solder Paste Inspection - EMS company India',
-    summary: 'Koh Young inline 3D SPI– KY8080-L. Inline 3D SPI with real-time printer feedback loop and full statistical process control integration.',
-    specs: ['50×50 mm to 510×510 mm', '15 µm X/Y Resolution', '0.37 µm Z Resolution'],
+    summary: 'Koh Young inline 3D SPI– KY8080-L.',
     details: [
-      'Printer Closed Loop Feedback & KSMART LINK Software',
-      'PCB Warp Compensation: Z Tracking & Camera Barcode reader',
-      'Detects Insufficient, Excessive, Missing Paste, Bridging, Shape Deformity, Displacement, Volume, Height, XY Position, Area',
-      'Koh Young proprietary light projection unit for shadow free effect',
-      '4M B/W Digital Camera, 15um X/Y-resolution (20/25um factory configurable)',
-      'SPC Plus software (Statistical Process Control)',
-      'No PCB color sensitivity. Min. Paste deposit: 3.94 mils',
-      'Measurement Accuracy: <1% on Calibration Target, <3% on PCB',
-      'Measurement repeatability: < 10% on 01005 deposits @ 6 sigma [with 50% tolerance]',
+      'Printer Closed Loop Feedback.',
+      'Camera Barcode reader.',
+      'PCB Warp Compensation: Z Tracking.',
+      'Detects Insufficient Paste, Excessive Paste, Missing‐Paste, Bridging, Shape Deformity, Paste Displacement, Volume, Height, XY Position, Area.',
+      'Koh Young proprietary light projection unit for shadow free effect.',
+      '4M B/W Digital Camera, 15um X/Y‐resolution (20/25um configurable from factory).',
+      '0.37um Z resolution.',
+      'SPC Plus software (Statistical Process Control).',
+      'Applicable PCB Size 50mmx50mm to 510mmx510mm.',
+      'No PCB color sensitivity.',
+      'Min. Paste deposit supported up to 3.94 mils.',
+      'Measurement Accuracy: < 1% on Calibration Target.',
+      'Measurement Accuracy: < 3% on PCB.',
+      'Measurement repeatability: < 10% on 01005 deposits @ 6 sigma [with 50% tolerance].',
+      'KSMART LINK Software - Closed loop feedback from AOI to SPI.',
     ],
   },
   {
-    title: 'Pick and Place Machine',
+    title: 'Pick and Place Machines',
     eyebrow: 'Fuji AIMEX IIIc',
     image: '/machinery-img1.png',
     icon: Cpu,
     category: 'Placement Stage',
     tag: 'Pick and Place Machines - PCB Assembly services India',
-    summary: 'Fuji- AIMEX IIIc – 2 Robot x 2 Modules with a capacity of 1,03,000 CPH for advanced PCB assembly services.',
-    specs: ['1,03,000 CPH capacity', '48×48 mm to 508×400 mm', 'Accuracy: 0.025 mm, Cpk ≥ 1.00 (3σ)'],
+    summary: 'Fuji- AIMEX IIIc – 2 Robot x 2 Modules with a capacity of 1,03,000 CPH.',
     details: [
-      'PBGA, FBGA, Micro-BGA, CSP, Ultra-fine pitch QFP & QFN mounting capability',
+      '48 x 48mm to 508mm x 400mm PCB handling capability.',
+      'PBGA, FBGA, Micro-BGA, CSP, Ultra-fine pitch QFP & QFN mounting capability.',
+      'Mounter accuracy of 0.025 mm, Cpk ≥ 1.00 (3σ).',
       'Supports Fine pitch components (01005 & 0201)',
-      'Intelligent smart feeders (4mm to 72mm & 3 vibratory stick feeders)',
-      'Fuji- AIMEX IIIc with Tray unit for chip & IC/BGA/other components mounting',
-      'Built-in Auto Calibration and Hybrid calibration ensures best placement accuracy',
-      'Image processing is through CCD camera',
-      'FUJI Intelligent Feeders: Variable pitch, electrically driven, common for parts from 0402 mm (01005”) to 3225mm (1210”)',
-      'Three Extra feeder carts for quick change over',
-      'Board level Traceability & Free Feeder Allocation',
+      'Intelligent smart feeders (4mm to 72mm & 3 vibratory stick feeders).',
+      'Fuji- AIMEX IIIc with Tray unit for chip & IC/BGA/other components mounting.',
+      'Built‐in Auto Calibration and Hybrid calibration ensures placement accuracy to best level.',
+      'Image processing is through CCD camera.',
+      'FUJI Intelligent Feeders are of Variable pitch, electrically driven, Common for Paper & Emboss, Common for parts from 0402 mm (01005”) to 3225mm (1210”) parts size.',
+      'Three Extra feeder carts for quick change over.',
+      'Board level Traceability.',
+      'Free Feeder Allocation.',
     ],
   },
   {
@@ -186,15 +195,17 @@ const equipment = [
     icon: Cpu,
     category: 'Placement Stage',
     tag: 'Pick and Place Machine - SMT circuit board assembly',
-    summary: 'Panasonic NPM-D3A Pick and Place Machine with 92500 CPH for SMT circuit board assembly.',
-    specs: ['92,500 CPH capacity', '50×50 mm to 510×590 mm', 'Accuracy: 0.025 mm, Cpk ≥ 1.00 (3σ)'],
+    summary: 'Panasonic NPM-D3A Pick and Place Machine with 92500 CPH.',
     details: [
-      'Supports Fine pitch components (01005 & 0201)',
-      'Intelligent smart feeders (4mm to 32mm)',
-      'Two Extra feeder carts for quick change over',
-      'Built-in Auto Calibration and Hybrid calibration ensures best placement accuracy',
-      'Image processing is through CCD camera',
-      'Board level Traceability & Free Feeder Allocation',
+      'Board handling capacity of 50mm × 50mm ~ 510mm × 590mm.',
+      'Mounter accuracy of 0.025 mm, Cpk ≥ 1.00 (3σ).',
+      'Supports Fine pitch components (01005 & 0201).',
+      'Intelligent smart feeders (4mm to 32mm).',
+      'Two Extra feeder carts for quick change over.',
+      'Built-in Auto Calibration and Hybrid calibration ensures placement accuracy to best level.',
+      'Image processing is through CCD camera.',
+      'Board level Traceability.',
+      'Free Feeder Allocation.',
     ],
   },
   {
@@ -204,13 +215,15 @@ const equipment = [
     icon: Zap,
     category: 'Soldering Stage',
     tag: 'Reflow Oven - PCB design and manufacturing service',
-    summary: 'JTR-1000N Reflow Oven with Nitrogen Ready configuration for lead-free SMT assemblies.',
-    specs: ['10 Top/Bottom heating zones', '3 Top/Bottom cooling zones', 'Nitrogen Ready'],
+    summary: 'JTR-1000N Reflow Oven with Nitrogen Ready.',
     details: [
-      'In-built Thermal Profiler & Reflow Profiler KIC-X5 9 channel with Carrier',
-      'Both Mesh & Chain Conveyors inbuilt',
-      'Automatic Lubrication System (including automatic chain oilers)',
-      'Board Drop / Board Count Sensor with Animation',
+      'Heating zones 10 Top and Bottom.',
+      'Cooling Zones 3 Top and Bottom .',
+      'In-built Thermal Profiler.',
+      'Both Mesh & Chain Conveyors inbuilt.',
+      'Automatic Lubrication System (Including Automatic chain oilers).',
+      'Board Drop / Board Count Sensor with Animation.',
+      'Reflow Profiler KIC –X5 9 channel with Carrier available.',
       'Camera Barcode Reader',
     ],
   },
@@ -221,15 +234,18 @@ const equipment = [
     icon: ScanLine,
     category: 'Inspection Stage',
     tag: '3D Automated Optical Inspection AOI - Electronic product assembly India',
-    summary: 'Koh Young Inline 3D Automated Optical Inspection (AOI) ZENITH ALPHA HS+ for electronic product assembly.',
-    specs: ['8M Pixel 3D Camera', 'Up to 490 x 510mm PCB capacity', '25mm 3D Height Inspection'],
+    summary: 'Koh Young Inline 3D Automated Optical inspection (AOI) ZENITH ALPHAHS+.',
     details: [
-      '3D Inspection: Missing, Offset, Billboarding, Tombstone, Coplanarity, Solder Joint, Lifted Leads, Bridging, "No-Pops" Polarity',
-      '2D Inspection: "Wrong Part" using Optical Character Verification (OCV/R), Polarity',
-      'Camera Barcode Reader',
-      '5 Way 3D Projector Lighting System',
-      'Auto Programming option & Offline programming software',
-      'KSMART LINK Software - Closed loop feedback from AOI to SPI',
+      '3D Inspection: Missing, Offset, Billboarding, Tombstone, Coplanarity, Solder Joint (insufficient, excessive), Lifted Leads, Bridging, "No‐Pops" Polarity.',
+      '2D Inspection: "Wrong Part" using Optical Character Verification (OCV/R), Polarity.',
+      'Camera Barcode Reader.',
+      '8M Pixel 3D Camera.',
+      'Maximum board handling capability of up to 490 x 510mm.',
+      'OCV & OCR capability.',
+      '25mm 3D Height Inspection capability.',
+      '5 Way 3D Projector Lighting System.',
+      'Auto Programming option & Offline programming software.',
+      'KSMART LINK Software - Closed loop feedback from AOI to SPI.',
     ],
   },
 ];
@@ -445,7 +461,7 @@ export default function InfrastructureMachineryPage() {
           </Reveal>
 
           <div className="space-y-8">
-            {equipment.map(({ title, eyebrow, image, icon: Icon, category, tag, summary, specs, details }, index) => {
+            {equipment.map(({ title, eyebrow, image, icon: Icon, tag, summary, details }, index) => {
               const isEven = index % 2 === 0;
               return (
                 <Reveal key={title + eyebrow} delay={index * 80}>
@@ -477,9 +493,6 @@ export default function InfrastructureMachineryPage() {
                           <span className="text-[#9a7a3e] text-xs font-bold uppercase tracking-widest">
                             {eyebrow}
                           </span>
-                          <span className="bg-slate-100 text-slate-700 text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded">
-                            {category}
-                          </span>
                         </div>
 
                         <h3 className="font-['JetBrains_Mono'] font-bold text-xl sm:text-2xl text-slate-900 leading-tight">
@@ -496,24 +509,7 @@ export default function InfrastructureMachineryPage() {
                         {summary}
                       </p>
 
-                      {/* Key Specs */}
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        {specs.map((spec) => (
-                          <div
-                            key={spec}
-                            className="bg-slate-50 border border-slate-200/60 p-3 rounded-md flex flex-col justify-center transition-colors hover:border-[#c29f5d]/30"
-                          >
-                            <span className="text-[9px] text-[#9a7a3e] uppercase tracking-wider font-semibold mb-0.5">
-                              Specification
-                            </span>
-                            <p className="font-['JetBrains_Mono'] text-[11px] sm:text-xs font-semibold text-slate-800 leading-snug">
-                              {spec}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Technical Details (Full Width beneath specs, 2-column grid layout) */}
+                      {/* Technical Details (2-column grid layout) */}
                       <div className="border-t border-slate-100 pt-5">
                         <h4 className="text-[10px] font-bold text-slate-900 uppercase tracking-widest mb-3 flex items-center gap-1.5">
                           <Wrench size={12} className="text-[#9a7a3e]" strokeWidth={2.2} /> Technical Features &amp; Capabilities

@@ -407,76 +407,23 @@ export default function InfrastructureMachineryPage() {
 
 
 
-      {/* ── STATS + SMT FLOW ── */}
+      {/* ── PCB MANUFACTURING FACILITIES HEADING + FULL IMAGE ── */}
       <section className="max-w-6xl mx-auto px-6 md:px-12 py-16 md:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-
-          {/* Capability Stats */}
-          <Reveal>
-            <div className="mb-8">
-              <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#c29f5d] pl-4">
-                Line Capabilities
-              </h2>
-              <p className="text-[#44474d] mt-3 text-sm">
-                Key performance metrics across SriLin's fully-integrated SMT production floor.
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              {capabilityStats.map((stat, i) => (
-                <Reveal key={stat.label} delay={i * 80}>
-                  <div
-                    className="bg-white border border-[#E2E8F0] p-5 hover:border-[#c29f5d] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200"
-                  >
-                    <p className="font-['JetBrains_Mono'] font-bold text-xl text-[#9a7a3e] mb-1">
-                      <AnimatedNumber value={stat.value} />
-                    </p>
-                    <p className="text-[10px] text-[#44474d] uppercase tracking-wider leading-snug">
-                      {stat.label}
-                    </p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </Reveal>
-
-          {/* SMT Flow */}
-          <Reveal delay={150}>
-            <div className="bg-[#0F172A] p-7 md:p-8">
-              <div className="flex items-center gap-2 mb-6">
-                <Factory size={18} className="text-[#c29f5d]" strokeWidth={1.8} />
-                <p className="font-['JetBrains_Mono'] font-semibold text-sm text-[#c29f5d] uppercase tracking-widest">
-                  SMT Line Flow
-                </p>
-              </div>
-              <ol className="space-y-3">
-                {processFlow.map(({ step, label }, i) => (
-                  <Reveal key={step} delay={i * 70} y={12}>
-                    <li className="flex items-center gap-4">
-                      <span className="font-['JetBrains_Mono'] text-[#c29f5d] text-xs font-semibold w-6 shrink-0">
-                        {step}
-                      </span>
-                      <div className="flex-1 flex items-center gap-3">
-                        <div
-                          className="h-px flex-1 bg-white/10"
-                          style={{ opacity: i === processFlow.length - 1 ? 0 : 1 }}
-                        />
-                      </div>
-                      <span className="text-white/85 text-sm font-medium text-right">
-                        {label}
-                      </span>
-                    </li>
-                  </Reveal>
-                ))}
-              </ol>
-              <div className="mt-6 pt-5 border-t border-white/10">
-                <p className="text-white/40 text-[11px] uppercase tracking-widest">
-                  Closed-loop &nbsp;•&nbsp; Fully automated &nbsp;•&nbsp; IPC Class 3
-                </p>
-              </div>
-            </div>
-          </Reveal>
-
-        </div>
+        <Reveal>
+          <h2 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl text-[#0F172A] text-center mb-10 leading-tight">
+            Infrastructure &amp; Machinery –{' '}
+            <span className="text-[#c29f5d]">PCB Manufacturing Facilities</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={120}>
+          <div className="w-full rounded-2xl overflow-hidden shadow-2xl border border-[#E2E8F0]">
+            <img
+              src="/machinery-img7.png"
+              alt="Infrastructure & Machinery - PCB Manufacturing Facilities"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        </Reveal>
       </section>
 
       {/* ── MACHINERY CARDS ── */}

@@ -304,13 +304,13 @@ export default function CareersPage() {
                   ))}
 
                   <div className="flex flex-col gap-2 sm:col-span-1">
-                    <label htmlFor="career-address" className="text-xs font-semibold uppercase tracking-wider text-[#0F172A]">
-                      Address
+                    <label htmlFor="qualification" className="text-xs font-semibold uppercase tracking-wider text-[#0F172A]">
+                      Qualification
                     </label>
-                    <textarea
-                      id="career-address" name="address" rows={4} autoComplete="street-address"
-                      placeholder="Enter your current address" value={form.address} onChange={handleChange} required
-                      className="w-full px-4 py-3 border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#c29f5d] focus:ring-1 focus:ring-[#c29f5d]/40 transition-colors bg-[#f7f9fb] resize-vertical rounded-lg"
+                    <input
+                      id="qualification" name="qualification" type="text" autoComplete="qualification"
+                      placeholder="Enter your qualification" value={form.qualification} onChange={handleChange} required
+                      className="w-full px-4 py-3 border border-[#CBD5E1] text-sm text-[#0F172A] placeholder-[#94A3B8] outline-none focus:border-[#c29f5d] focus:ring-1 focus:ring-[#c29f5d]/40 transition-colors bg-[#f7f9fb] rounded-lg"
                     />
                   </div>
                 </div>

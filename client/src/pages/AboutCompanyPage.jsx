@@ -275,10 +275,7 @@ export default function AboutCompanyPage() {
               high-volume manufacturing.
             </p>
             <p className="text-[#44474d] mt-4 leading-relaxed">
-              We provide Embedded Design, SMT Mounting, Product Integration, Testing, Box Build,
-              and Supply Chain Management services. Our products are manufactured using robust SMT
-              machinery in a Class 100000 (ISO-8) cleanroom to meet worldwide quality standards.
-            </p>
+              We provide Embedded Design, SMT Mounting, product integration, Testing & box build services. Our products are manufactured using Robust and advanced SMT machinery in Class 100000(ISO-8) Cleanroom to meet world wide quality standards. We also provide comprehensive supply chain management.we offer our administrations to a wide range of customers for their product development and support them in convertibility and scalability of manufacturing. SRILIN has been the favoured worth maker for its clients through imaginative and effective Electronic System Assembling. </p>
 
             <div className="mt-6 flex flex-wrap gap-3" aria-label="Srilin certifications">
               {certificationBadges.map((cert, i) => (

@@ -413,9 +413,7 @@ export default function HomePage() {
                 high-volume manufacturing.
               </p>
               <p className="text-[#334155] text-base leading-relaxed">
-                We provide embedded design, SMT mounting, product integration, testing, box build, and
-                comprehensive supply chain support to help clients scale with confidence and production flexibility.
-              </p>
+                We provide Embedded Design, SMT Mounting, product integration, Testing & box build services. Our products are manufactured using Robust and advanced SMT machinery in Class 100000(ISO-8) Cleanroom to meet world wide quality standards. We also provide comprehensive supply chain management.we offer our administrations to a wide range of customers for their product development and support them in convertibility and scalability of manufacturing. SRILIN has been the favoured worth maker for its clients through imaginative and effective Electronic System Assembling. </p>
               <ul className="flex flex-col gap-2 mt-1">
                 {['Design-to-delivery in one location', 'Aerospace-grade quality systems', 'Flexible volumes — prototype to high-volume'].map((item) => (
                   <li key={item} className="flex items-center gap-2 text-sm text-[#334155]">

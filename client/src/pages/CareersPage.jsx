@@ -5,7 +5,7 @@ import api from '../api/axios';
 /* ════════════════════════════════════════════════════════════════
    STATIC DATA
    ════════════════════════════════════════════════════════════════ */
-const initialForm = { name: '', email: '', phone: '', address: '', resume: null };
+const initialForm = { name: '', email: '', phone: '', qualification: '', resume: null };
 
 const perks = [
   {
@@ -122,7 +122,7 @@ export default function CareersPage() {
       payload.append('name', form.name);
       payload.append('email', form.email);
       payload.append('phone', form.phone);
-      payload.append('address', form.address);
+      payload.append('qualification', form.qualification);
       payload.append('resume', form.resume);
       const response = await api.post('/careers', payload);
 
@@ -135,7 +135,7 @@ export default function CareersPage() {
         `- Name: ${form.name}\n` +
         `- Email: ${form.email}\n` +
         `- Phone: ${form.phone || 'N/A'}\n` +
-        `- Address: ${form.address || 'N/A'}\n\n` +
+        `- Qualification: ${form.qualification || 'N/A'}\n\n` +
         `Please find my attached resume in this email.\n\n` +
         `Regards,\n` +
         `${form.name}`

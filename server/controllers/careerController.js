@@ -2,11 +2,11 @@ const asyncHandler = require("express-async-handler");
 const CareerApplication = require("../models/CareerApplication");
 
 const createCareerApplication = asyncHandler(async (req, res) => {
-  const { name, email, phone, address } = req.body;
+  const { name, email, phone, qualification } = req.body;
 
-  if (!name || !email || !phone || !address) {
+  if (!name || !email || !phone || !qualification) {
     res.status(400);
-    throw new Error("Name, email, phone, and address are required");
+    throw new Error("Name, email, phone, and qualification are required");
   }
 
   if (!req.file) {
@@ -18,7 +18,7 @@ const createCareerApplication = asyncHandler(async (req, res) => {
     name,
     email,
     phone,
-    address,
+    qualification,
     resume: {
       url: req.file.path,
       public_id: req.file.filename,

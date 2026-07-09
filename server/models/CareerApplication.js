@@ -18,9 +18,9 @@ const careerApplicationSchema = new mongoose.Schema(
       required: [true, "Phone is required"],
       trim: true,
     },
-    address: {
+    qualification: {
       type: String,
-      required: [true, "Address is required"],
+      required: [true, "Qualification is required"],
       trim: true,
     },
     resume: {

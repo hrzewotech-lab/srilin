@@ -14,11 +14,11 @@ import { slugify } from '../utils/slugify';
    STATIC DATA  — all original arrays unchanged
    ════════════════════════════════════════════════════════════════ */
 const whyChoose = [
-  { icon: MapPin, title: 'Strategic Location', meta: '15 minutes from airport cargo terminal', text: 'Located at Fabcity (E-City EMC), Hyderabad. 15 minutes from Rajiv Gandhi International Airport and cargo terminal.' },
-  { icon: ShieldCheck, title: 'High Reliability Specialist', meta: 'Aerospace, defence, automotive and more', text: 'AS9100D certified with active production across Aerospace, Defence, Automotive, IT Hardware, Telecom, Medtech and Consumer Electronics.' },
-  { icon: TrendingUp, title: 'Built to Scale', meta: '8x expansion footprint on same campus', text: '214,000 sqft of expansion space adjacent to the current 25,000 sqft facility with dedicated clusters for strategic partners.' },
-  { icon: Smile, title: 'Customer Satisfaction', meta: 'Flexible volumes and account ownership', text: 'Dedicated account management, quick prototyping, and flexible production volumes tailored to exact requirements.' },
-  { icon: BadgeCheck, title: 'Quality First Approach', meta: '3D SPI, 3D AOI and X-ray systems', text: 'Multi-stage inspection with 3D SPI, 3D AOI, and X-ray systems for dependable output.' },
+  { icon: MapPin, title: 'Strategic Location', meta: '15 minutes from airport cargo terminal', text: 'Located at Fabcity (E-City EMC), Hyderabad. 15 minutes from Rajiv Gandhi International Airport and cargo terminal. The facility sits in Hyderabad\'s southern manufacturing corridor, one of India\'s primary hubs for aerospace and defence electronics production.' },
+  { icon: ShieldCheck, title: 'High Reliability Specialist', meta: 'Aerospace, defence, automotive and more', text: 'AS910OD certified with active production across Aerospace, Defence, Automotive, IT Hardware, Telecom, Medtech and Consumer Electronics. Srilin operates in sectors where product failure carries critical consequences. Every board is traceable from component to shipment.' },
+  { icon: TrendingUp, title: 'Built to Scale', meta: '8x expansion footprint on same campus', text: '214,000 sqft of expansion space adjacent to the current 25,000 sqft facility. 8x the current footprint on the same campus. No greenfield construction required. Dedicated production clusters can be established for strategic partners.' },
+  { icon: Smile, title: 'Customer Satisfaction', meta: 'Flexible volumes and account ownership', text: 'Dedicated account management, quick prototyping, and flexible production volumes tailored to your exact requirements.' },
+  { icon: BadgeCheck, title: 'Quality First Approach', meta: '3D SPI, 3D AOI and X-ray systems', text: 'Multi-stage inspection with 3D SPI, 3D AOI, and X-ray systems. Mounter accuracy 0.025mm, CpK ≥ 1.00 (3σ).' },
 ];
 const industries = [
   ['Automotive', Car],

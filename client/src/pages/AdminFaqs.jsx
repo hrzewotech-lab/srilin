@@ -33,7 +33,7 @@ export default function AdminFaqs() {
   useEffect(() => {
     loadFaqs();
     api.get('/faqs/categories')
-      .then((res) => { if (res.data.categories) setCategories(res.data.categories); })
+      .then((res) => { if (res.data.categories) setCategories([...res.data.categories].sort((a, b) => a.localeCompare(b))); })
       .catch(() => {});
   }, []);
 
@@ -113,6 +113,10 @@ export default function AdminFaqs() {
     'Laser Marking/ Laser Printing': '#f97316',
     'Conformal Coating': '#84cc16',
     'About Srilin': '#6366f1',
+    'PCB Assembly': '#a855f7',
+    'X-Ray Inspection': '#14b8a6',
+    'Turnkey Box Build Integration': '#f43f5e',
+    'Ball Grid Array': '#eab308',
     'General': '#64748b',
   };
 

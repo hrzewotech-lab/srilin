@@ -160,7 +160,7 @@ export default function FaqsPage() {
         const cats = catRes?.data?.categories || [];
         if (isMounted) {
           setFaqs(list);
-          setCategories(cats.filter((c) => list.some((f) => f.category === c)));
+          setCategories(cats.filter((c) => list.some((f) => f.category === c)).sort((a, b) => a.localeCompare(b)));
           setOpenId(list[0]?._id || null);
         }
       } catch (err) {

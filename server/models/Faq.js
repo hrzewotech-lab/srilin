@@ -11,6 +11,10 @@ const FAQ_CATEGORIES = [
   "Laser Marking/ Laser Printing",
   "Conformal Coating",
   "About Srilin",
+  "PCB Assembly",
+  "X-Ray Inspection",
+  "Turnkey Box Build Integration",
+  "Ball Grid Array",
   "General",
 ];
 

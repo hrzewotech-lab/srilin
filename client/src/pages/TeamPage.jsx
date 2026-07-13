@@ -210,6 +210,8 @@ const leadershipPillars = [
    FEATURED LEADERSHIP CARD  (CEO / COO / CFO style)
    ════════════════════════════════════════════════════════════════ */
 function FeaturedCard({ member, index, onClick }) {
+  const hasMessage = !!member.message;
+
   return (
     <Reveal delay={index * 100} className="h-full">
       <article
@@ -254,11 +256,11 @@ function FeaturedCard({ member, index, onClick }) {
             <p className="text-sm text-[#475569] leading-relaxed text-center line-clamp-3 mb-4 flex-1">
               {member.message}
             </p>
-          ) : <div className="flex-1" />}
+          ) : null}
 
           {/* Honors */}
           {member.honors?.length ? (
-            <div className="border-t border-[#E2E8F0] pt-4 mt-auto">
+            <div className={`border-t border-[#E2E8F0] pt-4 ${hasMessage ? "mt-auto" : "mt-4"}`}>
               <ul className="grid gap-1.5">
                 {member.honors.slice(0, 3).map((honor) => (
                   <li key={honor} className="flex items-center gap-2 text-xs text-[#475569]">

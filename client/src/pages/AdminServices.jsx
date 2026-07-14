@@ -7,7 +7,7 @@ import { paginateItems } from '../utils/adminPagination';
 
 export default function AdminServices() {
   const [services, setServices] = useState([]);
-  const [form, setForm] = useState({ title: '', description: '', bullets: '', isActive: true, image: null });
+  const [form, setForm] = useState({ title: '', description: '', bullets: '', isActive: true, order: 0, image: null });
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
@@ -47,6 +47,7 @@ export default function AdminServices() {
       payload.append('description', form.description);
       payload.append('bullets', form.bullets);
       payload.append('isActive', form.isActive);
+      payload.append('order', form.order);
       if (form.image) payload.append('image', form.image);
 
       if (editingId) {
@@ -55,7 +56,7 @@ export default function AdminServices() {
         await api.post('/services', payload, { headers: { 'Content-Type': 'multipart/form-data' } });
       }
 
-      setForm({ title: '', description: '', bullets: '', isActive: true, image: null });
+      setForm({ title: '', description: '', bullets: '', isActive: true, order: 0, image: null });
       setEditingId(null);
       setMessage(editingId ? 'Service updated successfully' : 'Service added successfully');
       await loadServices();
@@ -73,6 +74,7 @@ export default function AdminServices() {
       description: service.description,
       bullets: service.bullets?.join('\n') || '',
       isActive: service.isActive,
+      order: service.order ?? 0,
       image: null,
     });
   };
@@ -125,6 +127,13 @@ export default function AdminServices() {
           </label>
           <textarea placeholder="Description" rows="5" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} required />
           <textarea placeholder="Highlights / bullet points (one per line)" rows="5" value={form.bullets} onChange={(e) => setForm({ ...form, bullets: e.target.value })} />
+          <input
+            type="number"
+            min="0"
+            placeholder="Display order"
+            value={form.order}
+            onChange={(e) => setForm({ ...form, order: e.target.value === '' ? 0 : Number(e.target.value) })}
+          />
           <div className="status-toggle-row">
             <button
               type="button"
@@ -139,7 +148,7 @@ export default function AdminServices() {
               {loading ? 'Saving...' : editingId ? 'Update Service' : 'Add Service'}
             </button>
             {editingId ? (
-              <button type="button" className="secondary-btn" onClick={() => { setEditingId(null); setForm({ title: '', description: '', bullets: '', isActive: true, image: null }); }}>
+              <button type="button" className="secondary-btn" onClick={() => { setEditingId(null); setForm({ title: '', description: '', bullets: '', isActive: true, order: 0, image: null }); }}>
                 Cancel
               </button>
             ) : null}
@@ -164,7 +173,10 @@ export default function AdminServices() {
                   <img src={service.image?.url} alt={service.title} className="w-full h-40 sm:h-44 object-cover" />
                   <div className="p-4 sm:p-5 flex flex-col gap-3">
                     <div className="flex items-start justify-between gap-3">
-                      <h3 className="text-lg font-semibold text-slate-800 line-clamp-2">{service.title}</h3>
+                      <div className="flex flex-col gap-0.5">
+                        <h3 className="text-lg font-semibold text-slate-800 line-clamp-2">{service.title}</h3>
+                        <span className="text-xs text-slate-500 font-medium">Order: {service.order ?? 0}</span>
+                      </div>
                       <span className={`status-pill ${service.isActive ? 'active' : 'inactive'}`}>{service.isActive ? 'Active' : 'Hidden'}</span>
                     </div>
                     <p className="text-sm text-slate-600 line-clamp-3">{service.description}</p>

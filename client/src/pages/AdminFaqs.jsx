@@ -5,7 +5,7 @@ import api from '../api/axios';
 import { AdminPagination, EmptyState, LoadingState, MiniStat } from '../components/AdminUi';
 import { paginateItems } from '../utils/adminPagination';
 
-const EMPTY_FORM = { question: '', answer: '', category: 'General', isActive: true };
+const EMPTY_FORM = { question: '', answer: '', category: 'General', isActive: true, order: 0 };
 
 export default function AdminFaqs() {
   const [faqs, setFaqs] = useState([]);
@@ -33,7 +33,7 @@ export default function AdminFaqs() {
   useEffect(() => {
     loadFaqs();
     api.get('/faqs/categories')
-      .then((res) => { if (res.data.categories) setCategories([...res.data.categories].sort((a, b) => a.localeCompare(b))); })
+      .then((res) => { if (res.data.categories) setCategories(res.data.categories); })
       .catch(() => {});
   }, []);
 
@@ -77,6 +77,7 @@ export default function AdminFaqs() {
       answer: faq.answer,
       category: faq.category || 'General',
       isActive: faq.isActive,
+      order: faq.order ?? 0,
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -178,6 +179,13 @@ export default function AdminFaqs() {
             </select>
           </div>
 
+          <input
+            type="number"
+            min="0"
+            placeholder="Display order"
+            value={form.order}
+            onChange={(e) => setForm({ ...form, order: e.target.value === '' ? 0 : Number(e.target.value) })}
+          />
           <div className="status-toggle-row">
             <button
               type="button"
@@ -254,23 +262,28 @@ export default function AdminFaqs() {
                   <div className="hero-card-top">
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                       <h3>{faq.question}</h3>
-                      {faq.category && (
-                        <span style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 4,
-                          fontSize: 11,
-                          fontWeight: 600,
-                          color: categoryColors[faq.category] || '#64748b',
-                          padding: '2px 8px',
-                          background: `${categoryColors[faq.category] || '#64748b'}18`,
-                          borderRadius: 10,
-                          width: 'fit-content',
-                        }}>
-                          <Tag size={10} />
-                          {faq.category}
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                        {faq.category && (
+                          <span style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 4,
+                            fontSize: 11,
+                            fontWeight: 600,
+                            color: categoryColors[faq.category] || '#64748b',
+                            padding: '2px 8px',
+                            background: `${categoryColors[faq.category] || '#64748b'}18`,
+                            borderRadius: 10,
+                            width: 'fit-content',
+                          }}>
+                            <Tag size={10} />
+                            {faq.category}
+                          </span>
+                        )}
+                        <span style={{ fontSize: 11, fontWeight: 600, color: '#64748b' }}>
+                          Order: {faq.order ?? 0}
                         </span>
-                      )}
+                      </div>
                     </div>
                     <span className={`status-pill ${faq.isActive ? 'active' : 'inactive'}`}>
                       {faq.isActive ? 'Active' : 'Hidden'}

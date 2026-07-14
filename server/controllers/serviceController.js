@@ -3,7 +3,7 @@ const Service = require("../models/Service");
 const cloudinary = require("../config/cloudinary");
 
 const createService = asyncHandler(async (req, res) => {
-  const { title, description, bullets, isActive } = req.body;
+  const { title, description, bullets, isActive, order } = req.body;
 
   if (!title || !description) {
     res.status(400);
@@ -24,6 +24,7 @@ const createService = asyncHandler(async (req, res) => {
     description,
     bullets: parsedBullets,
     isActive: isActive === undefined ? true : isActive === "true" || isActive === true,
+    order: Number(order) || 0,
     image: {
       url: req.file.path,
       public_id: req.file.filename,
@@ -36,7 +37,7 @@ const createService = asyncHandler(async (req, res) => {
 
 const getServices = asyncHandler(async (req, res) => {
   const filter = req.query.all === "true" ? {} : { isActive: true };
-  const services = await Service.find(filter).sort({ createdAt: -1 });
+  const services = await Service.find(filter).sort({ order: 1, createdAt: -1 });
   res.status(200).json({ success: true, count: services.length, services });
 });
 
@@ -85,7 +86,7 @@ const updateService = asyncHandler(async (req, res) => {
     throw new Error("Service not found");
   }
 
-  const { title, description, bullets, isActive } = req.body;
+  const { title, description, bullets, isActive, order } = req.body;
 
   if (title) service.title = title;
   if (description !== undefined) service.description = description;
@@ -96,6 +97,7 @@ const updateService = asyncHandler(async (req, res) => {
       .filter(Boolean);
   }
   if (isActive !== undefined) service.isActive = isActive === "true" || isActive === true;
+  if (order !== undefined) service.order = Number(order) || 0;
 
   if (req.file) {
     await cloudinary.uploader.destroy(service.image.public_id);

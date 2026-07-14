@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, HelpCircle, Mail, Sparkles } from 'lucide-react';
+import { ChevronRight, Mail, Sparkles } from 'lucide-react';
 import api from '../api/axios';
 
 /* ════════════════════════════════════════════════════════════════
@@ -48,35 +49,7 @@ function Reveal({ children, delay = 0, y = 26, className = '', style = {} }) {
   );
 }
 
-function AnimatedNumber({ value }) {
-  const ref = useRef(null);
-  const started = useRef(false);
-  const [display, setDisplay] = useState(value);
-  useEffect(() => {
-    started.current = false;
-    const el = ref.current;
-    if (!el) return;
-    if (!/^\d/.test(String(value))) { setDisplay(value); return; }
-    const num = parseFloat(String(value).replace(/[^0-9.]/g, ''));
-    if (isNaN(num)) { setDisplay(value); return; }
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !started.current) {
-        started.current = true; obs.unobserve(el);
-        let t0 = null;
-        const tick = (ts) => {
-          if (!t0) t0 = ts;
-          const p = Math.min((ts - t0) / 1800, 1);
-          setDisplay(String(Math.floor((1 - (1 - p) ** 3) * num)));
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      }
-    }, { threshold: 0.5 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [value]);
-  return <span ref={ref}>{display}</span>;
-}
+
 
 /* ── Single FAQ accordion row ────────────────────────────────── */
 function FaqItem({ faq, openId, setOpenId, index, showCategory = false }) {
@@ -140,7 +113,7 @@ export default function FaqsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [openId, setOpenId] = useState(null);
-  const [activeCategory, setActiveCategory] = useState('All');
+  const [activeCategory, setActiveCategory] = useState('About Srilin');
 
   const heroText = 'Frequently Asked Questions';
   const [typedHero, heroDone] = useTypewriter(heroText, 40);
@@ -160,8 +133,10 @@ export default function FaqsPage() {
         const cats = catRes?.data?.categories || [];
         if (isMounted) {
           setFaqs(list);
-          setCategories(cats.filter((c) => list.some((f) => f.category === c)).sort((a, b) => a.localeCompare(b)));
-          setOpenId(list[0]?._id || null);
+          const activeCats = cats.filter((c) => list.some((f) => f.category === c));
+          setCategories(activeCats);
+          const firstAboutFaq = list.find((f) => f.category === 'About Srilin');
+          setOpenId(firstAboutFaq?._id || list[0]?._id || null);
         }
       } catch (err) {
         if (isMounted) setError(err?.response?.data?.message || 'Unable to load FAQs right now.');
@@ -276,23 +251,11 @@ export default function FaqsPage() {
                 Category as heading, questions stacked below each
                 ══════════════════════════════════════════════════════ */}
             {/* ══════════════════════════════════════════════════════
-                MOBILE LAYOUT  (< lg)
                 Pills for category selection, questions listed below
                 ══════════════════════════════════════════════════════ */}
             <div className="lg:hidden">
               {/* Category selector pills scrolling horizontally */}
               <div className="mb-6 overflow-x-auto whitespace-nowrap flex gap-2 pb-2 scrollbar-none">
-                <button
-                  type="button"
-                  onClick={() => { setActiveCategory('All'); setOpenId(faqs[0]?._id || null); }}
-                  className={`px-4 py-2 text-xs font-['JetBrains_Mono'] font-bold border transition-all rounded-full ${
-                    activeCategory === 'All'
-                      ? 'bg-[#0F172A] text-white border-[#0F172A]'
-                      : 'bg-white text-[#334155] border-[#E2E8F0]'
-                  }`}
-                >
-                  All FAQs
-                </button>
                 {categories.map((cat) => (
                   <button
                     key={cat}
@@ -321,7 +284,7 @@ export default function FaqsPage() {
                     openId={openId}
                     setOpenId={setOpenId}
                     index={idx}
-                    showCategory={activeCategory === 'All'}
+                    showCategory={false}
                   />
                 ))}
               </div>
@@ -381,18 +344,6 @@ export default function FaqsPage() {
                 </h3>
 
                 <div className="flex flex-col gap-0.5">
-                  {/* All */}
-                  <button
-                    type="button"
-                    onClick={() => { setActiveCategory('All'); setOpenId(faqs[0]?._id || null); }}
-                    className={`group flex items-center justify-between gap-2 px-4 py-3 border-l-4 w-full font-['JetBrains_Mono'] text-xs transition-all text-left ${activeCategory === 'All'
-                      ? 'bg-white border-[#9a7a3e] text-[#9a7a3e]'
-                      : 'bg-transparent border-transparent text-[#334155] hover:border-[#9a7a3e]/40 hover:bg-[#eceef0]'
-                      }`}
-                  >
-                    <span>All FAQs</span>
-                  </button>
-
                   {/* Category items */}
                   {categories.map((cat) => {
                     const count = faqs.filter((f) => f.category === cat).length;
@@ -461,7 +412,7 @@ export default function FaqsPage() {
                         openId={openId}
                         setOpenId={setOpenId}
                         index={index}
-                        showCategory={activeCategory === 'All'}
+                        showCategory={false}
                       />
                     ))}
 

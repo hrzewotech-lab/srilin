@@ -1,20 +1,20 @@
 const mongoose = require("mongoose");
 
 const FAQ_CATEGORIES = [
-  "Embedded Hardware Design Services",
-  "Embedded Software Development Services",
-  "ECAD Layout Services",
-  "PCB Manufacturing",
-  "Stencil Manufacturing Services",
-  "Component Sourcing Services",
-  "Testing Services",
-  "Laser Marking/ Laser Printing",
-  "Conformal Coating",
   "About Srilin",
+  "Embedded Hardware Design Services",
+  "ECAD Layout Services",
+  "Embedded Software Development Services",
+  "Component Sourcing Services",
+  "Stencil Manufacturing Services",
+  "PCB Manufacturing",
   "PCB Assembly",
   "X-Ray Inspection",
+  "Testing Services",
+  "Conformal Coating",
   "Turnkey Box Build Integration",
   "Ball Grid Array",
+  "Laser Marking/ Laser Printing",
   "General",
 ];
 
@@ -39,6 +39,10 @@ const faqSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true,
+    },
+    order: {
+      type: Number,
+      default: 0,
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,

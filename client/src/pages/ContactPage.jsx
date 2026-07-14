@@ -72,13 +72,13 @@ export default function ContactPage() {
   };
 
   const contactCards = [
-    {
-      icon: Phone,
-      title: 'Phone',
-      value: '+91 73850 69999',
-      sub: 'Mon – Sat, 9 AM – 6 PM IST',
-      href: 'tel:+917385069999',
-    },
+    // {
+    //   icon: Phone,
+    //   title: 'Phone',
+    //   value: '+91 73850 69999',
+    //   sub: 'Mon – Sat, 9 AM – 6 PM IST',
+    //   href: 'tel:+917385069999',
+    // },
     {
       icon: Mail,
       title: 'Email',

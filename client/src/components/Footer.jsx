@@ -97,18 +97,18 @@ export default function Footer() {
 
         <div className="footer-column footer-contact">
           <h4>Contact</h4>
-          <a href="tel:+917385069999" className="footer-contact-item">
+          {/* <a href="tel:+917385069999" className="footer-contact-item">
             <Phone size={16} className="footer-contact-icon" />
             <span>+91 73850 69999</span>
-          </a>
+          </a> */}
           <a href="mailto:sales@srilinelectronics.com" className="footer-contact-item">
             <Mail size={16} className="footer-contact-icon" />
             <span>sales@srilinelectronics.com</span>
           </a>
-          <a 
-            href="https://maps.google.com/?q=PLOT:+S-1/P/D,+E-City+EMC,+Raviryala+Village,+Maheshwaram+Mandal,+Ranga+Reddy+District,+Telangana+-+501359" 
-            target="_blank" 
-            rel="noopener noreferrer" 
+          <a
+            href="https://maps.google.com/?q=PLOT:+S-1/P/D,+E-City+EMC,+Raviryala+Village,+Maheshwaram+Mandal,+Ranga+Reddy+District,+Telangana+-+501359"
+            target="_blank"
+            rel="noopener noreferrer"
             className="footer-contact-item"
           >
             <MapPin size={16} className="footer-contact-icon" />

@@ -90,7 +90,7 @@ function AnimatedNumber({ value, className = '', style = {} }) {
           const cur = eased * num;
           const fmt = hasDecimal ? cur.toFixed(decimals)
             : hasComma ? Math.floor(cur).toLocaleString()
-            : Math.floor(cur).toString();
+              : Math.floor(cur).toString();
           setDisplay(fmt + suffix);
           if (p < 1) requestAnimationFrame(tick);
         };
@@ -158,7 +158,7 @@ function MemberModal({ member, onClose }) {
               {member.designation}
             </p>
           ) : null}
-          
+
           <h2 className="font-['JetBrains_Mono'] text-xl md:text-2xl font-bold text-[#0F172A] mb-4">
             {member.name}
           </h2>
@@ -437,7 +437,7 @@ export default function TeamPage() {
                 transition: 'opacity 0.6s ease, transform 0.6s ease',
               }}
             >
-              Meet the people guiding SriLin Electronics through dependable production,
+              Meet the people guiding Srilin Electronics through dependable production,
               disciplined quality workflows, and customer-focused delivery.
             </p>
 
@@ -473,7 +473,7 @@ export default function TeamPage() {
                 About our leadership
               </h2>
               <p className="text-[#44474d] mt-4 leading-relaxed">
-                SriLin is led by engineers and operators who understand both product design and scalable manufacturing. Our team bridges the gap between concept, quality, and delivery.
+                Srilin is led by engineers and operators who understand both product design and scalable manufacturing. Our team bridges the gap between concept, quality, and delivery.
               </p>
               <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {leadershipPillars.map(({ icon: Icon, title, text }, i) => (
@@ -491,7 +491,7 @@ export default function TeamPage() {
             </div>
           </Reveal>
 
-          <Reveal delay={150}>
+          {/* <Reveal delay={150}>
             <aside className="rounded-3xl border border-[#E2E8F0] bg-white p-4 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-widest text-[#94A3B8] mb-3 text-center lg:text-left">
                 Team snapshot
@@ -517,7 +517,7 @@ export default function TeamPage() {
                 </div>
               </div>
             </aside>
-          </Reveal>
+          </Reveal> */}
         </div>
 
         {loading ? (
@@ -559,7 +559,7 @@ export default function TeamPage() {
                         Featured Leadership
                       </h2>
                       <p className="text-sm text-[#64748b] mt-1.5 max-w-lg">
-                        Our executive leaders — CEO, COO, CFO and senior directors — setting strategy, vision, and direction for SriLin Electronics.
+                        Our executive leaders — CEO, COO, CFO and senior directors — setting strategy, vision, and direction for Srilin Electronics.
                       </p>
                     </div>
                     <span className="inline-flex items-center self-start sm:self-auto gap-2 rounded-full bg-[#c29f5d]/10 border border-[#c29f5d]/30 px-4 py-2 text-sm font-semibold text-[#c29f5d] whitespace-nowrap">
@@ -572,13 +572,12 @@ export default function TeamPage() {
                 </Reveal>
 
                 <div
-                  className={`grid gap-6 ${
-                    featuredMembers.length === 1
-                      ? 'grid-cols-1 max-w-sm mx-auto'
-                      : featuredMembers.length === 2
+                  className={`grid gap-6 ${featuredMembers.length === 1
+                    ? 'grid-cols-1 max-w-sm mx-auto'
+                    : featuredMembers.length === 2
                       ? 'grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto'
                       : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
-                  }`}
+                    }`}
                 >
                   {featuredMembers.map((member, i) => (
                     <FeaturedCard

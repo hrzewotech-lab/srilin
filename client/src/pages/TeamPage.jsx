@@ -120,39 +120,39 @@ function MemberModal({ member, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-[10001] flex items-center justify-center p-4 sm:p-6"
       onClick={onClose}
       style={{ animation: 'modalOverlayIn 0.25s ease both' }}
     >
-      <div className="absolute inset-0 bg-[#0F172A]/70 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-[#0F172A]/75 backdrop-blur-sm" />
       <div
         role="dialog"
         aria-modal="true"
         aria-label={member.name}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-3xl overflow-hidden rounded-3xl bg-white shadow-2xl flex flex-col md:flex-row animate-scaleIn"
+        className="relative w-full max-w-3xl max-h-[85vh] sm:max-h-[80vh] overflow-hidden rounded-3xl bg-white shadow-2xl flex flex-col md:flex-row animate-scaleIn"
         style={{ animation: 'modalPanelIn 0.3s cubic-bezier(0.16,1,0.3,1) both' }}
       >
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#0F172A] shadow-md hover:bg-[#eceef0] hover:text-[#9a7a3e] transition-colors"
+          className="absolute top-4 right-4 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-[#0F172A] shadow-lg hover:bg-[#0F172A] hover:text-white hover:scale-105 active:scale-95 transition-all duration-200 border border-slate-200/50"
         >
           <X size={18} />
         </button>
 
         {/* Left: Image Container */}
-        <div className="w-full md:w-2/5 min-h-[240px] md:min-h-0 bg-[#f8fafc] flex items-center justify-center p-6 border-b md:border-b-0 md:border-r border-[#E2E8F0] shrink-0">
+        <div className="w-full md:w-2/5 h-48 sm:h-56 md:h-auto bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-6 border-b md:border-b-0 md:border-r border-[#E2E8F0] shrink-0">
           <img
             src={member.image?.url}
             alt={member.name}
-            className="w-full h-full max-h-[280px] object-contain rounded-2xl"
+            className="w-full h-full object-contain rounded-2xl drop-shadow-sm transition-transform duration-300 hover:scale-[1.02]"
           />
         </div>
 
         {/* Right: Content details */}
-        <div className="flex-1 p-6 md:p-8 flex flex-col justify-center">
+        <div className="flex-1 p-6 md:p-8 flex flex-col overflow-y-auto premium-scrollbar">
           {member.designation ? (
             <p className="text-xs uppercase tracking-[0.26em] text-[#9a7a3e] font-semibold mb-2">
               {member.designation}
@@ -170,8 +170,8 @@ function MemberModal({ member, onClose }) {
           ) : null}
 
           {member.honors?.length ? (
-            <div className="pt-4 border-t border-[#E2E8F0]">
-              <p className="text-xs uppercase tracking-[0.26em] text-[#94A3B8] mb-3">Honors</p>
+            <div className="pt-4 border-t border-[#E2E8F0] mt-auto">
+              <p className="text-xs uppercase tracking-[0.26em] text-[#94A3B8] mb-3 font-semibold">Honors</p>
               <ul className="grid gap-2 text-xs md:text-sm text-[#475569]">
                 {member.honors.map((honor) => (
                   <li key={honor} className="flex items-start gap-2">
@@ -646,6 +646,27 @@ export default function TeamPage() {
         @keyframes cursorBlink   { 0%,100%{opacity:1} 50%{opacity:0} }
         @keyframes modalOverlayIn { from{opacity:0} to{opacity:1} }
         @keyframes modalPanelIn  { from{opacity:0;transform:translateY(16px) scale(0.97)} to{opacity:1;transform:translateY(0) scale(1)} }
+
+        /* Premium scrollbar styles */
+        .premium-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: #cbd5e1 transparent;
+        }
+        .premium-scrollbar::-webkit-scrollbar {
+          width: 6px;
+          height: 6px;
+        }
+        .premium-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .premium-scrollbar::-webkit-scrollbar-thumb {
+          background: #cbd5e1;
+          border-radius: 9999px;
+          transition: background-color 0.2s ease;
+        }
+        .premium-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #94a3b8;
+        }
       `}</style>
     </section>
   );

@@ -19,10 +19,13 @@ const clientRoutes = require("./routes/clientRoutes");
 const app = new Hono();
 
 // CORS Middleware
-app.use("*", cors({
+app.use("/*", cors({
   origin: (origin) => {
-    // Accept origin dynamically to allow credentials to work properly
-    return origin || "*";
+    // With credentials: true, we must return a specific origin and NEVER wildcard "*"
+    if (origin && (origin.includes("localhost") || origin.includes("srilin.pages.dev"))) {
+      return origin;
+    }
+    return "https://srilin.pages.dev";
   },
   credentials: true,
   allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],

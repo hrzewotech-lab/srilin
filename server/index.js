@@ -1,6 +1,6 @@
 const { Hono } = require("hono");
 const { cors } = require("hono/cors");
-const { connectDB } = require("./config/db");
+const { connectDB, dbStorage } = require("./config/db");
 const { toHono } = require("./utils/expressHonoAdapter");
 
 // Import Mock Routers
@@ -39,8 +39,24 @@ app.use("*", async (c, next) => {
   if (c.env) {
     Object.assign(process.env, c.env);
   }
-  await connectDB();
-  return await next();
+  
+  let connection;
+  try {
+    connection = await connectDB();
+  } catch (err) {
+    console.error("Database connection failed:", err);
+    return c.json({ success: false, message: "Database connection failed" }, 500);
+  }
+
+  return await dbStorage.run(connection, async () => {
+    try {
+      return await next();
+    } finally {
+      if (connection && connection.client) {
+        connection.client.close().catch(() => {});
+      }
+    }
+  });
 });
 
 // Helper to mount MockRouter to Hono app

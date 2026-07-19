@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require("../config/express-shim");
 const {
   createCertificate,
   getCertificates,

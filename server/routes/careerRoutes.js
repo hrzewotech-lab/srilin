@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require("../config/express-shim");
 const { createCareerApplication } = require("../controllers/careerController");
 const resumeUpload = require("../middleware/resumeUpload");
 

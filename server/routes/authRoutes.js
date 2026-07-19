@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require("../config/express-shim");
 const router = express.Router();
 const { loginUser, logoutUser, getMe } = require("../controllers/authController");
 const { protect } = require("../middleware/auth");

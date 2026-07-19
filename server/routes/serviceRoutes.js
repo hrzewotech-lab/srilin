@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require("../config/express-shim");
 const router = express.Router();
 const { createService, getServices, getServiceById, updateService, deleteService } = require("../controllers/serviceController");
 const { protect, authorize } = require("../middleware/auth");

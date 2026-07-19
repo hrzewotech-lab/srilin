@@ -1,36 +1,57 @@
-const multer = require("multer");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("../config/cloudinary");
 
-/**
- * Creates a multer upload middleware that streams files directly to a
- * given Cloudinary folder (e.g. "srilin/hero", "srilin/clients").
- * Usage: upload("srilin/hero").single("image")
- */
 const createUploader = (folder) => {
-  const storage = new CloudinaryStorage({
-    cloudinary,
-    params: {
-      folder,
-      allowed_formats: ["jpg", "jpeg", "png", "webp", "svg"],
-      // Cloudinary auto-generates a public_id if not provided
-      transformation: [{ quality: "auto", fetch_format: "auto" }],
-    },
-  });
+  return {
+    single: (fieldName) => {
+      return async (req, res, next) => {
+        const file = req.body[fieldName];
+        if (!file || !(file instanceof File) || file.size === 0) {
+          // If no file was selected or it's just a text field fallback
+          return next();
+        }
 
-  return multer({
-    storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB max per image
-    fileFilter: (req, file, cb) => {
-      const allowed = /jpeg|jpg|png|webp|svg/;
-      const isValid = allowed.test(file.mimetype);
-      if (isValid) {
-        cb(null, true);
-      } else {
-        cb(new Error("Only image files (jpg, jpeg, png, webp, svg) are allowed"));
-      }
-    },
-  });
+        try {
+          // File validation
+          const allowed = /jpeg|jpg|png|webp|svg/;
+          const isValid = allowed.test(file.type);
+          if (!isValid) {
+            res.status(400);
+            return next(new Error("Only image files (jpg, jpeg, png, webp, svg) are allowed"));
+          }
+
+          if (file.size > 5 * 1024 * 1024) {
+            res.status(400);
+            return next(new Error("File size exceeds 5MB limit"));
+          }
+
+          // Convert File to base64 Data URL
+          const arrayBuffer = await file.arrayBuffer();
+          const base64 = Buffer.from(arrayBuffer).toString("base64");
+          const mimeType = file.type;
+          const dataUrl = `data:${mimeType};base64,${base64}`;
+
+          // Upload to Cloudinary
+          const uploadResult = await cloudinary.uploader.upload(dataUrl, {
+            folder: folder,
+            resource_type: "image",
+          });
+
+          // Inject req.file for controller compatibility
+          req.file = {
+            path: uploadResult.secure_url,
+            filename: uploadResult.public_id,
+            originalname: file.name,
+          };
+
+          next();
+        } catch (error) {
+          console.error("Cloudinary image upload error:", error);
+          res.status(500);
+          next(new Error("Image upload failed: " + error.message));
+        }
+      };
+    }
+  };
 };
 
 module.exports = createUploader;

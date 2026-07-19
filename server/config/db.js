@@ -12,7 +12,12 @@ const connectDB = async () => {
   }
 
   // Initialize MongoClient
-  client = new MongoClient(uri);
+  client = new MongoClient(uri, {
+    maxPoolSize: 1,
+    minPoolSize: 0,
+    connectTimeoutMS: 5000,
+    socketTimeoutMS: 10000,
+  });
   await client.connect();
 
   // Extract database name from URI or use default

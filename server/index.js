@@ -49,13 +49,7 @@ app.use("*", async (c, next) => {
   }
 
   return await dbStorage.run(connection, async () => {
-    try {
-      return await next();
-    } finally {
-      if (connection && connection.client) {
-        connection.client.close().catch(() => {});
-      }
-    }
+    return await next();
   });
 });
 
@@ -108,7 +102,7 @@ mountRouter(app, "/api/clients", clientRoutes);
 // Global Error Handler
 app.onError((err, c) => {
   console.error("Hono error:", err);
-  const status = c.res.status === 200 ? 500 : c.res.status;
+  const status = (c.res && typeof c.res.status === "number" && c.res.status >= 200 && c.res.status <= 599) ? c.res.status : 500;
   return c.json({ success: false, message: err.message || "Internal Server Error" }, status);
 });
 

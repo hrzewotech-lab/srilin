@@ -89,8 +89,8 @@ const toHono = (expressHandler) => {
       return c.json({ success: false, message: "Response not sent" }, 500);
     } catch (err) {
       console.error("Error in handler adapter:", err);
-      // Map error status
-      const code = c.res.status === 200 || resStatus === 200 ? 500 : (c.res.status !== 200 ? c.res.status : resStatus);
+      // Map error status safely (ensure it's in the valid 200-599 range)
+      const code = (resStatus >= 200 && resStatus <= 599) ? resStatus : 500;
       c.status(code);
       return c.json({ success: false, message: err.message });
     }

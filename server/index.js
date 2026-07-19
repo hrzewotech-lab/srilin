@@ -40,7 +40,7 @@ app.use("*", async (c, next) => {
     Object.assign(process.env, c.env);
   }
   await connectDB();
-  await next();
+  return await next();
 });
 
 // Helper to mount MockRouter to Hono app

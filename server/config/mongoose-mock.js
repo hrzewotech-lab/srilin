@@ -92,8 +92,9 @@ class BaseModel {
         if (this.collectionName === "users" && !selectFields.includes("+password")) {
           options.projection = { password: 0 };
         }
-        this.collection.findOne(processedFilter, options)
-          .then(doc => {
+        this.collection.find(processedFilter, options).limit(1).toArray()
+          .then(docs => {
+            const doc = docs.length > 0 ? docs[0] : null;
             resolve(doc ? new this(doc) : null);
           })
           .catch(err => {
@@ -107,7 +108,8 @@ class BaseModel {
 
   static async findById(id) {
     if (!id) return null;
-    const doc = await this.collection.findOne({ _id: this._toObjectId(id) });
+    const docs = await this.collection.find({ _id: this._toObjectId(id) }).limit(1).toArray();
+    const doc = docs.length > 0 ? docs[0] : null;
     return doc ? new this(doc) : null;
   }
 

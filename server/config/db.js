@@ -1,18 +1,16 @@
 const { MongoClient } = require("mongodb");
+const { AsyncLocalStorage } = require("async_hooks");
 
-let client = null;
-let db = null;
+const dbStorage = new AsyncLocalStorage();
 
 const connectDB = async () => {
-  if (db) return db;
-
   const uri = process.env.MONGO_URI;
   if (!uri) {
     throw new Error("MONGO_URI environment variable is missing");
   }
 
-  // Initialize MongoClient
-  client = new MongoClient(uri, {
+  // Initialize MongoClient with single connection pool to prevent exhaustion
+  const client = new MongoClient(uri, {
     maxPoolSize: 1,
     minPoolSize: 0,
     connectTimeoutMS: 5000,
@@ -30,16 +28,16 @@ const connectDB = async () => {
     dbName = match ? match[1] : undefined;
   }
 
-  db = client.db(dbName || "srilin");
-  console.log(`MongoDB Connected (Native): ${db.databaseName}`);
-  return db;
+  const db = client.db(dbName || "srilin");
+  return { client, db };
 };
 
 const getDB = () => {
-  if (!db) {
-    throw new Error("Database not initialized. Call connectDB first.");
+  const store = dbStorage.getStore();
+  if (!store || !store.db) {
+    throw new Error("Database not initialized for this request context.");
   }
-  return db;
+  return store.db;
 };
 
-module.exports = { connectDB, getDB };
+module.exports = { connectDB, getDB, dbStorage };

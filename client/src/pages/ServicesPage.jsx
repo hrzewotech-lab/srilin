@@ -340,6 +340,7 @@ export default function ServicesPage() {
                           {service._id && (
                             <Link
                               to={`/services/${slugify(service.title)}`}
+                              state={{ fromList: true }}
                               className="mt-auto inline-flex items-center gap-1.5 text-[#9a7a3e] font-['JetBrains_Mono'] font-semibold text-xs md:text-sm hover:gap-2.5 transition-all"
                             >
                               View details

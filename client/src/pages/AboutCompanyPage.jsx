@@ -197,7 +197,7 @@ export default function AboutCompanyPage() {
       <section className="relative w-full overflow-hidden bg-[#0F172A] min-h-[340px] sm:min-h-[380px] md:min-h-[420px] flex items-center">
         <img
           src="/about-us2.png"
-          alt="SriLin electronics manufacturing services graphic"
+          alt="Srilin electronics manufacturing services graphic"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-[#0F172A]/80" />

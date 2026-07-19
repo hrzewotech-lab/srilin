@@ -327,6 +327,25 @@ export default function TeamPage() {
   const [selectedMember, setSelectedMember] = useState(null);
 
   useEffect(() => {
+    if (!selectedMember) return;
+
+    window.history.pushState({ modalOpen: true }, '');
+
+    const handlePopState = () => {
+      setSelectedMember(null);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      if (window.history.state?.modalOpen) {
+        window.history.back();
+      }
+    };
+  }, [selectedMember]);
+
+  useEffect(() => {
     let isMounted = true;
 
     const loadTeam = async () => {

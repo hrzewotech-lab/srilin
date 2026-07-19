@@ -67,7 +67,7 @@ export default function ContactPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const text = `Hello SriLin,%0A%0AName: ${encodeURIComponent(formData.name)}%0AEmail: ${encodeURIComponent(formData.email)}%0APhone: ${encodeURIComponent(formData.phone)}%0ASubject: ${encodeURIComponent(formData.subject)}%0AMessage: ${encodeURIComponent(formData.message)}`;
+    const text = `Hello Srilin,%0A%0AName: ${encodeURIComponent(formData.name)}%0AEmail: ${encodeURIComponent(formData.email)}%0APhone: ${encodeURIComponent(formData.phone)}%0ASubject: ${encodeURIComponent(formData.subject)}%0AMessage: ${encodeURIComponent(formData.message)}`;
     window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
   };
 
@@ -95,7 +95,7 @@ export default function ContactPage() {
     },
   ];
 
-  const heroText = 'Talk to SriLin. Start Building.';
+  const heroText = 'Talk to Srilin. Start Building.';
   const [typedHero, heroDone] = useTypewriter(heroText, 40);
 
   return (
@@ -131,7 +131,7 @@ export default function ContactPage() {
               Contact Us
             </p>
 
-            {/* Typewriter heading — "Talk to SriLin." plain, "Start Building." cyan */}
+            {/* Typewriter heading — "Talk to Srilin." plain, "Start Building." cyan */}
             <h1
               className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-3 md:mb-4"
               style={{ minHeight: '2.4em' }}

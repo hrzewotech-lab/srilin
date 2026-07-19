@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { ArrowLeft, BookOpen, Mail, Share2, Calendar } from 'lucide-react';
 import api from '../api/axios';
 
@@ -50,9 +50,18 @@ function Reveal({ children, delay = 0, y = 26, className = '', style = {} }) {
 
 export default function BlogDetailPage() {
   const { id } = useParams();
+  const location = useLocation();
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!location.state?.fromList) {
+      const currentState = window.history.state;
+      window.history.replaceState(null, '', '/resources/blog');
+      window.history.pushState(currentState, '', window.location.pathname);
+    }
+  }, [location.state, location.pathname]);
 
   const [typedTitle, titleDone] = useTypewriter(blog?.title || '', 28);
 

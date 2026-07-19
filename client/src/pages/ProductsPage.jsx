@@ -309,6 +309,7 @@ export default function ProductsPage() {
                           {product._id && (
                             <Link
                               to={`/products/${product._id}`}
+                              state={{ fromList: true }}
                               className="mt-auto inline-flex items-center gap-1.5 text-[#9a7a3e] font-['JetBrains_Mono'] font-semibold text-xs md:text-sm hover:gap-2.5 transition-all"
                             >
                               View full details

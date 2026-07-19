@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { ChevronDown, Menu, X, Globe } from 'lucide-react';
 import api from '../api/axios';
 import { slugify } from '../utils/slugify';
@@ -24,7 +24,7 @@ const baseNavItems = [
     label: 'Resources',
     path: '/resources/blog',
     children: [
-      { label: 'Blog', path: '/resources/blog' },
+      { label: 'Blogs', path: '/resources/blog' },
       { label: 'FAQs', path: '/resources/faqs' },
     ],
   },
@@ -50,12 +50,33 @@ const languages = [
 
 export default function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [expandedMenu, setExpandedMenu] = useState(null);
   const [services, setServices] = useState([]);
   const [activeLang, setActiveLang] = useState('en');
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    window.history.pushState({ menuOpen: true }, '');
+
+    const handlePopState = () => {
+      setIsOpen(false);
+      setExpandedMenu(null);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      if (window.history.state?.menuOpen) {
+        window.history.back();
+      }
+    };
+  }, [isOpen]);
 
   useEffect(() => {
     const getActiveLang = () => {
@@ -147,6 +168,17 @@ export default function Navbar() {
     closeMenu();
   };
 
+  const handleMenuLinkClick = (event, path) => {
+    if (isOpen) {
+      event.preventDefault();
+      setIsOpen(false);
+      setExpandedMenu(null);
+      navigate(path, { replace: true });
+    } else {
+      closeMenu();
+    }
+  };
+
   const toggleSubmenu = (path) => {
     setExpandedMenu((current) => (current === path ? null : path));
   };
@@ -154,7 +186,7 @@ export default function Navbar() {
   return (
     <>
       <header className="site-header">
-        <NavLink to="/" className="site-brand" onClick={closeMenu}>
+        <NavLink to="/" className="site-brand" onClick={(e) => handleMenuLinkClick(e, '/')}>
           <img src="/srilin-white.png" alt="Srilin Electronics" width="112" height="64" />
         </NavLink>
 
@@ -174,9 +206,9 @@ export default function Navbar() {
             const hasChildren = Array.isArray(item.children) && item.children.length > 0;
             const isExpanded = expandedMenu === item.path;
 
-             return (
-              <div 
-                className={`site-nav-item ${hasChildren ? 'has-children' : ''}`} 
+            return (
+              <div
+                className={`site-nav-item ${hasChildren ? 'has-children' : ''}`}
                 key={item.path}
                 onMouseEnter={() => setHoveredItem(item.path)}
                 onMouseLeave={() => setHoveredItem(null)}
@@ -184,7 +216,7 @@ export default function Navbar() {
                 <NavLink
                   to={item.path}
                   className={({ isActive }) => `site-nav-link ${isActive ? 'active' : ''}`}
-                  onClick={closeMenu}
+                  onClick={(e) => handleMenuLinkClick(e, item.path)}
                 >
                   <span>{item.label}</span>
                   {hasChildren && <ChevronDown className="nav-chevron-desktop" size={14} strokeWidth={3} />}
@@ -215,7 +247,7 @@ export default function Navbar() {
                           key={child.path}
                           to={child.path}
                           className={({ isActive }) => `site-dropdown-link ${isActive ? 'active' : ''}`}
-                          onClick={handleDropdownClick}
+                          onClick={(e) => handleMenuLinkClick(e, child.path)}
                         >
                           {child.label}
                         </NavLink>
@@ -237,7 +269,7 @@ export default function Navbar() {
       <div className="fixed bottom-6 right-4 sm:right-6 z-50 font-sans">
         <div className="relative">
           {isLangOpen && (
-            <ul 
+            <ul
               className="absolute bottom-full right-0 mb-3 w-48 sm:w-56 max-h-64 overflow-y-auto bg-[#0F172A] border border-[#c29f5d]/30 shadow-2xl py-2 rounded-2xl text-left z-50 divide-y divide-white/5 scrollbar-thin scrollbar-thumb-[#c29f5d]/50"
               style={{ maxHeight: '260px', overflowY: 'auto' }}
             >
@@ -246,11 +278,10 @@ export default function Navbar() {
                   <button
                     type="button"
                     onClick={() => handleLanguageChange(lang.code)}
-                    className={`w-full text-left px-4 py-3 text-xs sm:text-sm font-semibold transition-colors flex items-center justify-between ${
-                      activeLang === lang.code
+                    className={`w-full text-left px-4 py-3 text-xs sm:text-sm font-semibold transition-colors flex items-center justify-between ${activeLang === lang.code
                         ? 'text-[#c29f5d] bg-[#c29f5d]/10'
                         : 'text-white/80 hover:text-[#c29f5d] hover:bg-white/5'
-                    }`}
+                      }`}
                   >
                     <span>{lang.name}</span>
                     {activeLang === lang.code && (

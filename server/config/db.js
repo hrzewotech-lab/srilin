@@ -3,20 +3,26 @@ const { AsyncLocalStorage } = require("async_hooks");
 
 const dbStorage = new AsyncLocalStorage();
 
+let cachedClient = null;
+
 const connectDB = async () => {
   const uri = process.env.MONGO_URI;
   if (!uri) {
     throw new Error("MONGO_URI environment variable is missing");
   }
 
-  // Initialize MongoClient with single connection pool to prevent exhaustion
-  const client = new MongoClient(uri, {
-    maxPoolSize: 1,
-    minPoolSize: 0,
-    connectTimeoutMS: 5000,
-    socketTimeoutMS: 10000,
-  });
-  await client.connect();
+  if (!cachedClient) {
+    cachedClient = new MongoClient(uri, {
+      maxPoolSize: 10,
+      minPoolSize: 1,
+      connectTimeoutMS: 5000,
+      socketTimeoutMS: 10000,
+    });
+    await cachedClient.connect();
+    console.log("MongoDB connected");
+  }
+
+  const client = cachedClient;
 
   // Extract database name from URI or use default
   let dbName = undefined;

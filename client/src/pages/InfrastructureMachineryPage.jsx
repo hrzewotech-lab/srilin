@@ -101,233 +101,26 @@ function AnimatedNumber({ value, className = '', style = {} }) {
   return <span ref={ref} className={className} style={style}>{display}</span>;
 }
 
-// --- DATA ---
-const capabilityStats = [
-  { value: '1,95,500+', label: 'Combined pick & place CPH capacity' },
-  { value: '01005', label: 'Fine-pitch component support' },
-  { value: '10-Zone', label: 'Nitrogen-ready reflow oven' },
-  { value: '3D SPI + 3D AOI', label: 'Closed-loop inspection coverage' },
-];
-
-const processFlow = [
-  { step: '01', label: 'Solder paste printing' },
-  { step: '02', label: '3D SPI verification' },
-  { step: '03', label: 'High-speed placement' },
-  { step: '04', label: 'Nitrogen-ready reflow' },
-  { step: '05', label: '3D AOI inspection' },
-  { step: '06', label: 'Lab & utility support' },
-];
-
-const equipment = [
-  {
-    title: 'Solder Paste Printer',
-    eyebrow: 'Fuji GPX-CII',
-    image: '/machinery-img6.png',
-    icon: Layers,
-    category: 'Printing Stage',
-    tag: 'Solder Paste Printer - Printed circuit board manufacturing India',
-    summary: 'Fuji - GPX-CII Automated Solder Paste/Glue Printer.',
-    details: [
-      'Applicable panel size 48 x 48mm to 610 x 610mm.',
-      'Alignment Accuracy: ± 0.010mm, 6σ [CpK≥2.0]',
-      'Wet Printer Accuracy: ± 0.018mm, 6σ [CpK≥2.0]',
-      'Printer Cycle time: 6.0 seconds (including panel loading, unloading, mark reading, mask alignment)',
-      'Auto Paste Dispenser JAR type with Solder Roll Dia Check function.',
-      'Stencil Cleaning: Dry + Wet + Vacuum.',
-      'SPI Closed loop function.',
-      'Local Verifier - with Handy Barcode Scanner.',
-      'Automatic width adjustment.',
-    ],
-  },
-  {
-    title: '3D Solder Paste Inspection',
-    eyebrow: 'Koh Young KY8080-L',
-    image: '/machinery-img5.png',
-    icon: ScanLine,
-    category: 'Verification Stage',
-    tag: '3D Solder Paste Inspection - EMS company India',
-    summary: 'Koh Young inline 3D SPI– KY8080-L.',
-    details: [
-      'Printer Closed Loop Feedback.',
-      'Camera Barcode reader.',
-      'PCB Warp Compensation: Z Tracking.',
-      'Detects Insufficient Paste, Excessive Paste, Missing‐Paste, Bridging, Shape Deformity, Paste Displacement, Volume, Height, XY Position, Area.',
-      'Koh Young proprietary light projection unit for shadow free effect.',
-      '4M B/W Digital Camera, 15um X/Y‐resolution (20/25um configurable from factory).',
-      '0.37um Z resolution.',
-      'SPC Plus software (Statistical Process Control).',
-      'Applicable PCB Size 50mmx50mm to 510mmx510mm.',
-      'No PCB color sensitivity.',
-      'Min. Paste deposit supported up to 3.94 mils.',
-      'Measurement Accuracy: < 1% on Calibration Target.',
-      'Measurement Accuracy: < 3% on PCB.',
-      'Measurement repeatability: < 10% on 01005 deposits @ 6 sigma [with 50% tolerance].',
-      'KSMART LINK Software - Closed loop feedback from AOI to SPI.',
-    ],
-  },
-  {
-    title: 'Pick and Place Machines',
-    eyebrow: 'Fuji AIMEX IIIc',
-    image: '/machinery-img1.png',
-    icon: Cpu,
-    category: 'Placement Stage',
-    tag: 'Pick and Place Machines - PCB Assembly services India',
-    summary: 'Fuji- AIMEX IIIc – 2 Robot x 2 Modules with a capacity of 1,03,000 CPH.',
-    details: [
-      '48 x 48mm to 508mm x 400mm PCB handling capability.',
-      'PBGA, FBGA, Micro-BGA, CSP, Ultra-fine pitch QFP & QFN mounting capability.',
-      'Mounter accuracy of 0.025 mm, Cpk ≥ 1.00 (3σ).',
-      'Supports Fine pitch components (01005 & 0201)',
-      'Intelligent smart feeders (4mm to 72mm & 3 vibratory stick feeders).',
-      'Fuji- AIMEX IIIc with Tray unit for chip & IC/BGA/other components mounting.',
-      'Built‐in Auto Calibration and Hybrid calibration ensures placement accuracy to best level.',
-      'Image processing is through CCD camera.',
-      'FUJI Intelligent Feeders are of Variable pitch, electrically driven, Common for Paper & Emboss, Common for parts from 0402 mm (01005”) to 3225mm (1210”) parts size.',
-      'Three Extra feeder carts for quick change over.',
-      'Board level Traceability.',
-      'Free Feeder Allocation.',
-    ],
-  },
-  {
-    title: 'Pick and Place Machine',
-    eyebrow: 'Panasonic NPM-D3A',
-    image: '/machinery-img4.png',
-    icon: Cpu,
-    category: 'Placement Stage',
-    tag: 'Pick and Place Machine - SMT circuit board assembly',
-    summary: 'Panasonic NPM-D3A Pick and Place Machine with 92500 CPH.',
-    details: [
-      'Board handling capacity of 50mm × 50mm ~ 510mm × 590mm.',
-      'Mounter accuracy of 0.025 mm, Cpk ≥ 1.00 (3σ).',
-      'Supports Fine pitch components (01005 & 0201).',
-      'Intelligent smart feeders (4mm to 32mm).',
-      'Two Extra feeder carts for quick change over.',
-      'Built-in Auto Calibration and Hybrid calibration ensures placement accuracy to best level.',
-      'Image processing is through CCD camera.',
-      'Board level Traceability.',
-      'Free Feeder Allocation.',
-    ],
-  },
-  {
-    title: 'Reflow Oven',
-    eyebrow: 'JTR-1000N',
-    image: '/machinery-img3.png',
-    icon: Zap,
-    category: 'Soldering Stage',
-    tag: 'Reflow Oven - PCB design and manufacturing service',
-    summary: 'JTR-1000N Reflow Oven with Nitrogen Ready.',
-    details: [
-      'Heating zones 10 Top and Bottom.',
-      'Cooling Zones 3 Top and Bottom .',
-      'In-built Thermal Profiler.',
-      'Both Mesh & Chain Conveyors inbuilt.',
-      'Automatic Lubrication System (Including Automatic chain oilers).',
-      'Board Drop / Board Count Sensor with Animation.',
-      'Reflow Profiler KIC –X5 9 channel with Carrier available.',
-      'Camera Barcode Reader',
-    ],
-  },
-  {
-    title: '3D Automated Optical Inspection (AOI)',
-    eyebrow: 'Koh Young ZENITH ALPHA HS+',
-    image: '/machinery-img2.png',
-    icon: ScanLine,
-    category: 'Inspection Stage',
-    tag: '3D Automated Optical Inspection AOI - Electronic product assembly India',
-    summary: 'Koh Young Inline 3D Automated Optical inspection (AOI) ZENITH ALPHAHS+.',
-    details: [
-      '3D Inspection: Missing, Offset, Billboarding, Tombstone, Coplanarity, Solder Joint (insufficient, excessive), Lifted Leads, Bridging, "No‐Pops" Polarity.',
-      '2D Inspection: "Wrong Part" using Optical Character Verification (OCV/R), Polarity.',
-      'Camera Barcode Reader.',
-      '8M Pixel 3D Camera.',
-      'Maximum board handling capability of up to 490 x 510mm.',
-      'OCV & OCR capability.',
-      '25mm 3D Height Inspection capability.',
-      '5 Way 3D Projector Lighting System.',
-      'Auto Programming option & Offline programming software.',
-      'KSMART LINK Software - Closed loop feedback from AOI to SPI.',
-    ],
-  },
-];
-
-const auxiliaryEquipment = [
-  {
-    name: 'Solder Paste Mixer',
-    tag: 'Solder Paste Mixer',
-    description: 'Ensures homogeneous paste viscosity and temperature stabilization prior to printing.',
-    image: '/solder-paste-mixture.png',
-    icon: RefreshCw,
-  },
-  {
-    name: 'Stencil Cleaner',
-    tag: 'Stencil Cleaner',
-    description: 'High-performance cleaner utilizing dry, wet, and vacuum filtration to ensure residue-free stencils.',
-    image: '/stencil-cleaner.png',
-    icon: Droplet,
-  },
-  {
-    name: '6 1/2 Digital Multimeter',
-    tag: '6 1/2 Digital Multimeter',
-    description: 'High-precision electrical measurement for engineering verification and Quality Assurance testing.',
-    image: '/digital-multimeter.png',
-    icon: Binary,
-  },
-  {
-    name: 'Ultrasonic Welding Machine',
-    tag: 'Ultrasonic Welding Machine',
-    description: 'Precision ultrasonic welding system for enclosures and connectors.',
-    image: '/ultrasonic-welding-machine.png',
-    icon: Wrench,
-  },
-  {
-    name: 'Oscilloscope',
-    tag: 'Oscilloscope',
-    description: 'High-bandwidth digital storage oscilloscope for signal integrity checks and troubleshooting.',
-    image: '/oscilloscope.png',
-    icon: Activity,
-  },
-  {
-    name: 'Laser Marking',
-    tag: 'Laser marking',
-    description: 'Automated laser engraving for permanent PCB serial numbers and tracking codes.',
-    image: '/laser-marking.png',
-    icon: Tag,
-  },
-  {
-    name: 'Power Supply',
-    tag: 'Power Supply',
-    description: 'Programmable DC power sources for comprehensive functional testing.',
-    image: '/power-supply.png',
-    icon: Power,
-  },
-];
-
-const benchmarkRows = [
-  {
-    metric: 'Placement/Alignment Accuracy',
-    values: ['±0.025 mm (Cpk ≥ 1.00)', '±0.025 mm (Cpk ≥ 1.00)', '±15 µm XY / 0.37 µm Z', '±0.010 mm Alignment'],
-  },
-  {
-    metric: 'Throughput CPH',
-    values: ['1,03,000 CPH', '92,500 CPH', 'N/A (Inline Inspection)', '6.0s Cycle Time'],
-  },
-  {
-    metric: 'Inspection Type',
-    values: ['CCD Vision Auto-Calibration', 'CCD Vision Auto-Calibration', '3D Shadow-Free AOI', '3D SPI / Closed-Loop Feedback'],
-  },
-  {
-    metric: 'Smallest Component & Limits',
-    values: ['01005 / 0201 support', '01005 / 0201 support', '25mm 3D Height Inspection', '3.94 mils Paste deposit'],
-  },
-];
+import { useSiteContent } from '../context/SiteContentContext';
 
 export default function InfrastructureMachineryPage() {
   useEffect(() => {
     document.title = 'Infrastructure & Machinery - PCB Manufacturing Facilities | SriLin Electronics';
   }, []);
 
+  const { content } = useSiteContent();
+
+  const iconMap = {
+    Layers, ScanLine, Cpu, Gauge, Zap, Factory, CheckCircle2, ArrowRight,
+    Wrench, RefreshCw, Droplet, Activity, Tag, Power, Binary
+  };
+
   const heroText = 'Precision Hardware. Zero Compromise.';
   const [typedHero, heroDone] = useTypewriter(heroText, 40);
+
+  const equipment = content?.infrastructure_equipment || [];
+  const auxiliaryEquipment = content?.infrastructure_auxiliary || [];
+  const benchmarkRows = content?.infrastructure_benchmarks || [];
 
   return (
     <div className="bg-[#f7f9fb] font-['Inter'] min-h-screen text-slate-800">
@@ -461,8 +254,9 @@ export default function InfrastructureMachineryPage() {
           </Reveal>
 
           <div className="space-y-8">
-            {equipment.map(({ title, eyebrow, image, icon: Icon, tag, summary, details }, index) => {
+            {equipment.map(({ title, eyebrow, image, icon, tag, summary, details }, index) => {
               const isEven = index % 2 === 0;
+              const Icon = typeof icon === 'string' ? (iconMap[icon] || Cpu) : (icon || Cpu);
               return (
                 <Reveal key={title + eyebrow} delay={index * 80}>
                   <div

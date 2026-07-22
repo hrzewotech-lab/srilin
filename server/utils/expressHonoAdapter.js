@@ -37,11 +37,11 @@ const toHono = (expressHandler) => {
     const res = {
       status: (code) => {
         resStatus = code;
-        c.status(code);
         return res;
       },
       json: (data) => {
-        const response = c.json(data, resStatus);
+        let code = typeof resStatus === 'number' && resStatus >= 100 && resStatus <= 599 ? resStatus : 200;
+        const response = c.json(data, code);
         c.finalResponse = response;
         return response;
       },
@@ -70,16 +70,22 @@ const toHono = (expressHandler) => {
     };
 
     let nextCalled = false;
-    const expressNext = async (err) => {
+    let nextPromise;
+    const expressNext = (err) => {
       if (err) {
         throw err;
       }
       nextCalled = true;
-      await next();
+      nextPromise = next();
     };
 
     try {
+      require('fs').appendFileSync('adapter_flow.txt', 'Calling handler\n');
       await expressHandler(req, res, expressNext);
+      require('fs').appendFileSync('adapter_flow.txt', 'Handler done\n');
+      if (nextPromise) {
+        await nextPromise;
+      }
       if (c.finalResponse) {
         return c.finalResponse;
       }
@@ -89,10 +95,10 @@ const toHono = (expressHandler) => {
       return c.json({ success: false, message: "Response not sent" }, 500);
     } catch (err) {
       console.error("Error in handler adapter:", err);
+      require('fs').writeFileSync('adapter_error.txt', err.stack);
       // Map error status safely (ensure it's in the valid 200-599 range)
       const code = (resStatus >= 200 && resStatus <= 599) ? resStatus : 500;
-      c.status(code);
-      return c.json({ success: false, message: err.message });
+      return c.json({ success: false, message: err.message }, code);
     }
   };
 };

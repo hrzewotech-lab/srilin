@@ -83,6 +83,7 @@ export default function AdminTeam() {
       isActive: member.isActive,
       image: null,
     });
+    document.querySelector('.admin-content')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const toggleActive = async (member) => {

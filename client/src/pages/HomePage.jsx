@@ -9,55 +9,12 @@ import CertificateCarousel from '../components/CertificateCarousel';
 import HeroCarousel from '../components/HeroCarousel';
 import api from '../api/axios';
 import { slugify } from '../utils/slugify';
+import { useSiteContent } from '../context/SiteContentContext';
 
 /* ════════════════════════════════════════════════════════════════
    STATIC DATA  — all original arrays unchanged
    ════════════════════════════════════════════════════════════════ */
-const whyChoose = [
-  { icon: MapPin, title: 'Strategic Location', meta: '15 minutes from airport cargo terminal', text: 'Located at Fabcity (E-City EMC), Hyderabad. 15 minutes from Rajiv Gandhi International Airport and cargo terminal. The facility sits in Hyderabad\'s southern manufacturing corridor, one of India\'s primary hubs for aerospace and defence electronics production.' },
-  { icon: ShieldCheck, title: 'High Reliability Specialist', meta: 'Aerospace, defence, automotive and more', text: 'AS910OD certified with active production across Aerospace, Defence, Automotive, IT Hardware, Telecom, Medtech and Consumer Electronics. Srilin operates in sectors where product failure carries critical consequences. Every board is traceable from component to shipment.' },
-  { icon: TrendingUp, title: 'Built to Scale', meta: '8x expansion footprint on same campus', text: '214,000 sqft of expansion space adjacent to the current 25,000 sqft facility. 8x the current footprint on the same campus. No greenfield construction required. Dedicated production clusters can be established for strategic partners.' },
-  { icon: Smile, title: 'Customer Satisfaction', meta: 'Flexible volumes and account ownership', text: 'Dedicated account management, quick prototyping, and flexible production volumes tailored to your exact requirements.' },
-  { icon: BadgeCheck, title: 'Quality First Approach', meta: '3D SPI, 3D AOI and X-ray systems', text: 'Multi-stage inspection with 3D SPI, 3D AOI, and X-ray systems. Mounter accuracy 0.025mm, CpK ≥ 1.00 (3σ).' },
-];
-const industries = [
-  ['Automotive', Car],
-  ['Aviation, Space & Defence', Plane],
-  ['IT Hardware & Consumer Electronics', Cpu],
-  ['Telecom', Wifi],
-  ['Electric Vehicles', BatteryCharging],
-  ['Railways', Train],
-  ['AI, IoT & Automation', Bot],
-  ['Medical Devices', Activity],
-];
-const testimonials = [
-  { quote: 'The seamless integration of Srilin team efforts with FICOSA’s requirements has been instrumental in achieving high-quality outcomes. Their responsiveness, technical expertise, and proactive approach have significantly enhanced the  collaboration. Srilin stands out as a model of professionalism, innovation and quality in the electronics manufacturing domain. ', name: 'Aravind', company: 'Technical Director, Ficosa' },
-  { quote: "Pixcellence greatly appreciates Srilin Team's unwavering commitment to delivering high-quality PCBAs, reliable on-time shipments, competitive BOM pricing and open communication. Your meticulous attention to detail and stringent quality control have significantly reduced defects and enhanced our operational efficiency. ", name: 'Huzaifa Najmi', company: 'President & CEO, Pixcellence Technologies' },
-  { quote: 'Working with Srilin Electronics has been a seamless experience. Their quality, reliability, and prompt support have consistently exceeded our expectations. Srilin is a trusted and talented EMS partner for any who chooses to engage their Electronics Manufacturing services. ', name: 'C S Rao', company: 'Chairman, Quadgen Wireless' }
-];
-const aboutStats = [
-  { value: '149+', label: 'Clients Served' },
-  { value: '347+', label: 'Projects Delivered' },
-  { value: '9+', label: 'Years of Excellence' },
-];
-const certificationBadges = ['ISO9001:2015', 'AS9100D', 'ANSI ESD S20.20 2021', 'IEC 61340 5.1'];
-const coreServices = ['Embedded Design', 'SMT Mounting', 'Product Integration', 'Testing', 'Box Build', 'Supply Chain Management'];
 const defaultClientNames = ['Aerospace OEMs', 'Automation Teams', 'EV Suppliers', 'Industrial Brands', 'IoT Innovators'];
-
-const aboutHighlights = [
-  { icon: MapPin, title: 'Strategic Location', meta: '15 minutes from airport cargo terminal', text: 'Located at Fabcity (E-City EMC), Hyderabad. 15 minutes from Rajiv Gandhi International Airport and cargo terminal.' },
-  { icon: ShieldCheck, title: 'High Reliability Specialist', meta: 'Aerospace, defence, automotive and more', text: 'AS9100D certified with active production across Aerospace, Defence, Automotive, IT Hardware, Telecom, Medtech and Consumer Electronics.' },
-  { icon: TrendingUp, title: 'Built to Scale', meta: '8x expansion footprint on same campus', text: '214,000 sqft of expansion space adjacent to the current 25,000 sqft facility with dedicated clusters for strategic partners.' },
-  { icon: Smile, title: 'Customer Satisfaction', meta: 'Flexible volumes and account ownership', text: 'Dedicated account management, quick prototyping, and flexible production volumes tailored to exact requirements.' },
-  { icon: BadgeCheck, title: 'Quality First Approach', meta: '3D SPI, 3D AOI and X-ray systems', text: 'Multi-stage inspection with 3D SPI, 3D AOI, and X-ray systems for dependable output.' },
-];
-const tickerItems = ['AS9100D Certified', 'ISO 9001:2015', 'ANSI ESD S20.20 2021', 'IEC 61340 5.1', '98% On-Time Delivery', '75+ Global Customers', '12-Day Prototype Cycle', 'ISO-8 Cleanroom Class', 'E-City EMC · Hyderabad', '214,000 Sqft Expansion Ready'];
-// const quickFacts = [
-//   { value: '2017', label: 'Year Founded', icon: Building2 },
-//   { value: '98%', label: 'On-time Delivery', icon: TrendingUp },
-//   { value: '149+', label: 'Global Customers', icon: Smile },
-//   { value: '12 days', label: 'Prototype Cycle', icon: Zap },
-// ];
 
 
 /* ════════════════════════════════════════════════════════════════
@@ -138,25 +95,29 @@ function AnimatedNumber({ value, className = '', style = {} }) {
   return <span ref={ref} className={className} style={style}>{display}</span>;
 }
 
-function TestimonialCarouselSection() {
+function TestimonialCarouselSection({ testimonials = [], testimonialsTitle }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || testimonials.length === 0) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % testimonials.length);
     }, 4500);
     return () => clearInterval(interval);
-  }, [isPaused]);
+  }, [isPaused, testimonials.length]);
 
   const handlePrev = () => {
+    if (testimonials.length === 0) return;
     setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
   const handleNext = () => {
+    if (testimonials.length === 0) return;
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
   };
+
+  if (testimonials.length === 0) return null;
 
   const current = testimonials[currentIndex];
 
@@ -171,7 +132,7 @@ function TestimonialCarouselSection() {
           </div>
           <h2 className="font-['JetBrains_Mono'] font-bold text-[#0F172A] leading-tight mb-10 md:mb-12 max-w-2xl mx-auto"
             style={{ fontSize: 'clamp(1.3rem, 3vw, 1.8rem)' }}>
-            Clear communication, dependable execution, and production-aware support.
+            {testimonialsTitle}
           </h2>
         </Reveal>
 
@@ -263,10 +224,42 @@ function TestimonialCarouselSection() {
   );
 }
 
+// Attach default props so that testimonialsTitle isn't undefined initially
+TestimonialCarouselSection.defaultProps = {
+  testimonials: [],
+  testimonialsTitle: 'Clear communication, dependable execution, and production-aware support.'
+};
+
 /* ════════════════════════════════════════════════════════════════
    COMPONENT
    ════════════════════════════════════════════════════════════════ */
 export default function HomePage() {
+  const { content } = useSiteContent();
+
+  const iconMap = {
+    MapPin, ShieldCheck, TrendingUp, Smile, BadgeCheck,
+    Activity, ArrowRight, ArrowUpRight, BatteryCharging, Bot, Building2, Car, CheckCircle2,
+    ChevronLeft, ChevronRight, Cpu, Factory, Layers3, Plane, Sparkles, Train, Wifi, Zap
+  };
+
+  const dynamicWhyChoose = content?.home_why_choose || [];
+  const dynamicAboutStats = content?.home_about_stats || [];
+  const dynamicCertifications = content?.home_certifications || [];
+  const dynamicTickerItems = content?.home_ticker_items || [];
+  const dynamicIndustries = content?.home_industries || [];
+  const dynamicTestimonials = content?.home_testimonials || [];
+  
+  const testimonialsTitle = content?.home_testimonials_title || 'Clear communication, dependable execution, and production-aware support.';
+  const servicesTitle = content?.home_services_title || 'Explore our top service capabilities.';
+  const industriesTitle = content?.home_industries_title || 'Flexible electronics capability for modern industrial and product ecosystems.';
+  const whyChooseTitle = content?.home_why_choose_title || 'Built for electronics teams that need precision, speed, and accountability.';
+  const ctaTitle = content?.home_cta_title || 'Ready to discuss your next electronics requirement?';
+  const ctaSubtext = content?.home_cta_subtext || 'From prototype to production — our team is ready to evaluate your requirements and recommend the right manufacturing approach.';
+  const aboutTitle = content?.home_about_title || 'Srilin Electronics\nPrivate Limited';
+  const aboutParagraph1 = content?.home_about_paragraph1 || 'Srilin Electronics Pvt Ltd is an ISO9001:2015, AS9100D, ANSI ESD S20.20 2021 & IEC 61340 5.1 certified Premier Electronics System Design & Manufacturing Services (ESDM/EMS) company located in E-city EMC (Formerly Fabcity), Hyderabad, India. The company was established in 2017 to help the developing interest of Electronic Assembling in India. Our one-stop-solution electronics manufacturing services (EMS) factory incorporates quick prototyping, mid-range volume production to high volume production.';
+  const aboutParagraph2 = content?.home_about_paragraph2 || 'We provide Embedded Design, SMT Mounting, product integration, Testing & box build services. Our products are manufactured using Robust and advanced SMT machinery in Class 100000(ISO-8) Cleanroom to meet world wide quality standards. We also provide comprehensive supply chain management.we offer our administrations to a wide range of customers for their product development and support them in convertibility and scalability of manufacturing. SRILIN has been the favoured worth maker for its clients through imaginative and effective Electronic System Assembling.';
+  const aboutBullets = content?.home_about_bullets || ['Design-to-delivery in one location', 'Aerospace-grade quality systems', 'Flexible volumes — prototype to high-volume'];
+
   /* ── original backend fetching — unchanged ── */
   const [clients, setClients] = useState([]);
   const [services, setServices] = useState([]);
@@ -319,7 +312,7 @@ export default function HomePage() {
         <div className="overflow-hidden rounded-b-[20px] sm:rounded-b-[28px] bg-[#0a1224] border border-t-0 border-white/10">
           <div className="overflow-hidden py-3">
             <div className="flex gap-0 w-max" style={{ animation: 'tickerScroll 40s linear infinite' }}>
-              {[...tickerItems, ...tickerItems].map((item, i) => (
+              {[...dynamicTickerItems, ...dynamicTickerItems].map((item, i) => (
                 <span key={i} className="inline-flex items-center gap-3 px-6 text-xs font-mono font-semibold whitespace-nowrap"
                   style={{ color: i % 2 === 0 ? '#c29f5d' : 'rgba(255,255,255,0.45)' }}>
                   {item}<span className="w-1 h-1 rounded-full bg-white/20 shrink-0" />
@@ -329,29 +322,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-
-      {/* ══ QUICK FACTS STRIP ═════════════════════════════════════
-      <section className="bg-white border-b border-[#E2E8F0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
-          <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-[#E2E8F0]">
-            {quickFacts.map(({ value, label, icon: Icon }, i) => (
-              <Reveal key={label} delay={i * 80} style={{ display: 'contents' }}>
-                <div className="group flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-5 sm:py-6 hover:bg-[#f7f9fb] transition-colors">
-                  <span className="shrink-0 inline-flex h-10 w-10 items-center justify-center bg-[#eceef0] group-hover:bg-teal-50 transition-colors" style={{ color: '#9a7a3e' }}>
-                    <Icon size={18} />
-                  </span>
-                  <div>
-                    <strong className="block font-['JetBrains_Mono'] text-lg sm:text-xl font-bold text-[#0F172A] leading-none">
-                      <AnimatedNumber value={value} />
-                    </strong>
-                    <span className="mt-1 block text-xs text-[#64748b]">{label}</span>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section> */}
 
       {/* ══ SECTION 01 — ABOUT ════════════════════════════════════ */}
       <section className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-16 md:py-28 overflow-hidden">
@@ -386,7 +356,7 @@ export default function HomePage() {
 
             {/* Stat grid — counting numbers placed below the image */}
             <div className="grid grid-cols-3 gap-3 mt-8">
-              {aboutStats.map((stat) => (
+              {dynamicAboutStats.map((stat) => (
                 <article key={stat.label} className="relative group border border-[#E2E8F0] bg-white p-3 text-center overflow-hidden hover:border-[#c29f5d]/40 transition-all duration-300 rounded-2xl">
                   <div className="absolute top-0 left-0 w-full h-0.5 bg-[#c29f5d] scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                   <strong className="block font-['JetBrains_Mono'] text-base sm:text-lg text-[#0F172A]">
@@ -401,17 +371,18 @@ export default function HomePage() {
           {/* Text */}
           <Reveal delay={200}>
             <div className="flex flex-col gap-5">
-              <h2 className="font-['JetBrains_Mono'] font-bold text-[#c29f5d] leading-tight"
+              <h2 className="font-['JetBrains_Mono'] font-bold text-[#c29f5d] leading-tight whitespace-pre-wrap"
                 style={{ fontSize: 'clamp(1.5rem,3.5vw,2.5rem)' }}>
-                Srilin Electronics<br />Private Limited
+                {aboutTitle}
               </h2>
               <p className="text-[#334155] text-base sm:text-lg leading-relaxed">
-                Srilin Electronics Pvt Ltd is an ISO9001:2015, AS9100D, ANSI ESD S20.20 2021 & IEC 61340 5.1 certified Premier Electronics System Design & Manufacturing Services (ESDM/EMS) company located in E-city EMC (Formerly Fabcity), Hyderabad, India. The company was established in 2017 to help the developing interest of Electronic Assembling in India. Our one-stop-solution electronics manufacturing services (EMS) factory incorporates quick prototyping, mid-range volume production to high volume production.
+                {aboutParagraph1}
               </p>
               <p className="text-[#334155] text-base leading-relaxed">
-                We provide Embedded Design, SMT Mounting, product integration, Testing & box build services. Our products are manufactured using Robust and advanced SMT machinery in Class 100000(ISO-8) Cleanroom to meet world wide quality standards. We also provide comprehensive supply chain management.we offer our administrations to a wide range of customers for their product development and support them in convertibility and scalability of manufacturing. SRILIN has been the favoured worth maker for its clients through imaginative and effective Electronic System Assembling. </p>
+                {aboutParagraph2}
+              </p>
               <ul className="flex flex-col gap-2 mt-1">
-                {['Design-to-delivery in one location', 'Aerospace-grade quality systems', 'Flexible volumes — prototype to high-volume'].map((item) => (
+                {aboutBullets.map((item) => (
                   <li key={item} className="flex items-center gap-2 text-sm text-[#334155]">
                     <CheckCircle2 size={15} style={{ color: '#9a7a3e', flexShrink: 0 }} /> {item}
                   </li>
@@ -426,7 +397,7 @@ export default function HomePage() {
                 </Link>
               </div>
               <div className="flex flex-wrap gap-2 mt-1">
-                {certificationBadges.map((cert) => (
+                {dynamicCertifications.map((cert) => (
                   <span key={cert} className="inline-flex items-center gap-1.5 border border-[#E2E8F0] bg-white px-3 py-1.5 text-xs font-medium text-[#334155] hover:border-[#9a7a3e]/40 transition-colors rounded-lg">
                     <ShieldCheck size={12} style={{ color: '#9a7a3e' }} /> {cert}
                   </span>
@@ -451,7 +422,7 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
               <h2 className="font-['JetBrains_Mono'] font-bold text-[#0F172A] leading-tight"
                 style={{ fontSize: 'clamp(1.4rem,3vw,2rem)', maxWidth: 520 }}>
-                Explore our top service capabilities.
+                {servicesTitle}
               </h2>
               <Link to="/services" className="inline-flex items-center gap-2 text-[#9a7a3e] font-['JetBrains_Mono'] font-semibold text-sm shrink-0 hover:gap-3 transition-all">
                 View all services <ArrowRight size={14} />
@@ -486,7 +457,7 @@ export default function HomePage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {coreServices.map((svc, idx) => (
+              {['Embedded Design', 'SMT Mounting', 'Product Integration', 'Testing'].map((svc, idx) => (
                 <Reveal key={svc} delay={idx * 60}>
                   <Link to={`/services/${slugify(svc)}`} className="block h-full">
                     <article className="group flex items-center gap-5 border border-[#E2E8F0] bg-white p-8 sm:p-10 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 rounded-2xl">
@@ -520,23 +491,26 @@ export default function HomePage() {
                 </div>
                 <h2 className="font-['JetBrains_Mono'] font-bold text-[#0F172A] leading-tight"
                   style={{ fontSize: 'clamp(1.4rem,3vw,2rem)' }}>
-                  Flexible electronics capability for modern industrial and product ecosystems.
+                  {industriesTitle}
                 </h2>
               </div>
             </div>
           </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {industries.map(([industry, Icon], i) => (
-              <Reveal key={industry} delay={i * 60}>
-                <article className="group flex flex-col items-center justify-center text-center gap-4 border border-[#E2E8F0] bg-[#f7f9fb] p-6 sm:p-8 hover:border-[#c29f5d]/50 hover:bg-white hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-default h-full rounded-2xl">
-                  <span className="inline-flex h-14 w-14 items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] transition-colors rounded-xl shrink-0">
-                    <Icon size={28} />
-                  </span>
-                  <span className="text-[#0F172A] text-sm md:text-base font-semibold leading-snug">{industry}</span>
-                </article>
-              </Reveal>
-            ))}
+            {dynamicIndustries.map(({ name, icon }, i) => {
+              const Icon = typeof icon === 'string' ? iconMap[icon] : icon;
+              return (
+                <Reveal key={name} delay={i * 60}>
+                  <article className="group flex flex-col items-center justify-center text-center gap-4 border border-[#E2E8F0] bg-[#f7f9fb] p-6 sm:p-8 hover:border-[#c29f5d]/50 hover:bg-white hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-default h-full rounded-2xl">
+                    <span className="inline-flex h-14 w-14 items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] transition-colors rounded-xl shrink-0">
+                      {Icon && <Icon size={28} />}
+                    </span>
+                    <span className="text-[#0F172A] text-sm md:text-base font-semibold leading-snug">{name}</span>
+                  </article>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -550,7 +524,7 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 md:mb-12">
             <h2 className="font-['JetBrains_Mono'] font-bold text-[#0F172A] leading-tight"
               style={{ fontSize: 'clamp(1.4rem,3vw,2rem)', maxWidth: 520 }}>
-              Built for electronics teams that need precision, speed, and accountability.
+              {whyChooseTitle}
             </h2>
             <Link to="/about-us/company" className="inline-flex items-center gap-2 text-[#9a7a3e] font-semibold text-sm shrink-0 hover:gap-3 transition-all">
               About us <ArrowRight size={14} />
@@ -558,20 +532,23 @@ export default function HomePage() {
           </div>
         </Reveal>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-          {whyChoose.map(({ icon: Icon, title, text }, idx) => (
-            <Reveal key={title} delay={idx * 100}>
-              <article className="group relative border border-[#E2E8F0] bg-white p-6 sm:p-8 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 overflow-hidden h-full rounded-2xl">
-                <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c29f5d] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-                <div className="flex items-start justify-between mb-5">
-                  <span className="inline-flex h-11 w-11 items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] rounded-xl transition-colors shrink-0 animate-pulse-subtle">
-                    <Icon size={22} />
-                  </span>
-                </div>
-                <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] mb-3">{title}</h3>
-                <p className="text-sm leading-relaxed text-[#334155]">{text}</p>
-              </article>
-            </Reveal>
-          ))}
+          {dynamicWhyChoose.map(({ icon, title, text }, idx) => {
+            const Icon = typeof icon === 'string' ? (iconMap[icon] || CheckCircle2) : icon;
+            return (
+              <Reveal key={title} delay={idx * 100}>
+                <article className="group relative border border-[#E2E8F0] bg-white p-6 sm:p-8 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 overflow-hidden h-full rounded-2xl">
+                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c29f5d] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                  <div className="flex items-start justify-between mb-5">
+                    <span className="inline-flex h-11 w-11 items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] rounded-xl transition-colors shrink-0 animate-pulse-subtle">
+                      <Icon size={22} />
+                    </span>
+                  </div>
+                  <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] mb-3">{title}</h3>
+                  <p className="text-sm leading-relaxed text-[#334155]">{text}</p>
+                </article>
+              </Reveal>
+            );
+          })}
         </div>
       </section>
 
@@ -602,7 +579,7 @@ export default function HomePage() {
         </div>
       </section>
       {/* ══ SECTION 08 — TESTIMONIALS (AUTO CAROUSEL) ═══════════════ */}
-      <TestimonialCarouselSection />
+      <TestimonialCarouselSection testimonials={dynamicTestimonials} testimonialsTitle={testimonialsTitle} />
       {/* ══ FINAL CTA ════════════════════════════════════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-16 md:py-20">
         <Reveal>
@@ -622,10 +599,10 @@ export default function HomePage() {
                   </span>
                   <h2 className="font-['JetBrains_Mono'] font-bold text-white leading-tight"
                     style={{ fontSize: 'clamp(1.5rem,4vw,2.75rem)' }}>
-                    Ready to discuss your next electronics requirement?
+                    {ctaTitle}
                   </h2>
                   <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                    From prototype to production — our team is ready to evaluate your requirements and recommend the right manufacturing approach.
+                    {ctaSubtext}
                   </p>
                 </div>
                 <div className="flex flex-col gap-4 shrink-0">
@@ -639,7 +616,7 @@ export default function HomePage() {
                     View Services
                   </Link>
                   <div className="flex flex-wrap gap-3 mt-1">
-                    {certificationBadges.slice(0, 2).map((cert) => (
+                    {dynamicCertifications.slice(0, 2).map((cert) => (
                       <span key={cert} className="flex items-center gap-1.5 text-xs font-['JetBrains_Mono']" style={{ color: 'rgba(255,255,255,0.35)' }}>
                         <ShieldCheck size={10} style={{ color: '#c29f5d' }} /> {cert}
                       </span>

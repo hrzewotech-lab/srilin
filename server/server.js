@@ -26,7 +26,11 @@ const app = new Hono();
 // CORS Middleware
 app.use("/*", cors({
   origin: (origin) => {
-    if (origin && (origin.includes("localhost") || origin.includes("127.0.0.1"))) {
+    if (!origin) return process.env.CLIENT_URL || "http://localhost:5173";
+    if (origin.includes("localhost") || origin.includes("127.0.0.1")) {
+      return origin;
+    }
+    if (origin === "https://www.srilinelectronics.com" || origin === "https://srilinelectronics.com" || origin === "https://srilin.pages.dev") {
       return origin;
     }
     return process.env.CLIENT_URL || "http://localhost:5173";

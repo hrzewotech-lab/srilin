@@ -108,7 +108,6 @@ mountRouter(app, "/api/content", siteContentRoutes);
 // Global Error Handler
 app.onError((err, c) => {
   console.error("Hono error:", err);
-  require('fs').writeFileSync('hono_error.txt', err.stack || err.toString());
   const status = (c.res && typeof c.res.status === "number" && c.res.status >= 200 && c.res.status <= 599) ? c.res.status : 500;
   return c.json({ success: false, message: err.message || "Internal Server Error" }, status);
 });

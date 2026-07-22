@@ -4,6 +4,7 @@ const { AsyncLocalStorage } = require("async_hooks");
 const dbStorage = new AsyncLocalStorage();
 
 let cachedClient = null;
+let connectionPromise = null;
 
 const connectDB = async () => {
   const uri = process.env.MONGO_URI;
@@ -12,14 +13,24 @@ const connectDB = async () => {
   }
 
   if (!cachedClient) {
-    cachedClient = new MongoClient(uri, {
-      maxPoolSize: 10,
-      minPoolSize: 1,
-      connectTimeoutMS: 5000,
-      socketTimeoutMS: 10000,
-    });
-    await cachedClient.connect();
-    console.log("MongoDB connected");
+    if (!connectionPromise) {
+      const client = new MongoClient(uri, {
+        maxPoolSize: 1,
+        minPoolSize: 1,
+        serverSelectionTimeoutMS: 5000,
+        connectTimeoutMS: 5000,
+        socketTimeoutMS: 10000,
+      });
+      connectionPromise = client.connect().then(() => {
+        console.log("MongoDB connected");
+        cachedClient = client;
+        return client;
+      }).catch(err => {
+        connectionPromise = null;
+        throw err;
+      });
+    }
+    await connectionPromise;
   }
 
   const client = cachedClient;

@@ -15,7 +15,6 @@ const faqRoutes = require("./routes/faqRoutes");
 const certificateRoutes = require("./routes/certificateRoutes");
 const careerRoutes = require("./routes/careerRoutes");
 const clientRoutes = require("./routes/clientRoutes");
-const siteContentRoutes = require("./routes/siteContentRoutes");
 
 const app = new Hono();
 
@@ -40,7 +39,7 @@ app.use("*", async (c, next) => {
   if (c.env) {
     Object.assign(process.env, c.env);
   }
-  
+
   let connection;
   try {
     connection = await connectDB();
@@ -99,7 +98,6 @@ mountRouter(app, "/api/faqs", faqRoutes);
 mountRouter(app, "/api/certificates", certificateRoutes);
 mountRouter(app, "/api/careers", careerRoutes);
 mountRouter(app, "/api/clients", clientRoutes);
-mountRouter(app, "/api/content", siteContentRoutes);
 
 // Global Error Handler
 app.onError((err, c) => {

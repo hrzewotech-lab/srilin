@@ -22,7 +22,7 @@ const app = new Hono();
 app.use("/*", cors({
   origin: (origin) => {
     // With credentials: true, we must return a specific origin and NEVER wildcard "*"
-    if (origin && (origin.includes("localhost") || origin.includes("srilin.pages.dev"))) {
+    if (origin && (origin.includes("localhost") || origin.includes("srilin.pages.dev") || origin.includes("srilinelectronics.com"))) {
       return origin;
     }
     return "https://srilin.pages.dev";

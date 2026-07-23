@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useSiteContent } from '../context/SiteContentContext';
 import {
   BadgeCheck,
   Building2,
@@ -9,80 +10,23 @@ import {
   ShieldCheck,
   Smile,
   TrendingUp,
+  Award,
+  Globe,
+  Settings
 } from 'lucide-react';
 
 /* ════════════════════════════════════════════════════════════════
-   STATIC DATA — all original arrays unchanged
+   ICON MAPPING
    ════════════════════════════════════════════════════════════════ */
-const aboutStats = [
-  { value: '2017', label: 'Established', icon: BadgeCheck },
-  { value: '25,000', label: 'Sqft current facility', icon: Building2 },
-  { value: '214,000', label: 'Sqft expansion space', icon: TrendingUp },
-  { value: '9+', label: 'Years ', icon: ShieldCheck },
-];
-
-const featuredStat = {
-  value: 'ISO-8',
-  label: 'Cleanroom class',
-  description:
-    'Class 100000 manufacturing in a certified ESD-safe cleanroom with aerospace and defence traceability.',
-  icon: ShieldCheck,
+const IconMap = {
+  BadgeCheck, Building2, TrendingUp, ShieldCheck,
+  MapPin, Smile, CheckCircleIcon, Cpu, Factory,
+  Award, Globe, Settings
 };
 
-const certificationBadges = [
-  'ISO9001:2015',
-  'AS9100D',
-  'ANSI ESD S20.20 2021',
-  'IEC 61340 5.1',
-];
-
-const aboutServices = [
-  'Embedded Design',
-  'SMT Mounting',
-  'Product Integration',
-  'Testing',
-  'Box Build',
-  'Supply Chain Management',
-];
-
-const aboutHighlights = [
-  {
-    icon: MapPin,
-    title: 'Strategic Location',
-    meta: '15 minutes from airport cargo terminal',
-    text: "Located at Fabcity (E-City EMC), Hyderabad. 15 minutes from Rajiv Gandhi International Airport and cargo terminal. The facility sits in Hyderabad's southern manufacturing corridor, one of India's primary hubs for aerospace and defence electronics production.",
-  },
-  {
-    icon: ShieldCheck,
-    title: 'High Reliability Specialist',
-    meta: 'Aerospace, defence, automotive and more',
-    text: 'AS9100D certified with active production across Aerospace, Defence, Automotive, IT Hardware, Telecom, Medtech and Consumer Electronics. Srilin operates in sectors where product failure carries critical consequences. Every board is traceable from component to shipment.',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Built to Scale',
-    meta: '8x expansion footprint on same campus',
-    text: '214,000 sqft of expansion space adjacent to the current 25,000 sqft facility. 8x the current footprint on the same campus. No greenfield construction required. Dedicated production clusters can be established for strategic partners.',
-  },
-  {
-    icon: Smile,
-    title: 'Customer Satisfaction',
-    meta: 'Flexible volumes and account ownership',
-    text: 'Dedicated account management, quick prototyping, and flexible production volumes tailored to your exact requirements.',
-  },
-  {
-    icon: BadgeCheck,
-    title: 'Quality First Approach',
-    meta: '3D SPI, 3D AOI and X-ray systems',
-    text: 'Multi-stage inspection with 3D SPI, 3D AOI, and X-ray systems. Mounter accuracy 0.025mm, CpK >= 1.00 (3 sigma).',
-  },
-];
-
 /* ════════════════════════════════════════════════════════════════
-   ANIMATION UTILITIES  (same system as HomePage)
+   ANIMATION UTILITIES
    ════════════════════════════════════════════════════════════════ */
-
-/** Types out text character by character. Returns [displayedText, isDone]. */
 function useTypewriter(text, speed = 42) {
   const [typed, setTyped] = useState('');
   const [done, setDone] = useState(false);
@@ -101,7 +45,6 @@ function useTypewriter(text, speed = 42) {
   return [typed, done];
 }
 
-/** Scroll-reveal wrapper — fades + slides up on entering viewport. */
 function Reveal({ children, delay = 0, y = 26, className = '', style = {} }) {
   const ref = useRef(null);
   const [vis, setVis] = useState(false);
@@ -131,7 +74,6 @@ function Reveal({ children, delay = 0, y = 26, className = '', style = {} }) {
   );
 }
 
-/** Counts a numeric string (e.g. '25,000', '18+') up from zero when scrolled into view. */
 function AnimatedNumber({ value, className = '', style = {} }) {
   const ref = useRef(null);
   const started = useRef(false);
@@ -140,9 +82,7 @@ function AnimatedNumber({ value, className = '', style = {} }) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    // Skip values that don't start with a digit (e.g. 'ISO-8')
     if (!/^\d/.test(String(value))) { setDisplay(value); return; }
-    // Skip values containing '/' (e.g. '4.9/5')
     if (String(value).includes('/')) { setDisplay(value); return; }
 
     const raw = String(value).replace(/[^0-9.]/g, '');
@@ -187,8 +127,79 @@ function AnimatedNumber({ value, className = '', style = {} }) {
    PAGE COMPONENT
    ════════════════════════════════════════════════════════════════ */
 export default function AboutCompanyPage() {
-  const heroTitle = 'Srilin Electronics\nPrivate Limited';
+  const { content } = useSiteContent();
+
+  const heroTitle = content.about_hero_title || 'Srilin Electronics\nPrivate Limited';
+  const heroSubtext = content.about_hero_subtext || 'Premier ESDM/EMS services with certified quality systems, scalable production, and reliable manufacturing support from design to box build.';
   const [typedHero, heroDone] = useTypewriter(heroTitle, 36);
+
+  const aboutParagraphs = content.about_paragraphs || [
+    'Srilin Electronics Pvt Ltd is an ISO9001:2015, AS9100D, ANSI ESD S20.20 2021 & IEC 61340 5.1 certified Premier Electronics System Design & Manufacturing Services (ESDM/EMS) company located in E-city EMC (Formerly Fabcity), Hyderabad, India. The company was established in 2017 to help the developing interest of Electronic Assembling in India. Our one-stop-solution electronics manufacturing services (EMS) factory incorporates quick prototyping, mid-range volume production to high volume production.',
+    'We provide Embedded Design, SMT Mounting, product integration, Testing & box build services. Our products are manufactured using Robust and advanced SMT machinery in Class 100000(ISO-8) Cleanroom to meet world wide quality standards. We also provide comprehensive supply chain management.we offer our administrations to a wide range of customers for their product development and support them in convertibility and scalability of manufacturing. SRILIN has been the favoured worth maker for its clients through imaginative and effective Electronic System Assembling.'
+  ];
+
+  const certificationBadges = content.about_certifications || [
+    'ISO9001:2015',
+    'AS9100D',
+    'ANSI ESD S20.20 2021',
+    'IEC 61340 5.1',
+  ];
+
+  const aboutStats = content.about_stats || [
+    { value: '2017', label: 'Established', icon: 'BadgeCheck' },
+    { value: '25,000', label: 'Sqft current facility', icon: 'Building2' },
+    { value: '214,000', label: 'Sqft expansion space', icon: 'TrendingUp' },
+    { value: '9+', label: 'Years ', icon: 'ShieldCheck' },
+  ];
+
+  const featuredStat = content.about_featured_stat || {
+    value: 'ISO-8',
+    label: 'Cleanroom class',
+    description: 'Class 100000 manufacturing in a certified ESD-safe cleanroom with aerospace and defence traceability.',
+    icon: 'ShieldCheck',
+  };
+
+  const aboutServices = content.about_services || [
+    'Embedded Design',
+    'SMT Mounting',
+    'Product Integration',
+    'Testing',
+    'Box Build',
+    'Supply Chain Management',
+  ];
+
+  const aboutHighlights = content.about_highlights || [
+    {
+      icon: 'MapPin',
+      title: 'Strategic Location',
+      meta: '15 minutes from airport cargo terminal',
+      text: "Located at Fabcity (E-City EMC), Hyderabad. 15 minutes from Rajiv Gandhi International Airport and cargo terminal. The facility sits in Hyderabad's southern manufacturing corridor, one of India's primary hubs for aerospace and defence electronics production.",
+    },
+    {
+      icon: 'ShieldCheck',
+      title: 'High Reliability Specialist',
+      meta: 'Aerospace, defence, automotive and more',
+      text: 'AS9100D certified with active production across Aerospace, Defence, Automotive, IT Hardware, Telecom, Medtech and Consumer Electronics. Srilin operates in sectors where product failure carries critical consequences. Every board is traceable from component to shipment.',
+    },
+    {
+      icon: 'TrendingUp',
+      title: 'Built to Scale',
+      meta: '8x expansion footprint on same campus',
+      text: '214,000 sqft of expansion space adjacent to the current 25,000 sqft facility. 8x the current footprint on the same campus. No greenfield construction required. Dedicated production clusters can be established for strategic partners.',
+    },
+    {
+      icon: 'Smile',
+      title: 'Customer Satisfaction',
+      meta: 'Flexible volumes and account ownership',
+      text: 'Dedicated account management, quick prototyping, and flexible production volumes tailored to your exact requirements.',
+    },
+    {
+      icon: 'BadgeCheck',
+      title: 'Quality First Approach',
+      meta: '3D SPI, 3D AOI and X-ray systems',
+      text: 'Multi-stage inspection with 3D SPI, 3D AOI, and X-ray systems. Mounter accuracy 0.025mm, CpK >= 1.00 (3 sigma).',
+    },
+  ];
 
   return (
     <div className="bg-[#f7f9fb] font-['Inter'] min-h-screen">
@@ -214,17 +225,14 @@ export default function AboutCompanyPage() {
         <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 py-10 md:py-0">
           <div className="max-w-2xl border-l-2 border-[#c29f5d] pl-5 md:pl-6" style={{ animation: 'aboutHeroIn 0.8s cubic-bezier(0.16,1,0.3,1) both' }}>
 
-            {/* Section label */}
             <p className="text-[#c29f5d] text-xs font-semibold uppercase tracking-widest mb-3 md:mb-4"
               style={{ animation: 'aboutHeroIn 0.6s 0.1s ease both' }}>
               About Company
             </p>
 
-            {/* Typewriter heading */}
             <h1 className="font-['JetBrains_Mono'] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-3 md:mb-4"
               style={{ minHeight: '1.2em', whiteSpace: 'pre-line' }}>
               {typedHero}
-              {/* Blinking cursor while typing */}
               {!heroDone && (
                 <span style={{
                   display: 'inline-block', width: 3, height: '0.85em',
@@ -234,14 +242,11 @@ export default function AboutCompanyPage() {
               )}
             </h1>
 
-            {/* Sub-text fades in after typing done */}
             <p className="text-white/75 text-sm sm:text-base leading-relaxed mb-5 md:mb-6 max-w-lg transition-all duration-700"
               style={{ opacity: heroDone ? 1 : 0, transform: heroDone ? 'none' : 'translateY(8px)', transition: 'opacity 0.6s ease, transform 0.6s ease' }}>
-              Premier ESDM/EMS services with certified quality systems, scalable production,
-              and reliable manufacturing support from design to box build.
+              {heroSubtext}
             </p>
 
-            {/* Badges fade in after desc */}
             <div className="flex flex-wrap gap-2.5 sm:gap-3 transition-all duration-700"
               style={{ opacity: heroDone ? 1 : 0, transform: heroDone ? 'none' : 'translateY(8px)', transition: 'opacity 0.6s 0.15s ease, transform 0.6s 0.15s ease' }}
               aria-label="Srilin certifications">
@@ -267,11 +272,11 @@ export default function AboutCompanyPage() {
             <h2 className="font-['JetBrains_Mono'] font-bold text-2xl md:text-3xl text-[#0F172A] border-l-4 border-[#c29f5d] pl-4">
               About Srilin
             </h2>
-            <p className="text-[#44474d] mt-4 leading-relaxed">
-              Srilin Electronics Pvt Ltd is an ISO9001:2015, AS9100D, ANSI ESD S20.20 2021 & IEC 61340 5.1 certified Premier Electronics System Design & Manufacturing Services (ESDM/EMS) company located in E-city EMC (Formerly Fabcity), Hyderabad, India. The company was established in 2017 to help the developing interest of Electronic Assembling in India. Our one-stop-solution electronics manufacturing services (EMS) factory incorporates quick prototyping, mid-range volume production to high volume production.
-            </p>
-            <p className="text-[#44474d] mt-4 leading-relaxed">
-              We provide Embedded Design, SMT Mounting, product integration, Testing & box build services. Our products are manufactured using Robust and advanced SMT machinery in Class 100000(ISO-8) Cleanroom to meet world wide quality standards. We also provide comprehensive supply chain management.we offer our administrations to a wide range of customers for their product development and support them in convertibility and scalability of manufacturing. SRILIN has been the favoured worth maker for its clients through imaginative and effective Electronic System Assembling. </p>
+            {aboutParagraphs.map((para, idx) => (
+              <p key={idx} className="text-[#44474d] mt-4 leading-relaxed">
+                {para}
+              </p>
+            ))}
 
             <div className="mt-6 flex flex-wrap gap-3" aria-label="Srilin certifications">
               {certificationBadges.map((cert, i) => (
@@ -315,7 +320,7 @@ export default function AboutCompanyPage() {
             {/* Stat cards — counting numbers */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {aboutStats.map((stat, i) => {
-                const Icon = stat.icon;
+                const Icon = typeof stat.icon === 'string' ? IconMap[stat.icon] : stat.icon;
                 return (
                   <Reveal key={stat.label} delay={i * 80}>
                     <article className="group relative overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#c29f5d] hover:shadow-lg">
@@ -330,9 +335,11 @@ export default function AboutCompanyPage() {
                             {stat.label}
                           </span>
                         </div>
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#c29f5d]/10 text-[#c29f5d] shadow-sm shrink-0">
-                          <Icon size={18} strokeWidth={1.8} />
-                        </div>
+                        {Icon && (
+                          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#c29f5d]/10 text-[#c29f5d] shadow-sm shrink-0">
+                            <Icon size={18} strokeWidth={1.8} />
+                          </div>
+                        )}
                       </div>
                     </article>
                   </Reveal>
@@ -360,7 +367,10 @@ export default function AboutCompanyPage() {
                         <AnimatedNumber value={featuredStat.value} />
                       </strong>
                       <div className="rounded-xl bg-[#c29f5d]/10 p-3 text-[#c29f5d] shadow-sm">
-                        {(() => { const FeaturedIcon = featuredStat.icon; return <FeaturedIcon size={24} strokeWidth={1.8} />; })()}
+                        {(() => { 
+                          const FeaturedIcon = typeof featuredStat.icon === 'string' ? IconMap[featuredStat.icon] : featuredStat.icon; 
+                          return FeaturedIcon ? <FeaturedIcon size={24} strokeWidth={1.8} /> : null; 
+                        })()}
                       </div>
                     </div>
                     <p className="mt-4 text-sm text-[#475569]">{featuredStat.label}</p>
@@ -416,22 +426,27 @@ export default function AboutCompanyPage() {
           </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {aboutHighlights.map(({ icon: Icon, title, meta, text }, i) => (
-              <Reveal key={title} delay={i * 80}>
-                <article className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full rounded-2xl">
-                  <div className="flex items-start gap-3">
-                    <div className="w-11 h-11 flex items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] rounded-xl transition-all shrink-0">
-                      <Icon size={20} strokeWidth={1.8} />
+            {aboutHighlights.map(({ icon, title, meta, text }, i) => {
+              const Icon = typeof icon === 'string' ? IconMap[icon] : icon;
+              return (
+                <Reveal key={title} delay={i * 80}>
+                  <article className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full rounded-2xl">
+                    <div className="flex items-start gap-3">
+                      {Icon && (
+                        <div className="w-11 h-11 flex items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] rounded-xl transition-all shrink-0">
+                          <Icon size={20} strokeWidth={1.8} />
+                        </div>
+                      )}
+                      <div>
+                        <h3 className="font-['JetBrains_Mono'] font-semibold text-base text-[#0F172A] leading-snug">{title}</h3>
+                        <p className="text-xs text-[#64748b] mt-1">{meta}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-['JetBrains_Mono'] font-semibold text-base text-[#0F172A] leading-snug">{title}</h3>
-                      <p className="text-xs text-[#64748b] mt-1">{meta}</p>
-                    </div>
-                  </div>
-                  <p className="text-sm text-[#44474d] leading-relaxed">{text}</p>
-                </article>
-              </Reveal>
-            ))}
+                    <p className="text-sm text-[#44474d] leading-relaxed">{text}</p>
+                  </article>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>

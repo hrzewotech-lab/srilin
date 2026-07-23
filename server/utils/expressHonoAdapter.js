@@ -37,11 +37,11 @@ const toHono = (expressHandler) => {
     const res = {
       status: (code) => {
         resStatus = code;
-        c.status(code);
         return res;
       },
       json: (data) => {
-        const response = c.json(data, resStatus);
+        let code = typeof resStatus === 'number' && resStatus >= 100 && resStatus <= 599 ? resStatus : 200;
+        const response = c.json(data, code);
         c.finalResponse = response;
         return response;
       },
@@ -70,16 +70,20 @@ const toHono = (expressHandler) => {
     };
 
     let nextCalled = false;
-    const expressNext = async (err) => {
+    let nextPromise;
+    const expressNext = (err) => {
       if (err) {
         throw err;
       }
       nextCalled = true;
-      await next();
+      nextPromise = next();
     };
 
     try {
       await expressHandler(req, res, expressNext);
+      if (nextPromise) {
+        await nextPromise;
+      }
       if (c.finalResponse) {
         return c.finalResponse;
       }
@@ -91,8 +95,7 @@ const toHono = (expressHandler) => {
       console.error("Error in handler adapter:", err);
       // Map error status safely (ensure it's in the valid 200-599 range)
       const code = (resStatus >= 200 && resStatus <= 599) ? resStatus : 500;
-      c.status(code);
-      return c.json({ success: false, message: err.message });
+      return c.json({ success: false, message: err.message }, code);
     }
   };
 };

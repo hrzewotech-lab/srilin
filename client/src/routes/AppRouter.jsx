@@ -28,6 +28,7 @@ import AdminServices from '../pages/AdminServices';
 import AdminTeam from '../pages/AdminTeam';
 import AdminFaqs from '../pages/AdminFaqs';
 import AdminSettings from '../pages/AdminSettings';
+import AdminContent from '../pages/AdminContent';
 import AdminCertificates from '../pages/AdminCertificates';
 import ServicesPage from '../pages/ServicesPage';
 import ServiceDetailPage from '../pages/ServiceDetailPage';
@@ -90,6 +91,7 @@ export default function AppRouter() {
             <Route path="services" element={<AdminServices />} />
             <Route path="team" element={<AdminTeam />} />
             <Route path="faqs" element={<AdminFaqs />} />
+            <Route path="content" element={<AdminContent />} />
             <Route path="settings" element={<AdminSettings />} />
           </Route>
         </Routes>

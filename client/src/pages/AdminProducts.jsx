@@ -75,6 +75,7 @@ export default function AdminProducts() {
       isActive: product.isActive,
       image: null,
     });
+    document.querySelector('.admin-content')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const toggleActive = async (product) => {

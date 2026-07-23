@@ -32,6 +32,8 @@ const protect = asyncHandler(async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
+    console.error("Auth Middleware Error:", error);
+    require('fs').writeFileSync('auth_error.txt', error.stack || error.toString());
     res.status(401);
     throw new Error("Not authorized, invalid or expired token");
   }

@@ -82,6 +82,7 @@ export default function AdminCertificates() {
       isActive: certificate.isActive,
       image: null,
     });
+    document.querySelector('.admin-content')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const toggleActive = async (certificate) => {

@@ -44,8 +44,11 @@ const createUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users
 // @access  Private (superadmin only)
 const getUsers = asyncHandler(async (req, res) => {
+  console.log("getUsers started");
   const users = await User.find().sort({ createdAt: -1 });
+  console.log("getUsers found users, length:", users.length);
   res.status(200).json({ success: true, count: users.length, users });
+  console.log("getUsers response sent");
 });
 
 // @desc    Get single user by id

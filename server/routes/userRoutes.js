@@ -10,15 +10,20 @@ const {
 } = require("../controllers/userController");
 const { protect, authorize } = require("../middleware/auth");
 
-// Every route below is restricted to superadmin only.
-// This is the backend enforcement behind the "hide Add Admin page from admins" requirement -
-// even if an admin somehow calls the API directly, they get a 403.
-router.use(protect, authorize("superadmin"));
+// Apply protect to all routes
+router.use(protect);
 
-router.route("/").post(createUser).get(getUsers);
+// Only superadmins can create users, but both admins and superadmins can view the list
+router.route("/").post(authorize("superadmin"), createUser).get(authorize("admin", "superadmin"), getUsers);
 
-router.route("/:id").get(getUserById).put(updateUser).delete(deleteUser);
+// The rest are strictly superadmin
+const requireSuperadmin = authorize("superadmin");
 
-router.patch("/:id/role", changeUserRole);
+router.route("/:id")
+  .get(requireSuperadmin, getUserById)
+  .put(requireSuperadmin, updateUser)
+  .delete(requireSuperadmin, deleteUser);
+
+router.patch("/:id/role", requireSuperadmin, changeUserRole);
 
 module.exports = router;

@@ -9,7 +9,6 @@ import {
   CalendarDays,
   ChevronRight,
   CircleHelp,
-  FileText,
   Home,
   Images,
   LayoutDashboard,
@@ -34,7 +33,6 @@ const links = [
   { to: '/admin/services', label: 'Services', icon: Sparkles },
   { to: '/admin/team', label: 'Team', icon: Users },
   { to: '/admin/faqs', label: 'FAQs', icon: CircleHelp },
-  { to: '/admin/content', label: 'Site Content', icon: FileText },
   { to: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 

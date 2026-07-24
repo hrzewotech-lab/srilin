@@ -75,7 +75,6 @@ export default function AdminHero() {
       isActive: slide.isActive,
       image: null,
     });
-    document.querySelector('.admin-content')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const toggleActive = async (slide) => {
@@ -159,24 +158,20 @@ export default function AdminHero() {
         {!pageLoading && !slides.length ? <EmptyState title="No hero slides yet" text="Create a slide to start building your homepage carousel." /> : null}
         {!pageLoading && slides.length ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+            <div className="hero-grid admin-content-grid">
               {visibleItems.map((slide) => (
-                <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col" key={slide._id}>
-                  <img src={slide.image?.url} alt={slide.title} className="w-full h-40 sm:h-44 object-cover shrink-0" />
-                  <div className="p-4 sm:p-5 flex flex-col gap-3 flex-1">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex flex-col gap-0.5">
-                        <h3 className="text-lg font-semibold text-slate-800 line-clamp-2">{slide.title}</h3>
-                        <span className="text-xs text-slate-500 font-medium">Order: {slide.order ?? 0}</span>
-                      </div>
-                      <span className={`status-pill ${slide.isActive ? 'active' : 'inactive'}`}>
-                        {slide.isActive ? 'Active' : 'Hidden'}
-                      </span>
+                <div className="hero-card-item content-tile" key={slide._id}>
+                  <img src={slide.image?.url} alt={slide.title} />
+                  <div className="hero-card-body">
+                    <div className="hero-card-top">
+                      <h3>{slide.title}</h3>
+                      <span className={`status-pill ${slide.isActive ? 'active' : 'inactive'}`}>{slide.isActive ? 'Active' : 'Inactive'}</span>
                     </div>
-                    <p className="text-sm text-slate-600 line-clamp-3">{slide.description}</p>
-                    <div className="flex flex-wrap gap-2 pt-1 mt-auto">
+                    <p>{slide.description}</p>
+                    <p className="hero-meta">Order: {slide.order}</p>
+                    <div className="action-group">
                       <button className="table-btn" onClick={() => startEdit(slide)}>Edit</button>
-                      <button className="table-btn" onClick={() => toggleActive(slide)}>{slide.isActive ? 'Hide' : 'Show'}</button>
+                      <button className="table-btn" onClick={() => toggleActive(slide)}>{slide.isActive ? 'Disable' : 'Enable'}</button>
                       <button className="table-btn danger" onClick={() => handleDelete(slide._id)}>Delete</button>
                     </div>
                   </div>

@@ -77,7 +77,6 @@ export default function AdminServices() {
       order: service.order ?? 0,
       image: null,
     });
-    document.querySelector('.admin-content')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const toggleActive = async (service) => {

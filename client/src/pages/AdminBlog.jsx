@@ -69,7 +69,6 @@ export default function AdminBlog() {
   const startEdit = (blog) => {
     setEditingId(blog._id);
     setForm({ title: blog.title, description: blog.description, isActive: blog.isActive, order: blog.order ?? 0, image: null });
-    document.querySelector('.admin-content')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const toggleActive = async (blog) => {
@@ -159,22 +158,20 @@ export default function AdminBlog() {
         {!pageLoading && !blogs.length ? <EmptyState title="No blog posts yet" text="Create a blog post to publish updates on your website." /> : null}
         {!pageLoading && blogs.length ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
+            <div className="hero-grid admin-content-grid">
               {visibleItems.map((blog) => (
-                <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col" key={blog._id}>
-                  <img src={blog.image?.url} alt={blog.title} className="w-full h-40 sm:h-44 object-cover shrink-0" />
-                  <div className="p-4 sm:p-5 flex flex-col gap-3 flex-1">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex flex-col gap-0.5">
-                        <h3 className="text-lg font-semibold text-slate-800 line-clamp-2">{blog.title}</h3>
-                        <span className="text-xs text-slate-500 font-medium">Order: {blog.order ?? 0}</span>
-                      </div>
+                <div className="hero-card-item content-tile" key={blog._id}>
+                  <img src={blog.image?.url} alt={blog.title} />
+                  <div className="hero-card-body">
+                    <div className="hero-card-top">
+                      <h3>{blog.title}</h3>
                       <span className={`status-pill ${blog.isActive ? 'active' : 'inactive'}`}>
                         {blog.isActive ? 'Active' : 'Hidden'}
                       </span>
                     </div>
-                    <p className="text-sm text-slate-600 line-clamp-3">{blog.description}</p>
-                    <div className="flex flex-wrap gap-2 pt-1 mt-auto">
+                    <p className="blog-order">Order: {blog.order ?? 0}</p>
+                    <pre className="blog-description">{blog.description}</pre>
+                    <div className="action-group">
                       <button className="table-btn" onClick={() => startEdit(blog)}>Edit</button>
                       <button className="table-btn" onClick={() => toggleActive(blog)}>{blog.isActive ? 'Hide' : 'Show'}</button>
                       <button className="table-btn danger" onClick={() => handleDelete(blog._id)}>Delete</button>

@@ -1,5 +1,0 @@
-Error: Context is not finalized. Did you forget to return a Response object or `await next()`?
-    at C:\Users\ramar\OneDrive\Documents\srilin\server\node_modules\hono\dist\cjs\hono-base.js:329:17
-    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
-    at async responseViaResponseObject (C:\Users\ramar\OneDrive\Documents\srilin\server\node_modules\@hono\node-server\dist\index.cjs:803:13)
-    at async Server.<anonymous> (C:\Users\ramar\OneDrive\Documents\srilin\server\node_modules\@hono\node-server\dist\index.cjs:901:11)

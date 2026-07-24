@@ -73,7 +73,6 @@ export default function AdminClients() {
       isActive: client.isActive,
       image: null,
     });
-    document.querySelector('.admin-content')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const toggleActive = async (client) => {

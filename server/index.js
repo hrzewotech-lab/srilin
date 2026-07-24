@@ -22,7 +22,7 @@ const app = new Hono();
 app.use("/*", cors({
   origin: (origin) => {
     // With credentials: true, we must return a specific origin and NEVER wildcard "*"
-    if (origin && (origin.includes("localhost") || origin.includes("srilin.pages.dev") || origin.includes("srilinelectronics.com"))) {
+    if (origin && (origin.includes("localhost") || origin.includes("srilin.pages.dev"))) {
       return origin;
     }
     return "https://srilin.pages.dev";
@@ -39,7 +39,7 @@ app.use("*", async (c, next) => {
   if (c.env) {
     Object.assign(process.env, c.env);
   }
-
+  
   let connection;
   try {
     connection = await connectDB();

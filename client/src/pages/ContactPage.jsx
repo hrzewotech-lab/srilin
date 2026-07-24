@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Mail, MapPin, Phone, Send, MessageSquare } from 'lucide-react';
+import { useSiteContent } from '../context/SiteContentContext';
 
 /* ════════════════════════════════════════════════════════════════
    ANIMATION UTILITIES  (same system as HomePage / ServicesPage / ProductsPage)
@@ -50,6 +51,9 @@ function Reveal({ children, delay = 0, y = 26, className = '', style = {} }) {
    PAGE COMPONENT
    ════════════════════════════════════════════════════════════════ */
 export default function ContactPage() {
+  const { content } = useSiteContent();
+  const iconMap = { Mail, MapPin, Phone, Send, MessageSquare };
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -58,7 +62,7 @@ export default function ContactPage() {
     message: '',
   });
 
-  const whatsappNumber = '917385069999';
+  const whatsappNumber = content?.contact_whatsapp || '917385069999';
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,29 +75,24 @@ export default function ContactPage() {
     window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
   };
 
-  const contactCards = [
-    // {
-    //   icon: Phone,
-    //   title: 'Phone',
-    //   value: '+91 73850 69999',
-    //   sub: 'Mon – Sat, 9 AM – 6 PM IST',
-    //   href: 'tel:+917385069999',
-    // },
+  const fallbackContactCards = [
     {
-      icon: Mail,
+      icon: 'Mail',
       title: 'Email',
       value: 'sales@srilinelectronics.com',
       sub: 'We reply within one business day',
       href: 'mailto:sales@srilinelectronics.com',
     },
     {
-      icon: MapPin,
+      icon: 'MapPin',
       title: 'Address',
       value: 'PLOT: S-1/P/D, E-City EMC',
       sub: 'Raviryala, Maheshwaram, Ranga Reddy, Telangana – 501359',
       href: 'https://www.google.com/maps/search/?api=1&query=SRILIN+ELECTRONICS+PRIVATE+LIMITED',
     },
   ];
+
+  const contactCards = content?.contact_cards || fallbackContactCards;
 
   const heroText = 'Talk to Srilin. Start Building.';
   const [typedHero, heroDone] = useTypewriter(heroText, 40);
@@ -194,32 +193,35 @@ export default function ContactPage() {
         </Reveal>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-14">
-          {contactCards.map(({ icon: Icon, title, value, sub, href }, i) => (
-            <Reveal key={title} delay={i * 100}>
-              <a
-                href={href}
-                target={title === 'Address' ? '_blank' : undefined}
-                rel={title === 'Address' ? 'noopener noreferrer' : undefined}
-                className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full rounded-2xl text-left no-underline block"
-              >
-                <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#c29f5d]/10 group-hover:text-[#9a7a3e] transition-colors rounded-xl">
-                  <Icon size={22} strokeWidth={1.8} />
-                </div>
-                <div>
-                  <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] mb-1">
-                    {title}
-                  </h3>
-                  <p className="text-sm font-semibold text-[#0F172A] mb-1">{value}</p>
-                  <p className="text-xs text-[#64748b] leading-relaxed">{sub}</p>
-                </div>
-                <div className="mt-auto pt-4 border-t border-[#E2E8F0]">
-                  <span className="inline-block bg-[#ffffff] text-[#c29f5d] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md group-hover:bg-[#c29f5d] group-hover:text-white transition-colors">
-                    {title === 'Phone' ? 'Call Direct' : title === 'Email' ? 'Write to Us' : 'Visit Us'}
-                  </span>
-                </div>
-              </a>
-            </Reveal>
-          ))}
+          {contactCards.map(({ icon, title, value, sub, href }, i) => {
+            const Icon = typeof icon === 'string' ? (iconMap[icon] || MapPin) : icon;
+            return (
+              <Reveal key={title} delay={i * 100}>
+                <a
+                  href={href}
+                  target={title === 'Address' ? '_blank' : undefined}
+                  rel={title === 'Address' ? 'noopener noreferrer' : undefined}
+                  className="group bg-white border border-[#E2E8F0] p-6 flex flex-col gap-4 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-lg transition-all duration-300 h-full rounded-2xl text-left no-underline block"
+                >
+                  <div className="w-11 h-11 flex items-center justify-center bg-[#eceef0] text-[#0F172A] group-hover:bg-[#c29f5d]/10 group-hover:text-[#9a7a3e] transition-colors rounded-xl">
+                    <Icon size={22} strokeWidth={1.8} />
+                  </div>
+                  <div>
+                    <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] mb-1">
+                      {title}
+                    </h3>
+                    <p className="text-sm font-semibold text-[#0F172A] mb-1">{value}</p>
+                    <p className="text-xs text-[#64748b] leading-relaxed">{sub}</p>
+                  </div>
+                  <div className="mt-auto pt-4 border-t border-[#E2E8F0]">
+                    <span className="inline-block bg-[#ffffff] text-[#c29f5d] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md group-hover:bg-[#c29f5d] group-hover:text-white transition-colors">
+                      {title === 'Phone' ? 'Call Direct' : title === 'Email' ? 'Write to Us' : 'Visit Us'}
+                    </span>
+                  </div>
+                </a>
+              </Reveal>
+            );
+          })}
         </div>
 
         {/* ── CONTACT FORM ── */}

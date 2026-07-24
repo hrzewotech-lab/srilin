@@ -37,13 +37,8 @@ export default function AdminUsers() {
   };
 
   useEffect(() => {
-    if (!isSuperAdmin) {
-      setMessage('Only super admins can manage admin accounts.');
-      setPageLoading(false);
-      return;
-    }
     loadUsers();
-  }, [isSuperAdmin]);
+  }, []);
 
   const stats = useMemo(() => ({
     total: users.length,
@@ -80,6 +75,7 @@ export default function AdminUsers() {
   const startEdit = (user) => {
     setEditingId(user._id);
     setForm({ name: user.name, email: user.email, password: '', role: user.role });
+    document.querySelector('.admin-content')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleDelete = async (id) => {
@@ -103,15 +99,7 @@ export default function AdminUsers() {
     }
   };
 
-  if (!isSuperAdmin) {
-    return (
-      <div className="admin-panel-card access-card">
-        <p className="eyebrow">Users</p>
-        <h2>Access restricted</h2>
-        <p className="muted-text">Only a super admin can add, edit, delete, or promote admin accounts.</p>
-      </div>
-    );
-  }
+  // Removed early return that completely blocked admins from viewing the page
 
   return (
     <div className="admin-users-page">
@@ -121,37 +109,45 @@ export default function AdminUsers() {
         <MiniStat icon={ShieldCheck} label="Super admins" value={stats.superAdmins} tone="violet" />
       </section>
 
-      <div className="admin-panel-card">
-        <div className="admin-card-header">
-          <div>
-            <p className="eyebrow">Users</p>
-            <h2>{editingId ? 'Update admin account' : 'Create admin account'}</h2>
+      {isSuperAdmin ? (
+        <div className="admin-panel-card">
+          <div className="admin-card-header">
+            <div>
+              <p className="eyebrow">Users</p>
+              <h2>{editingId ? 'Update admin account' : 'Create admin account'}</h2>
+            </div>
+            <span className="admin-chip">{users.length} admins</span>
           </div>
-          <span className="admin-chip">{users.length} admins</span>
-        </div>
 
-        {message ? <div className="admin-alert">{message}</div> : null}
+          {message ? <div className="admin-alert">{message}</div> : null}
 
-        <form className="admin-form" onSubmit={handleSubmit}>
-          <input placeholder="Full name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
-          <input type="email" placeholder="Email address" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
-          {!editingId ? (
-            <input type="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
-          ) : null}
-          <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
-            <option value="admin">Admin</option>
-            <option value="superadmin">Super Admin</option>
-          </select>
-          <button className="primary-btn" type="submit" disabled={loading}>
-            {loading ? 'Saving...' : editingId ? 'Update Admin' : 'Add Admin'}
-          </button>
-          {editingId ? (
-            <button type="button" className="secondary-btn" onClick={() => { setEditingId(null); setForm({ name: '', email: '', password: '', role: 'admin' }); }}>
-              Cancel
+          <form className="admin-form" onSubmit={handleSubmit}>
+            <input placeholder="Full name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+            <input type="email" placeholder="Email address" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+            {!editingId ? (
+              <input type="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
+            ) : null}
+            <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
+              <option value="admin">Admin</option>
+              <option value="superadmin">Super Admin</option>
+            </select>
+            <button className="primary-btn" type="submit" disabled={loading}>
+              {loading ? 'Saving...' : editingId ? 'Update Admin' : 'Add Admin'}
             </button>
-          ) : null}
-        </form>
-      </div>
+            {editingId ? (
+              <button type="button" className="secondary-btn" onClick={() => { setEditingId(null); setForm({ name: '', email: '', password: '', role: 'admin' }); }}>
+                Cancel
+              </button>
+            ) : null}
+          </form>
+        </div>
+      ) : (
+        <div className="admin-panel-card access-card bg-amber-50 border-amber-200">
+          <p className="eyebrow text-amber-700">Access Restricted</p>
+          <h2 className="text-amber-900">View-only mode</h2>
+          <p className="muted-text text-amber-800">Only a super admin can add, edit, delete, or promote admin accounts.</p>
+        </div>
+      )}
 
       <div className="admin-panel-card">
         <div className="admin-card-header">
@@ -174,7 +170,7 @@ export default function AdminUsers() {
                     <th>Email</th>
                     <th>Role</th>
                     <th>Status</th>
-                    <th>Actions</th>
+                    {isSuperAdmin && <th>Actions</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -189,15 +185,17 @@ export default function AdminUsers() {
                       <td>{user.email}</td>
                       <td><span className="role-pill">{user.role}</span></td>
                       <td><span className={`status-pill ${user.isActive ? 'active' : 'inactive'}`}>{user.isActive ? 'Active' : 'Inactive'}</span></td>
-                      <td>
-                        <div className="action-group">
-                          <button className="table-btn" onClick={() => startEdit(user)}>Edit</button>
-                          <button className="table-btn" onClick={() => handlePromote(user._id, user.role)}>
-                            {user.role === 'admin' ? 'Promote' : 'Demote'}
-                          </button>
-                          <button className="table-btn danger" onClick={() => handleDelete(user._id)}>Delete</button>
-                        </div>
-                      </td>
+                      {isSuperAdmin && (
+                        <td>
+                          <div className="action-group">
+                            <button className="table-btn" onClick={() => startEdit(user)}>Edit</button>
+                            <button className="table-btn" onClick={() => handlePromote(user._id, user.role)}>
+                              {user.role === 'admin' ? 'Promote' : 'Demote'}
+                            </button>
+                            <button className="table-btn danger" onClick={() => handleDelete(user._id)}>Delete</button>
+                          </div>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>

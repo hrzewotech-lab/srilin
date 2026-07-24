@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const connectDB = require("./config/db");
+const { connectDB, dbStorage } = require("./config/db");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const authRoutes = require("./routes/authRoutes");
@@ -16,11 +16,28 @@ const faqRoutes = require("./routes/faqRoutes");
 const certificateRoutes = require("./routes/certificateRoutes");
 const careerRoutes = require("./routes/careerRoutes");
 const clientRoutes = require("./routes/clientRoutes");
+const siteContentRoutes = require("./routes/siteContentRoutes");
 
 const app = express();
 
-// Connect to MongoDB
-connectDB();
+// Connect to MongoDB once for the Express server
+let globalDbConnection = null;
+connectDB().then((conn) => {
+  globalDbConnection = conn;
+  console.log("Connected to MongoDB globally");
+}).catch(err => {
+  console.error("Failed to connect to MongoDB", err);
+});
+
+// Middleware to inject db into AsyncLocalStorage
+app.use((req, res, next) => {
+  if (!globalDbConnection) {
+    return res.status(503).json({ success: false, message: "Database starting up..." });
+  }
+  dbStorage.run(globalDbConnection, () => {
+    next();
+  });
+});
 
 // Core middleware
 app.use(
@@ -38,18 +55,32 @@ app.get("/api/health", (req, res) => {
   res.status(200).json({ success: true, message: "Server is running" });
 });
 
+// Helper to mount MockRouter to standard Express app
+function mountRouter(expressApp, pathPrefix, mockRouter) {
+  if (!mockRouter || !mockRouter.routes) return;
+  for (const route of mockRouter.routes) {
+    const { method, path, handlers } = route;
+    let fullPath = (pathPrefix + path).replace(/\/+/g, "/");
+    if (fullPath.length > 1 && fullPath.endsWith("/")) {
+      fullPath = fullPath.slice(0, -1);
+    }
+    expressApp[method](fullPath, ...handlers);
+  }
+}
+
 // Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/hero", heroRoutes);
-app.use("/api/blog", blogRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/services", serviceRoutes);
-app.use("/api/team", teamRoutes);
-app.use("/api/faqs", faqRoutes);
-app.use("/api/certificates", certificateRoutes);
-app.use("/api/careers", careerRoutes);
-app.use("/api/clients", clientRoutes);
+mountRouter(app, "/api/auth", authRoutes);
+mountRouter(app, "/api/users", userRoutes);
+mountRouter(app, "/api/hero", heroRoutes);
+mountRouter(app, "/api/blog", blogRoutes);
+mountRouter(app, "/api/products", productRoutes);
+mountRouter(app, "/api/services", serviceRoutes);
+mountRouter(app, "/api/team", teamRoutes);
+mountRouter(app, "/api/faqs", faqRoutes);
+mountRouter(app, "/api/certificates", certificateRoutes);
+mountRouter(app, "/api/careers", careerRoutes);
+mountRouter(app, "/api/clients", clientRoutes);
+mountRouter(app, "/api/content", siteContentRoutes);
 
 // 404 + error handlers (must be last)
 app.use(notFound);

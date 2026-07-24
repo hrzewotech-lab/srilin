@@ -21,7 +21,7 @@ const createHeroSlide = asyncHandler(async (req, res) => {
   const slide = await HeroSlide.create({
     title,
     description,
-    order: order || 0,
+    order: order !== undefined ? Number(order) : 0,
     image: {
       url: req.file.path, // secure_url returned by multer-storage-cloudinary
       public_id: req.file.filename, // public_id returned by multer-storage-cloudinary
@@ -68,8 +68,8 @@ const updateHeroSlide = asyncHandler(async (req, res) => {
 
   if (title) slide.title = title;
   if (description) slide.description = description;
-  if (order !== undefined) slide.order = order;
-  if (isActive !== undefined) slide.isActive = isActive;
+  if (order !== undefined) slide.order = Number(order);
+  if (isActive !== undefined) slide.isActive = isActive === 'true' || isActive === true;
 
   // If a new image was uploaded, delete the old one from Cloudinary first
   if (req.file) {

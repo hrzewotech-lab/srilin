@@ -10,54 +10,22 @@ import HeroCarousel from '../components/HeroCarousel';
 import api from '../api/axios';
 import { slugify } from '../utils/slugify';
 
-/* ════════════════════════════════════════════════════════════════
-   STATIC DATA  — all original arrays unchanged
-   ════════════════════════════════════════════════════════════════ */
-const whyChoose = [
-  { icon: MapPin, title: 'Strategic Location', meta: '15 minutes from airport cargo terminal', text: 'Located at Fabcity (E-City EMC), Hyderabad. 15 minutes from Rajiv Gandhi International Airport and cargo terminal. The facility sits in Hyderabad\'s southern manufacturing corridor, one of India\'s primary hubs for aerospace and defence electronics production.' },
-  { icon: ShieldCheck, title: 'High Reliability Specialist', meta: 'Aerospace, defence, automotive and more', text: 'AS910OD certified with active production across Aerospace, Defence, Automotive, IT Hardware, Telecom, Medtech and Consumer Electronics. Srilin operates in sectors where product failure carries critical consequences. Every board is traceable from component to shipment.' },
-  { icon: TrendingUp, title: 'Built to Scale', meta: '8x expansion footprint on same campus', text: '214,000 sqft of expansion space adjacent to the current 25,000 sqft facility. 8x the current footprint on the same campus. No greenfield construction required. Dedicated production clusters can be established for strategic partners.' },
-  { icon: Smile, title: 'Customer Satisfaction', meta: 'Flexible volumes and account ownership', text: 'Dedicated account management, quick prototyping, and flexible production volumes tailored to your exact requirements.' },
-  { icon: BadgeCheck, title: 'Quality First Approach', meta: '3D SPI, 3D AOI and X-ray systems', text: 'Multi-stage inspection with 3D SPI, 3D AOI, and X-ray systems. Mounter accuracy 0.025mm, CpK ≥ 1.00 (3σ).' },
-];
-const industries = [
-  ['Automotive', Car],
-  ['Aviation, Space & Defence', Plane],
-  ['IT Hardware & Consumer Electronics', Cpu],
-  ['Telecom', Wifi],
-  ['Electric Vehicles', BatteryCharging],
-  ['Railways', Train],
-  ['AI, IoT & Automation', Bot],
-  ['Medical Devices', Activity],
-];
-const testimonials = [
-  { quote: 'The seamless integration of Srilin team efforts with FICOSA’s requirements has been instrumental in achieving high-quality outcomes. Their responsiveness, technical expertise, and proactive approach have significantly enhanced the  collaboration. Srilin stands out as a model of professionalism, innovation and quality in the electronics manufacturing domain. ', name: 'Aravind', company: 'Technical Director, Ficosa' },
-  { quote: "Pixcellence greatly appreciates Srilin Team's unwavering commitment to delivering high-quality PCBAs, reliable on-time shipments, competitive BOM pricing and open communication. Your meticulous attention to detail and stringent quality control have significantly reduced defects and enhanced our operational efficiency. ", name: 'Huzaifa Najmi', company: 'President & CEO, Pixcellence Technologies' },
-  { quote: 'Working with Srilin Electronics has been a seamless experience. Their quality, reliability, and prompt support have consistently exceeded our expectations. Srilin is a trusted and talented EMS partner for any who chooses to engage their Electronics Manufacturing services. ', name: 'C S Rao', company: 'Chairman, Quadgen Wireless' }
-];
-const aboutStats = [
-  { value: '149+', label: 'Clients Served' },
-  { value: '347+', label: 'Projects Delivered' },
-  { value: '9+', label: 'Years of Excellence' },
-];
+const iconMap = {
+  MapPin, ShieldCheck, TrendingUp, Smile, BadgeCheck,
+  Car, Plane, Cpu, Wifi, BatteryCharging, Train, Bot, Activity
+};
+
+const defaultContent = {
+  whyChoose: [],
+  industries: [],
+  testimonials: [],
+  aboutStats: [],
+  tickerItems: []
+};
+
 const certificationBadges = ['ISO9001:2015', 'AS9100D', 'ANSI ESD S20.20 2021', 'IEC 61340 5.1'];
 const coreServices = ['Embedded Design', 'SMT Mounting', 'Product Integration', 'Testing', 'Box Build', 'Supply Chain Management'];
 const defaultClientNames = ['Aerospace OEMs', 'Automation Teams', 'EV Suppliers', 'Industrial Brands', 'IoT Innovators'];
-
-const aboutHighlights = [
-  { icon: MapPin, title: 'Strategic Location', meta: '15 minutes from airport cargo terminal', text: 'Located at Fabcity (E-City EMC), Hyderabad. 15 minutes from Rajiv Gandhi International Airport and cargo terminal.' },
-  { icon: ShieldCheck, title: 'High Reliability Specialist', meta: 'Aerospace, defence, automotive and more', text: 'AS9100D certified with active production across Aerospace, Defence, Automotive, IT Hardware, Telecom, Medtech and Consumer Electronics.' },
-  { icon: TrendingUp, title: 'Built to Scale', meta: '8x expansion footprint on same campus', text: '214,000 sqft of expansion space adjacent to the current 25,000 sqft facility with dedicated clusters for strategic partners.' },
-  { icon: Smile, title: 'Customer Satisfaction', meta: 'Flexible volumes and account ownership', text: 'Dedicated account management, quick prototyping, and flexible production volumes tailored to exact requirements.' },
-  { icon: BadgeCheck, title: 'Quality First Approach', meta: '3D SPI, 3D AOI and X-ray systems', text: 'Multi-stage inspection with 3D SPI, 3D AOI, and X-ray systems for dependable output.' },
-];
-const tickerItems = ['AS9100D Certified', 'ISO 9001:2015', 'ANSI ESD S20.20 2021', 'IEC 61340 5.1', '98% On-Time Delivery', '75+ Global Customers', '12-Day Prototype Cycle', 'ISO-8 Cleanroom Class', 'E-City EMC · Hyderabad', '214,000 Sqft Expansion Ready'];
-// const quickFacts = [
-//   { value: '2017', label: 'Year Founded', icon: Building2 },
-//   { value: '98%', label: 'On-time Delivery', icon: TrendingUp },
-//   { value: '149+', label: 'Global Customers', icon: Smile },
-//   { value: '12 days', label: 'Prototype Cycle', icon: Zap },
-// ];
 
 
 /* ════════════════════════════════════════════════════════════════
@@ -138,17 +106,17 @@ function AnimatedNumber({ value, className = '', style = {} }) {
   return <span ref={ref} className={className} style={style}>{display}</span>;
 }
 
-function TestimonialCarouselSection() {
+function TestimonialCarouselSection({ testimonials = [] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || testimonials.length === 0) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % testimonials.length);
     }, 4500);
     return () => clearInterval(interval);
-  }, [isPaused]);
+  }, [isPaused, testimonials.length]);
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
@@ -157,6 +125,8 @@ function TestimonialCarouselSection() {
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
   };
+
+  if (!testimonials || testimonials.length === 0) return null;
 
   const current = testimonials[currentIndex];
 
@@ -270,7 +240,7 @@ export default function HomePage() {
   /* ── original backend fetching — unchanged ── */
   const [clients, setClients] = useState([]);
   const [services, setServices] = useState([]);
-
+  const [content, setContent] = useState(defaultContent);
 
   useEffect(() => {
     const loadClients = async () => {
@@ -287,8 +257,17 @@ export default function HomePage() {
         setServices(list.filter((s) => s && s.isActive !== false).slice(0, 8));
       } catch (e) { console.error('Failed to load services', e); }
     };
+    const loadContent = async () => {
+      try {
+        const res = await api.get('/content/homepage_sections');
+        if (res.data?.data) {
+          setContent((prev) => ({ ...prev, ...res.data.data }));
+        }
+      } catch (e) { console.error('Failed to load content', e); }
+    };
     loadClients();
     loadServices();
+    loadContent();
   }, []);
 
   /* ── marquee data split into disjoint sets to avoid duplicate showing ── */
@@ -319,7 +298,7 @@ export default function HomePage() {
         <div className="overflow-hidden rounded-b-[20px] sm:rounded-b-[28px] bg-[#0a1224] border border-t-0 border-white/10">
           <div className="overflow-hidden py-3">
             <div className="flex gap-0 w-max" style={{ animation: 'tickerScroll 40s linear infinite' }}>
-              {[...tickerItems, ...tickerItems].map((item, i) => (
+              {(content.tickerItems || []).concat(content.tickerItems || []).map((item, i) => (
                 <span key={i} className="inline-flex items-center gap-3 px-6 text-xs font-mono font-semibold whitespace-nowrap"
                   style={{ color: i % 2 === 0 ? '#c29f5d' : 'rgba(255,255,255,0.45)' }}>
                   {item}<span className="w-1 h-1 rounded-full bg-white/20 shrink-0" />
@@ -386,7 +365,7 @@ export default function HomePage() {
 
             {/* Stat grid — counting numbers placed below the image */}
             <div className="grid grid-cols-3 gap-3 mt-8">
-              {aboutStats.map((stat) => (
+              {(content.aboutStats || []).map((stat) => (
                 <article key={stat.label} className="relative group border border-[#E2E8F0] bg-white p-3 text-center overflow-hidden hover:border-[#c29f5d]/40 transition-all duration-300 rounded-2xl">
                   <div className="absolute top-0 left-0 w-full h-0.5 bg-[#c29f5d] scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                   <strong className="block font-['JetBrains_Mono'] text-base sm:text-lg text-[#0F172A]">
@@ -527,16 +506,18 @@ export default function HomePage() {
           </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {industries.map(([industry, Icon], i) => (
-              <Reveal key={industry} delay={i * 60}>
+            {(content.industries || []).map((industry, i) => {
+              const Icon = iconMap[industry.icon] || Activity;
+              return (
+              <Reveal key={industry.name || i} delay={i * 60}>
                 <article className="group flex flex-col items-center justify-center text-center gap-4 border border-[#E2E8F0] bg-[#f7f9fb] p-6 sm:p-8 hover:border-[#c29f5d]/50 hover:bg-white hover:-translate-y-1 hover:shadow-lg transition-all duration-300 cursor-default h-full rounded-2xl">
                   <span className="inline-flex h-14 w-14 items-center justify-center bg-[#c29f5d]/10 text-[#c29f5d] transition-colors rounded-xl shrink-0">
                     <Icon size={28} />
                   </span>
-                  <span className="text-[#0F172A] text-sm md:text-base font-semibold leading-snug">{industry}</span>
+                  <span className="text-[#0F172A] text-sm md:text-base font-semibold leading-snug">{industry.name}</span>
                 </article>
               </Reveal>
-            ))}
+            )})}
           </div>
         </div>
       </section>
@@ -558,8 +539,10 @@ export default function HomePage() {
           </div>
         </Reveal>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-          {whyChoose.map(({ icon: Icon, title, text }, idx) => (
-            <Reveal key={title} delay={idx * 100}>
+          {(content.whyChoose || []).map((item, idx) => {
+            const Icon = iconMap[item.icon] || CheckCircle2;
+            return (
+            <Reveal key={item.title || idx} delay={idx * 100}>
               <article className="group relative border border-[#E2E8F0] bg-white p-6 sm:p-8 hover:border-[#c29f5d] hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 overflow-hidden h-full rounded-2xl">
                 <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c29f5d] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 <div className="flex items-start justify-between mb-5">
@@ -567,11 +550,11 @@ export default function HomePage() {
                     <Icon size={22} />
                   </span>
                 </div>
-                <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] mb-3">{title}</h3>
-                <p className="text-sm leading-relaxed text-[#334155]">{text}</p>
+                <h3 className="font-['JetBrains_Mono'] font-semibold text-lg text-[#0F172A] mb-3">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-[#334155]">{item.text}</p>
               </article>
             </Reveal>
-          ))}
+          )})}
         </div>
       </section>
 
@@ -602,7 +585,7 @@ export default function HomePage() {
         </div>
       </section>
       {/* ══ SECTION 08 — TESTIMONIALS (AUTO CAROUSEL) ═══════════════ */}
-      <TestimonialCarouselSection />
+      <TestimonialCarouselSection testimonials={content.testimonials || []} />
       {/* ══ FINAL CTA ════════════════════════════════════════════ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-16 md:py-20">
         <Reveal>

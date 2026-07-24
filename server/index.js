@@ -15,14 +15,14 @@ const faqRoutes = require("./routes/faqRoutes");
 const certificateRoutes = require("./routes/certificateRoutes");
 const careerRoutes = require("./routes/careerRoutes");
 const clientRoutes = require("./routes/clientRoutes");
-
+const siteContentRoutes = require("./routes/siteContentRoutes");
 const app = new Hono();
 
 // CORS Middleware
 app.use("/*", cors({
   origin: (origin) => {
     // With credentials: true, we must return a specific origin and NEVER wildcard "*"
-    if (origin && (origin.includes("localhost") || origin.includes("srilin.pages.dev"))) {
+    if (origin && (origin.includes("localhost") || origin.includes("srilin.pages.dev") || origin.includes("srilinelectronics.com"))) {
       return origin;
     }
     return "https://srilin.pages.dev";
@@ -39,7 +39,7 @@ app.use("*", async (c, next) => {
   if (c.env) {
     Object.assign(process.env, c.env);
   }
-  
+
   let connection;
   try {
     connection = await connectDB();
@@ -98,6 +98,7 @@ mountRouter(app, "/api/faqs", faqRoutes);
 mountRouter(app, "/api/certificates", certificateRoutes);
 mountRouter(app, "/api/careers", careerRoutes);
 mountRouter(app, "/api/clients", clientRoutes);
+mountRouter(app, "/api/content", siteContentRoutes);
 
 // Global Error Handler
 app.onError((err, c) => {

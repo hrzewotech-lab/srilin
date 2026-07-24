@@ -74,7 +74,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
   if (name) user.name = name;
   if (email) user.email = email;
-  if (typeof isActive === "boolean") user.isActive = isActive;
+  if (isActive !== undefined) user.isActive = isActive === "true" || isActive === true;
 
   await user.save();
 
